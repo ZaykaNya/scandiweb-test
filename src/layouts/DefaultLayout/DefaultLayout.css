@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.content {
+    /*background: lightgrey;*/
+    max-width: 1440px;
+    padding: 0 100px;
+    width: 100%;
+}

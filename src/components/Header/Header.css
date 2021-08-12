@@ -1,0 +1,25 @@
+* {
+    box-sizing: border-box;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 80px;
+    background: #FFFFFF;
+}
+
+.header-category {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    color: #1D1F22;
+    padding: 28px 16px;
+    text-decoration: none;
+}
+
+.header-category:focus, .header-category:active{
+    color: #5ECE7B;
+    font-weight: 600;
+    border-bottom: 2px solid #5ECE7B;
+}
