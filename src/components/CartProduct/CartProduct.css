@@ -55,6 +55,10 @@
     width: 45px;
 }
 
+.cart-product-button:hover {
+    cursor: pointer;
+}
+
 .cart-product-right-side {
     display: flex;
 }

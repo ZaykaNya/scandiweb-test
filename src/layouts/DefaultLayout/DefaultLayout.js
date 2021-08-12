@@ -13,8 +13,8 @@ class DefaultLayout extends React.Component {
             <div className="default-container">
                 <div className="default-content">
                     <Header/>
-                    {/*<CategoryPage/>*/}
-                    {/*<ProductPage/>*/}
+                    <CategoryPage/>
+                    <ProductPage/>
                     <CartPage/>
                 </div>
             </div>

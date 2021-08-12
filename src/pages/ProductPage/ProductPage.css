@@ -20,6 +20,9 @@
 }
 
 .cart-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     max-width: 292px;
     margin-left: 100px;
 }
@@ -77,6 +80,7 @@
     border: none;
     outline: none;
     padding: 16px;
+    margin-bottom: 40px;
 }
 
 .add-button:hover {
@@ -88,5 +92,7 @@
     font-family: 'Raleway', sans-serif;
     font-weight: 400;
     font-size: 16px;
+    line-height: 159.96%;
+    margin: 0;
 }
 

@@ -15,7 +15,6 @@ class CategoryPage extends React.Component {
                     <Product/>
                     <Product/>
                     <Product/>
-                    <Product/>
                 </ul>
             </div>
         );
