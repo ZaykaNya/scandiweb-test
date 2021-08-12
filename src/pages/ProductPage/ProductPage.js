@@ -30,8 +30,8 @@ class ProductPage extends React.Component {
                     </div>
                 </div>
                 <div className="cart-info">
-                    <p className="name-1">Apollo</p>
-                    <p className="name-2">Running Short</p>
+                    <p className="cart-name-1">Apollo</p>
+                    <p className="cart-name-2">Running Short</p>
                     <p className="size-text">SIZE:</p>
                     <div className="sizes">
                         <div style={{height: 45, width: 63, background: "black"}}></div>

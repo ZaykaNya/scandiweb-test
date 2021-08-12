@@ -10,8 +10,8 @@ class DefaultLayout extends React.Component {
 
     render() {
         return (
-            <div className="container">
-                <div className="content">
+            <div className="default-container">
+                <div className="default-content">
                     <Header/>
                     {/*<CategoryPage/>*/}
                     {/*<ProductPage/>*/}
