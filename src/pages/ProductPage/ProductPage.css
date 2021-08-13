@@ -8,15 +8,57 @@
     flex-direction: column;
     padding: 0;
     margin: 0;
+    width: 80px;
+    height: 80px;
 }
 
 .cart-image {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    background: white;
+    padding: 0 0 100% 0;
+    overflow: hidden;
     margin-bottom: 32px;
     list-style-type: none;
 }
 
+.cart-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.test {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 650px;
+    min-width: 358px;
+}
+
 .chosen-image {
+    position: relative;
+    background: white;
+    padding: 0 0 85% 0;
+    overflow: hidden;
     margin-left: 40px;
+}
+
+.chosen-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .cart-info {

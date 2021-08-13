@@ -1,32 +1,27 @@
 import "./ProductPage.css"
 import React from "react";
+import image from "../../clothes-1.png";
 
 class ProductPage extends React.Component {
 
 
     render() {
-        return(
+        return (
             <div className="cart-container">
                 <ul className="cart-images">
                     <li className="cart-image">
-                        <div style={{height: 80, width: 80, background: "black"}}>
-
-                        </div>
+                        <img alt="" src={image} className="cart-img"/>
                     </li>
                     <li className="cart-image">
-                        <div style={{height: 80, width: 80, background: "black"}}>
-
-                        </div>
+                        <img alt="" src={image} className="cart-img"/>
                     </li>
                     <li className="cart-image">
-                        <div style={{height: 80, width: 80, background: "black"}}>
-
-                        </div>
+                        <img alt="" src={image} className="cart-img"/>
                     </li>
                 </ul>
-                <div className="chosen-image">
-                    <div style={{height: 511, width: 610, background: "black"}}>
-
+                <div className="test">
+                    <div className="chosen-image">
+                        <img alt="" src={image} className="chosen-img"/>
                     </div>
                 </div>
                 <div className="cart-info">
@@ -41,7 +36,7 @@ class ProductPage extends React.Component {
                     </div>
                     <p className="cart-price">PRICE:</p>
                     <p className="price">$50.50</p>
-                    <button  className="add-button">ADD TO CART</button>
+                    <button className="add-button">ADD TO CART</button>
                     <p className="description">Find stunning women's cocktail dresses and party dresses.
                         Stand out in lace and metallic cocktail dresses and party dresses from all your
                         favorite brands.
