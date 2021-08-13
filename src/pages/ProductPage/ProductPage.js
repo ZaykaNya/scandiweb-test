@@ -1,6 +1,7 @@
 import "./ProductPage.css"
 import React from "react";
 import image from "../../clothes-1.png";
+import Size from "../../components/Size/Size";
 
 class ProductPage extends React.Component {
 
@@ -25,17 +26,23 @@ class ProductPage extends React.Component {
                     </div>
                 </div>
                 <div className="cart-info">
-                    <p className="cart-name-1">Apollo</p>
-                    <p className="cart-name-2">Running Short</p>
-                    <p className="size-text">SIZE:</p>
-                    <div className="sizes">
-                        <div style={{height: 45, width: 63, background: "black"}}></div>
-                        <div style={{height: 45, width: 63, background: "black"}}></div>
-                        <div style={{height: 45, width: 63, background: "black"}}></div>
-                        <div style={{height: 45, width: 63, background: "black"}}></div>
+                    <div>
+                        <p className="cart-name-1">Apollo</p>
+                        <p className="cart-name-2">Running Short</p>
                     </div>
-                    <p className="cart-price">PRICE:</p>
-                    <p className="price">$50.50</p>
+                    <div>
+                        <p className="size-text">SIZE:</p>
+                        <div className="sizes">
+                            <Size size="XS" outOfStock={true}/>
+                            <Size size="S" active={true}/>
+                            <Size size="M"/>
+                            <Size size="L"/>
+                        </div>
+                    </div>
+                    <div>
+                        <p className="cart-price">PRICE:</p>
+                        <p className="price">$50.50</p>
+                    </div>
                     <button className="add-button">ADD TO CART</button>
                     <p className="description">Find stunning women's cocktail dresses and party dresses.
                         Stand out in lace and metallic cocktail dresses and party dresses from all your

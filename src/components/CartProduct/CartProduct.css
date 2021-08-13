@@ -57,6 +57,7 @@
 
 .cart-product-button:hover {
     cursor: pointer;
+    opacity: 0.5;
 }
 
 .cart-product-right-side {

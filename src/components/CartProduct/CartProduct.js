@@ -1,5 +1,7 @@
 import "./CartProduct.css";
 import React from "react";
+import Size from "../Size/Size";
+import image from "../../clothes-1.png";
 
 class CartProduct extends React.Component {
 
@@ -28,8 +30,8 @@ class CartProduct extends React.Component {
                     <p className="cart-product-name-2">Running Short</p>
                     <p className="cart-product-price">$50.50</p>
                     <div className="cart-product-sizes">
-                        <div style={{height: 45, width: 63, background: "black"}}></div>
-                        <div style={{height: 45, width: 63, background: "black"}}></div>
+                        <Size size="XS"/>
+                        <Size size="S"/>
                     </div>
                 </div>
                 <div className="cart-product-right-side">
@@ -39,7 +41,9 @@ class CartProduct extends React.Component {
                         <button className="cart-product-button" onClick={() => this.handleDecreaseCounter()}>-</button>
                     </div>
                     <div className="cart-product-image">
-                        <div style={{height: "100%", width: 141, background: "black"}}></div>
+                        <div style={{height: "100%", width: 141, background: "white"}}>
+                            <img alt="" src={image} className="cart-img"/>
+                        </div>
                         <div className="cart-product-left-slide">{`<`}</div>
                         <div className="cart-product-right-slide">{`>`}</div>
                     </div>
