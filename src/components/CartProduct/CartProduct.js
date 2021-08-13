@@ -42,7 +42,7 @@ class CartProduct extends React.Component {
                     </div>
                     <div className="cart-product-image">
                         <div style={{height: "100%", width: 141, background: "white"}}>
-                            <img alt="" src={image} className="cart-img"/>
+                            <img alt="" src={image} className="cart-product-img"/>
                         </div>
                         <div className="cart-product-left-slide">{`<`}</div>
                         <div className="cart-product-right-slide">{`>`}</div>
