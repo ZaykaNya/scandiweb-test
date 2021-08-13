@@ -13,10 +13,11 @@ class Header extends React.Component {
                     <a href="#" className="header-category">KIDS</a>
                 </div>
                 <div className="header-logo">
-
+                    Icon
                 </div>
                 <div className="header-icons">
-
+                    <button>$</button>
+                    <button>Cart</button>
                 </div>
             </div>
         );
