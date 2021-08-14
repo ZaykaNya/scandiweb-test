@@ -3,7 +3,8 @@ import React from 'react';
 import brandIcon from "../../images/brandIcon.svg";
 import cartIcon from "../../images/cart.svg";
 import priceIcon from "../../images/price.svg";
-import {client, Field, Query} from "@tilework/opus";
+import {client, Query} from "@tilework/opus";
+import CartProduct from "../CartProduct/CartProduct";
 
 class Header extends React.Component {
 
@@ -34,46 +35,66 @@ class Header extends React.Component {
     handleOpenCart() {
         this.setState(prev => ({
             ...prev,
-            cartOpen: true,
+            cartOpen: !prev.cartOpen,
         }))
+        if (!this.state.cartOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
     }
 
     handleOpenCurrency() {
         this.setState(prev => ({
             ...prev,
-            currencyOpen: true,
+            currencyOpen: !prev.currencyOpen,
         }))
+        if (!this.state.currencyOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
     }
 
     render() {
         return (
-            <div className="header-container">
-                <div className="header-nav">
-                    {this.state.categories && this.state.categories.map((category, key) => {
-                        return (
-                            <a key={key} href="#" className="header-category">
-                                {category.name.toUpperCase()}
-                            </a>
-                        );
-                    })}
-                    {/*<a href="#" className="header-category">WOMEN</a>*/}
-                    {/*<a href="#" className="header-category">MEN</a>*/}
-                    {/*<a href="#" className="header-category">KIDS</a>*/}
+            <React.Fragment>
+                <div className="header-container">
+                    <div className="header-nav">
+                        {this.state.categories && this.state.categories.map((category, key) => {
+                            return (
+                                <a key={key} href="#" className="header-category">
+                                    {category.name.toUpperCase()}
+                                </a>
+                            );
+                        })}
+                    </div>
+                    <div className="header-logo">
+                        <a href="">
+                            <img alt="" src={brandIcon}/>
+                        </a>
+                    </div>
+                    <div className="header-icons">
+                        <button id="btn1" onClick={() => this.handleOpenCurrency()} className="header-button">
+                            <img alt="" src={priceIcon}/>
+                        </button>
+                        <button id="btn2" onClick={() => this.handleOpenCart()} className="header-button">
+                            <img alt="" src={cartIcon}/>
+                        </button>
+                    </div>
+                    {this.state.cartOpen &&
+                    <div id="header-cart">
+                        <CartProduct />
+                        <CartProduct />
+                    </div>
+                    }
                 </div>
-                <div className="header-logo">
-                    <a href="">
-                        <img alt="" src={brandIcon}/>
-                    </a>
+                {this.state.cartOpen &&
+                <div className="header-cart-container">
+
                 </div>
-                <div className="header-icons">
-                    <button onClick={() => this.handleOpenCurrency()} className="header-button">
-                        <img alt="" src={priceIcon}/>
-                    </button>
-                    <button onClick={() => this.handleOpenCart()} className="header-button">
-                        <img alt="" src={cartIcon}/>
-                    </button>
-                </div>
-            </div>
+                }
+            </React.Fragment>
         );
     }
 }

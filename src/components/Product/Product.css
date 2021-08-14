@@ -102,3 +102,7 @@
     font-weight: 500;
     font-size: 18px;
 }
+
+.product-info {
+    position: relative;
+}
