@@ -44,7 +44,7 @@ class CategoryPage extends React.Component {
     render() {
         return (
             <div className="category-container">
-                <h1>{this.state.category}</h1>
+                <h1>{this.state.category.toUpperCase()}</h1>
                 <ul className="products">
                     {this.state.products.map(product => {
                         return (
