@@ -1,9 +1,9 @@
 import "./CartPage.css";
 import React from "react";
 import CartProduct from "../../components/CartProduct/CartProduct";
+import {client, Field, Query} from "@tilework/opus";
 
 class CartPage extends React.Component {
-
 
     render() {
         return (

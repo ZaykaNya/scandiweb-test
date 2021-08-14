@@ -1,5 +1,8 @@
 import "./Header.css";
 import React from 'react';
+import brandIcon from "../../images/brandIcon.svg";
+import cartIcon from "../../images/cart.svg";
+import priceIcon from "../../images/price.svg";
 
 class Header extends React.Component {
 
@@ -13,11 +16,17 @@ class Header extends React.Component {
                     <a href="#" className="header-category">KIDS</a>
                 </div>
                 <div className="header-logo">
-                    Icon
+                    <a href="">
+                        <img alt="" src={brandIcon}/>
+                    </a>
                 </div>
                 <div className="header-icons">
-                    <button>$</button>
-                    <button>Cart</button>
+                    <button>
+                        <img alt="" src={priceIcon}/>
+                    </button>
+                    <button>
+                        <img alt="" src={cartIcon}/>
+                    </button>
                 </div>
             </div>
         );

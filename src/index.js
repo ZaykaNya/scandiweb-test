@@ -3,10 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import DefaultLayout from "./layouts/DefaultLayout/DefaultLayout";
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    useQuery,
+    gql
+} from "@apollo/client";
+
+const client = new ApolloClient({
+    uri: 'http://localhost:4000/',
+    cache: new InMemoryCache()
+});
 
 ReactDOM.render(
     <React.StrictMode>
-        <DefaultLayout/>
+        <ApolloProvider client={client}>
+            <DefaultLayout/>
+        </ApolloProvider>
     </React.StrictMode>,
     document.getElementById('root')
 );
