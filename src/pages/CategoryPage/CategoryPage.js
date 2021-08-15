@@ -1,14 +1,13 @@
 import "./CategoryPage.css";
 import React from "react";
 import Product from "../../components/Product/Product";
-import image from "../../clothes-1.png"
 import {client, Field, Query} from "@tilework/opus";
 
 class CategoryPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {products: [], category: ""}
+        this.state = {categories: [], products: [], category: ""}
     }
 
     componentDidMount() {
@@ -16,10 +15,21 @@ class CategoryPage extends React.Component {
             console.log(response)
             this.setState(prev => ({
                 ...prev,
-                products: response.categories[1].products,
-                category: response.categories[1].name
+                categories: response.categories,
+                products: response.categories[this.props.index].products,
+                category: response.categories[this.props.index].name
             }))
         });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.index !== this.props.index) {
+            this.setState(prev => ({
+                ...prev,
+                products: this.state.categories[this.props.index].products,
+                category: this.state.categories[this.props.index].name
+            }))
+        }
     }
 
     async request() {
@@ -36,10 +46,16 @@ class CategoryPage extends React.Component {
                     .addField("amount")
                     .addField("currency")
                 )
+                .addField(new Field("attributes", true)
+                    .addField(new Field("items", true)
+                        .addFieldList(["displayValue", "value", "id"])
+                    )
+                )
             );
 
         return await client.post(categoriesQuery);
     }
+
 
     render() {
         return (
@@ -48,7 +64,13 @@ class CategoryPage extends React.Component {
                 <ul className="products">
                     {this.state.products.map(product => {
                         return (
-                            <Product key={product.id} product={product}/>
+                            <Product
+                                key={product.id}
+                                currencyIndex={this.props.currencyIndex}
+                                product={product}
+                                addToCart={(product) => this.props.addToCart(product)}
+                                changeTotal={(price) => this.props.changeTotal(price)}
+                            />
                         );
                     })}
                 </ul>

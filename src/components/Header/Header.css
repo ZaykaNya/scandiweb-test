@@ -21,9 +21,10 @@
     color: #1D1F22;
     padding: 32px 16px;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.header-category:focus, .header-category:active{
+.header-category-active {
     color: #5ECE7B;
     font-weight: 600;
     border-bottom: 2px solid #5ECE7B;

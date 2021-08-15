@@ -1,7 +1,6 @@
 import "./CartProduct.css";
 import React from "react";
 import Size from "../Size/Size";
-import image from "../../clothes-1.png";
 
 class CartProduct extends React.Component {
 
@@ -14,12 +13,14 @@ class CartProduct extends React.Component {
         this.setState({
             counter: this.state.counter + 1
         })
+        this.props.getPrice(this.props.cartProduct.prices[this.props.index].amount)
     }
 
     handleDecreaseCounter() {
         this.setState({
             counter: this.state.counter - 1
         })
+        this.props.getPrice(-this.props.cartProduct.prices[this.props.index].amount)
     }
 
     render() {
@@ -27,15 +28,28 @@ class CartProduct extends React.Component {
             <div className={!this.props.modal ? "cart-product-container" : "cart-product-container-modal"}>
                 <div className={!this.props.modal ? "cart-product-left-side" : "cart-product-left-side-modal"}>
                     <div>
-                        <p className={!this.props.modal ? "cart-product-name-1" : "cart-product-name-modal"}>Apollo</p>
-                        <p className={!this.props.modal ? "cart-product-name-2" : "cart-product-name-modal"}>Running
-                            Short</p>
+                        <p className={!this.props.modal ? "cart-product-name-1" : "cart-product-name-modal"}>
+                            {this.props.cartProduct.brand}
+                        </p>
+                        <p className={!this.props.modal ? "cart-product-name-2" : "cart-product-name-modal"}>
+                            {this.props.cartProduct.name}
+                        </p>
                     </div>
-                    <p className={!this.props.modal ? "cart-product-price" : "cart-product-price-modal"}>$50.50</p>
-                    <div className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
-                        <Size modal={this.props.modal} size="XS"/>
-                        <Size modal={this.props.modal} size="S"/>
-                    </div>
+                    <p className={!this.props.modal ? "cart-product-price" : "cart-product-price-modal"}>
+                        {(this.props.cartProduct.prices[this.props.index].amount * this.state.counter).toFixed(2)}
+                        &nbsp;{this.props.cartProduct.prices[this.props.index].currency}
+                    </p>
+                    {this.props.cartProduct.attributes.map(attribute => {
+                        return (
+                            <div className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
+                                {attribute.items.map(item => {
+                                    return (
+                                        <Size modal={this.props.modal} size={item.value}/>
+                                    );
+                                })}
+                            </div>
+                        )
+                    })}
                 </div>
                 <div className="cart-product-right-side">
                     <div className="cart-product-number">
@@ -57,7 +71,7 @@ class CartProduct extends React.Component {
                         <div
                             className={!this.props.modal ? "cart-product-image-container" : "cart-product-image-container-modal"}
                         >
-                            <img alt="" src={image} className="cart-product-img"/>
+                            <img alt="" src={this.props.cartProduct.gallery[0]} className="cart-product-img"/>
                         </div>
                         {!this.props.modal &&
                         <React.Fragment>

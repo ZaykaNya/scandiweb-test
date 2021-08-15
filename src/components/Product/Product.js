@@ -8,6 +8,11 @@ class Product extends React.Component {
         super(props);
     }
 
+    handleAddToCart (product) {
+        this.props.addToCart(product)
+        this.props.changeTotal(product.prices[this.props.currencyIndex].amount)
+    }
+
     render() {
         return (
             <li className="product">
@@ -20,9 +25,13 @@ class Product extends React.Component {
                         </div>
                         }
                         {this.props.product.inStock &&
-                        <a href="#" className="product-cart-image">
+                        <button
+                            href="#"
+                            className="product-cart-image"
+                            onClick={() => this.handleAddToCart(this.props.product)}
+                        >
                             <img alt="" src={cartIcon}/>
-                        </a>
+                        </button>
                         }
                     </div>
                     <div className="product-info">
@@ -30,7 +39,7 @@ class Product extends React.Component {
                             {this.props.product.brand} {this.props.product.name}
                         </p>
                         <p className="product-price" style={this.props.outOfStock ? {color: "#8D8F9A"} : {}}>
-                            {this.props.product.prices[0].amount} {this.props.product.prices[0].currency}
+                            {this.props.product.prices[this.props.currencyIndex].amount} {this.props.product.prices[this.props.currencyIndex].currency}
                         </p>
                         {!this.props.product.inStock &&
                         <div className="out-of-stock"/>
