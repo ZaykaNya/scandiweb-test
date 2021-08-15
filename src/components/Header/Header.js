@@ -3,14 +3,14 @@ import React from 'react';
 import brandIcon from "../../images/brandIcon.svg";
 import cartIcon from "../../images/cart.svg";
 import priceIcon from "../../images/price.svg";
-import {client, Query} from "@tilework/opus";
+import {client, Field, Query} from "@tilework/opus";
 import CartProduct from "../CartProduct/CartProduct";
 
 class Header extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {categories: [], currencyOpen: false, cartOpen: false}
+        this.state = {categories: [], currencies: [], currencyOpen: false, cartOpen: false}
     }
 
     componentDidMount() {
@@ -19,6 +19,7 @@ class Header extends React.Component {
             this.setState(prev => ({
                 ...prev,
                 categories: response.categories,
+                currencies: response.categories[0].products[0].prices
             }))
         });
     }
@@ -28,6 +29,11 @@ class Header extends React.Component {
 
         const categoriesQuery = new Query("categories", true)
             .addField("name")
+            .addField(new Field("products", true)
+                .addField(new Field("prices", true)
+                    .addField("currency")
+                )
+            )
 
         return await client.post(categoriesQuery);
     }
@@ -36,6 +42,7 @@ class Header extends React.Component {
         this.setState(prev => ({
             ...prev,
             cartOpen: !prev.cartOpen,
+            currencyOpen: false,
         }))
         if (!this.state.cartOpen) {
             document.body.style.overflow = "hidden";
@@ -48,6 +55,7 @@ class Header extends React.Component {
         this.setState(prev => ({
             ...prev,
             currencyOpen: !prev.currencyOpen,
+            cartOpen: false,
         }))
         if (!this.state.currencyOpen) {
             document.body.style.overflow = "hidden";
@@ -84,8 +92,31 @@ class Header extends React.Component {
                     </div>
                     {this.state.cartOpen &&
                     <div id="header-cart">
-                        <CartProduct />
-                        <CartProduct />
+                        <div className="cart-title-container">
+                            <span className="cart-title">My Bag</span>
+                            <span className="cart-number-items">, 2 items</span>
+                        </div>
+                        <CartProduct modal={true} />
+                        <CartProduct modal={true} />
+                        <div className="cart-total-price">
+                            <p className="cart-total-price-title">Total</p>
+                            <p className="cart-total-price-amount">$ 100.00</p>
+                        </div>
+                        <div className="cart-buttons-container">
+                            <button className="button-view-bag">VIEW BAG</button>
+                            <button className="button-check-out">CHECK OUT</button>
+                        </div>
+                    </div>
+                    }
+                    {this.state.currencyOpen &&
+                    <div id="header-currency">
+                        <div className="header-currency-container">
+                            {this.state.currencies.map((currency, key) => {
+                                return(
+                                  <button className="header-currency-button" key={key}>$ {currency.currency}</button>
+                                );
+                            })}
+                        </div>
                     </div>
                     }
                 </div>

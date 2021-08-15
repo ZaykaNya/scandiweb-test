@@ -68,10 +68,119 @@
     display: flex;
     flex-direction: column;
     width: 325px;
-    height: 540px;
     right: 0;
     top: 80px;
+    padding: 8px 16px 16px;
     background: #FFFFFF;
     overflow: auto;
     z-index: 1000;
+}
+
+.cart-title-container {
+    margin-bottom: 25px;
+}
+
+.cart-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6em;
+}
+
+.cart-number-items {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.6em;
+}
+
+.cart-total-price {
+    margin-bottom: 35px;
+}
+
+.cart-total-price,
+.cart-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cart-buttons-container > * {
+    width: 100%;
+}
+
+.cart-total-price-title {
+    /*TODO Change font and weight*/
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6em;
+    margin: 0;
+}
+
+.cart-total-price-amount {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.6em;
+    margin: 0;
+}
+
+.button-view-bag {
+    background: transparent;
+    min-height: 43px;
+    border: 1px solid #1D1F22;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 120%;
+}
+
+.button-check-out {
+    background: #5ECE7B;
+    color: white;
+    border: 0;
+    min-height: 43px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 120%;
+}
+
+.button-check-out:hover,
+.button-view-bag:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+#header-currency {
+    position: absolute;
+    width: 114px;
+    min-height: 32px;
+    padding: 20px;
+    top: 50px;
+    right: -5px;
+    box-shadow: 0 4px 35px 0 #A8ACB030;
+}
+
+.header-currency-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-currency-button {
+    background: transparent;
+    border: none;
+    outline: none;
+    margin-bottom: 20px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    text-align: left;
+    line-height: 1.6em;
+}
+
+.header-currency-button:hover {
+    cursor: pointer;
+    opacity: 0.7;
 }

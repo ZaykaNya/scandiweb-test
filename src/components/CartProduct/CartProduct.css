@@ -5,11 +5,26 @@
     border-top: 1px solid #E5E5E5;
 }
 
+.cart-product-container-modal {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
 .cart-product-name-1 {
     font-family: 'Raleway', sans-serif;
     font-weight: 600;
     font-size: 30px;
     margin: 0 0 16px 0;
+}
+
+.cart-product-name-modal {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    line-height: 1.6em;
 }
 
 .cart-product-name-2 {
@@ -25,11 +40,32 @@
     font-size: 24px;
 }
 
+.cart-product-price-modal {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0;
+    line-height: 1.6em;
+}
+
+.cart-product-left-side-modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .cart-product-sizes {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-row-gap: 12px;
-    grid-column-gap: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.cart-product-sizes-modal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
 }
 
 .cart-product-number {
@@ -38,13 +74,19 @@
     align-items: center;
     justify-content: space-between;
     height: 100%;
-
 }
 
 .cart-product-count {
     font-family: 'Raleway', sans-serif;
     font-weight: 500;
     font-size: 24px;
+}
+
+.cart-product-count-modal {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.6em;
 }
 
 .cart-product-button {
@@ -55,18 +97,44 @@
     width: 45px;
 }
 
-.cart-product-button:hover {
+.cart-product-button-modal {
+    background: white;
+    border: 1px solid #1D1F22;
+    font-size: 20px;
+    height: 24px;
+    width: 24px;
+}
+
+.cart-product-button:hover,
+.cart-product-button-modal:hover {
     cursor: pointer;
     opacity: 0.5;
 }
+
 
 .cart-product-right-side {
     display: flex;
 }
 
+.cart-product-image-container {
+    width: 141px;
+    background: white;
+}
+
+.cart-product-image-container-modal {
+    width: 105px;
+    height: 137px;
+    background: white;
+}
+
 .cart-product-image {
     position: relative;
     margin-left: 12px;
+}
+
+.cart-product-image-modal {
+    position: relative;
+    margin-left: 10px;
 }
 
 .cart-product-left-slide {

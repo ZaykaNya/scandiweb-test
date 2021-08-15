@@ -22,7 +22,7 @@ class Size extends React.Component {
 
     render() {
         return(
-            <button style={this.state.styles} className="size-container">
+            <button style={this.state.styles} className={!this.props.modal ? "size-container" : "size-container-modal"}>
                 {this.props.size}
             </button>
         );

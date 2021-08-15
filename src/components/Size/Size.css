@@ -11,7 +11,25 @@
     font-size: 18px;
 }
 
-.size-container:hover {
+.size-container-modal {
+    /*TODO Change font*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    min-width: 24px;
+    min-height: 24px;
+    border: 1px solid #1D1F22;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6em;
+}
+
+.size-container:hover,
+.size-container-modal{
     cursor: pointer;
     opacity: 0.7;
 }
+
+
