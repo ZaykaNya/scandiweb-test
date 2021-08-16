@@ -8,7 +8,7 @@ class ProductPage extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {product: {}, chosenImage: ""}
+        this.state = {product: {}, chosenImage: "", orderProduct: {}}
     }
 
     static contextType = AuthContext;
@@ -22,10 +22,32 @@ class ProductPage extends React.Component {
             this.setState(prev => ({
                 ...prev,
                 product: product[0],
-                chosenImage: product[0].gallery[0]
+                chosenImage: product[0].gallery[0],
+                orderProduct: {
+                    product: product[0],
+                    attributes: [],
+                    amount: 1,
+                }
             }))
         });
+    }
 
+    handleChangeProduct(attributes) {
+        this.setState(prev => ({
+            ...prev,
+            orderProduct: {
+                product: this.state.product,
+                attributes: [...attributes],
+                amount: 1,
+            }
+        }))
+    }
+
+    handleChangeOrder() {
+        if(this.state.orderProduct.attributes.length === this.state.product.attributes.length) {
+            this.context.handleAddToCart(this.state.product);
+            this.context.handleChangeOrder(this.state.orderProduct);
+        }
     }
 
     async request() {
@@ -58,7 +80,10 @@ class ProductPage extends React.Component {
             ...prev,
             chosenImage: image
         }))
+        console.log(this.state.orderProduct);
     }
+
+
 
     render() {
         return (
@@ -92,7 +117,15 @@ class ProductPage extends React.Component {
                                     <div className="sizes">
                                         {attribute.items.map((item, key) => {
                                             return (
-                                                <Size key={key} size={item.displayValue}/>
+                                                <Size
+                                                    key={key}
+                                                    size={item.displayValue}
+                                                    id={item.id}
+                                                    value={item.value}
+                                                    name={attribute.name}
+                                                    currentAtrributes={this.state.orderProduct.attributes}
+                                                    changeProduct={(attributes) => this.handleChangeProduct(attributes)}
+                                                />
                                             );
                                         })}
                                     </div>
@@ -111,7 +144,7 @@ class ProductPage extends React.Component {
                     <button
                         disabled={!this.state.product.inStock}
                         className={this.state.product.inStock ? "add-button" : "add-button-disabled"}
-                        onClick={() => this.context.handleAddToCart(this.state.product)}
+                        onClick={() => this.handleChangeOrder()}
                     >
                         ADD TO CART
                     </button>

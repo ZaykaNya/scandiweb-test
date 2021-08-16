@@ -19,20 +19,14 @@ class DefaultLayout extends React.Component {
             cartProducts: [],
             currentProduct: {},
             total: 0,
-            order: {
-                products: [{
-                    product: {},
-                    attributes: [],
-                    amount: 1,
-                }],
-                total: 0,
-            },
+            order: {},
             handleChangeCategory: (category, i) => this.handleChangeCategory(category, i),
             handleChangeCurrency: currencyIndex => this.handleChangeCurrency(currencyIndex),
             handleAddToCart: product => this.handleAddToCart(product),
             handleChangeTotal: price => this.handleChangeTotal(price),
             handleChangeCurrentProduct: product => this.handleChangeCurrentProduct(product),
             handleChangeIndex: i => this.handleChangeIndex(i),
+            handleChangeOrder: (product, amount, attributes) => this.handleChangeOrder(product, amount, attributes),
         }
     }
 
@@ -81,29 +75,45 @@ class DefaultLayout extends React.Component {
     handleAddToCart(product) {
         let cartProducts = [...this.state.cartProducts];
         cartProducts.push(product)
-        console.log(cartProducts);
         this.setState(prev => ({
             ...prev,
             cartProducts: cartProducts
         }))
     }
 
-    handleChangeOrder(product, amount) {
+    // order: {
+    //     products: [{
+    //         product: {},
+    //         attributes: [],
+    //         amount: 1,
+    //     }],
+    //     total: 0,
+    // },
+    handleChangeOrder(product) {
         let order = {...this.state.order};
         let total = this.state.total;
-        let newProduct = [{
-            product: {...product},
-            amount: amount
-        }]
-        order = {
-            ...order,
-            products: order.products.push(newProduct),
-            total: total
+
+        if(this.state.order.products) {
+            order = {
+                products: [...order.products, {
+                    ...product
+                }],
+                total: total
+            }
+        } else {
+            order = {
+                products: [{...product}],
+                total: total,
+            }
         }
+
+        console.log(order);
+
         this.setState(prev => ({
             ...prev,
-            order: order
+            order: {...order}
         }));
+
     }
 
     handleChangeTotal(price) {

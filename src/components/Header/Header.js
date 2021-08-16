@@ -45,7 +45,6 @@ class Header extends React.Component {
                 )
             )
 
-        console.log(this.context)
         return await client.post(categoriesQuery);
     }
 
