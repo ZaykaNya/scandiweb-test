@@ -84,6 +84,7 @@
     flex-direction: column;
     justify-content: space-between;
     max-width: 304px;
+    width: 100%;
     margin-left: 100px;
 }
 
@@ -142,6 +143,18 @@
 }
 
 .add-button {
+    background: rgba(94, 206, 123, 1);
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 18px;
+    max-width: 292px;
+    margin-bottom: 40px;
+}
+
+.add-button-disabled {
     background: rgba(94, 206, 123, 1);
     color: rgba(255, 255, 255, 1);
     text-align: center;

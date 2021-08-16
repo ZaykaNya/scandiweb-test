@@ -60,7 +60,7 @@ class Header extends React.Component {
         } else {
             document.body.style.overflow = "visible";
         }
-        this.handleGetPrice(this.props.total)
+        this.handleGetPrice(this.context.total)
 
     }
 
@@ -150,18 +150,18 @@ class Header extends React.Component {
                     <div id="header-cart">
                         <div className="cart-title-container">
                             <span className="cart-title">My Bag</span>
-                            {this.props.cartProducts.length > 0 &&
-                            <span className="cart-number-items">, {this.props.cartProducts.length} item</span>
+                            {this.context.cartProducts.length > 0 &&
+                            <span className="cart-number-items">, {this.context.cartProducts.length} item</span>
                             }
-                            {this.props.cartProducts.length > 1 &&
+                            {this.context.cartProducts.length > 1 &&
                             <span className="cart-number-items">s</span>
                             }
                         </div>
-                        {this.props.cartProducts && this.props.cartProducts.map((cartProduct, key) => {
+                        {this.context.cartProducts && this.context.cartProducts.map((cartProduct, key) => {
                             return (
                                 <CartProduct
                                     key={key}
-                                    index={this.props.index}
+                                    index={this.context.index}
                                     cartProduct={cartProduct}
                                     getPrice={(price) => this.handleGetPrice(price)}
                                     modal={true}

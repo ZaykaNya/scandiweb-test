@@ -22,6 +22,7 @@ class DefaultLayout extends React.Component {
             order: {
                 products: [{
                     product: {},
+                    attributes: [],
                     amount: 1,
                 }],
                 total: 0,
@@ -36,7 +37,7 @@ class DefaultLayout extends React.Component {
     }
 
     componentDidMount() {
-        if(document.URL.split("/").slice(-1).join("") === "tech") {
+        if (document.URL.split("/").slice(-1).join("") === "tech") {
             this.handleChangeIndex(1);
         }
         this.request().then(response => {
@@ -55,7 +56,7 @@ class DefaultLayout extends React.Component {
         }))
     }
 
-    handleChangeCurrentProduct (product) {
+    handleChangeCurrentProduct(product) {
         this.setState(prev => ({
             ...prev,
             currentProduct: product
@@ -127,41 +128,19 @@ class DefaultLayout extends React.Component {
                 <div className="default-content">
                     <Router>
                         <AuthProvider value={this.state}>
-                            <Header
-                                category={this.state.categories}
-                                cartProducts={this.state.cartProducts}
-                                index={this.state.currencyIndex}
-                                total={this.state.total}
-                                changeCategory={(category, i) => this.handleChangeCategory(category, i)}
-                                changeCurrency={(currencyIndex) => this.handleChangeCurrency(currencyIndex)}
-                                changeOrder={(product, amount) => this.handleChangeOrder(product, amount)}
-                            />
+                            <Header/>
                             <Switch>
                                 <Route path="/categories/:category/:id">
-                                    <ProductPage
-
-                                    />
+                                    <ProductPage/>
                                 </Route>
                                 <Route path="/categories/:category">
-                                    <CategoryPage
-                                        currencyIndex={this.state.currencyIndex}
-                                        index={this.state.index}
-                                        addToCart={(product) => this.handleAddToCart(product)}
-                                        changeTotal={(price) => this.handleChangeTotal(price)}
-                                    />
+                                    <CategoryPage/>
                                 </Route>
                                 <Route path="/cart">
-                                    <CartPage
-
-                                    />
+                                    <CartPage/>
                                 </Route>
                                 <Route path="/">
-                                    <CategoryPage
-                                        currencyIndex={this.state.currencyIndex}
-                                        index={this.state.index}
-                                        addToCart={(product) => this.handleAddToCart(product)}
-                                        changeTotal={(price) => this.handleChangeTotal(price)}
-                                    />
+                                    <CategoryPage/>
                                 </Route>
                             </Switch>
                         </AuthProvider>

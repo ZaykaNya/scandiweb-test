@@ -1,7 +1,6 @@
 import "./CartPage.css";
 import React from "react";
 import CartProduct from "../../components/CartProduct/CartProduct";
-import {client, Field, Query} from "@tilework/opus";
 import AuthContext from "../../context/AuthProvider";
 
 class CartPage extends React.Component {
@@ -16,7 +15,7 @@ class CartPage extends React.Component {
                     return(
                         <CartProduct
                             cartProduct={product}
-                            index={this.context.index}
+                            index={this.context.currencyIndex}
                             key={key}
                         />
                     )
