@@ -15,7 +15,6 @@ class CategoryPage extends React.Component {
 
     componentDidMount() {
         this.request().then(response => {
-            console.log(response)
             this.setState(prev => ({
                 ...prev,
                 categories: response.categories,
@@ -27,11 +26,14 @@ class CategoryPage extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.index !== this.context.index) {
-            this.setState(prev => ({
-                ...prev,
-                products: this.state.categories[this.context.index].products,
-                category: this.state.categories[this.context.index].name
-            }))
+            this.request().then(response => {
+                this.setState(prev => ({
+                    ...prev,
+                    categories: response.categories,
+                    products: response.categories[this.context.index].products,
+                    category: response.categories[this.context.index].name
+                }))
+            });
         }
     }
 

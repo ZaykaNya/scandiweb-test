@@ -31,6 +31,7 @@ class Header extends React.Component {
                 currencies: response.categories[0].products[0].prices,
             }))
         });
+
     }
 
     async request() {
@@ -122,7 +123,9 @@ class Header extends React.Component {
                                 <Link
                                     to={`/categories/${category.name}`}
                                     key={key}
-                                    className={this.context.categories === category.name ? "header-category header-category-active" : "header-category"}
+                                    className={(document.URL.split("/").slice(-1).join("") === category.name
+                                        || document.URL.split("/").slice(-2, -1).join("") === category.name)
+                                        ? "header-category header-category-active" : "header-category"}
                                     onClick={() => this.handleChangeCategory(category.name, key)}
                                 >
                                     {category.name.toUpperCase()}
@@ -170,7 +173,8 @@ class Header extends React.Component {
                             <p className="cart-total-price-amount">$ {this.state.total.toFixed(2)}</p>
                         </div>
                         <div className="cart-buttons-container">
-                            <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag" to={`/cart`}>
+                            <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag"
+                                  to={`/cart`}>
                                 VIEW BAG
                             </Link>
                             <button className="button-check-out">CHECK OUT</button>

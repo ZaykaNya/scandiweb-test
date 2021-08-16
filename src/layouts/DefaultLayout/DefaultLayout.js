@@ -30,18 +30,29 @@ class DefaultLayout extends React.Component {
             handleChangeCurrency: currencyIndex => this.handleChangeCurrency(currencyIndex),
             handleAddToCart: product => this.handleAddToCart(product),
             handleChangeTotal: price => this.handleChangeTotal(price),
-            handleChangeCurrentProduct: product => this.handleChangeCurrentProduct(product)
+            handleChangeCurrentProduct: product => this.handleChangeCurrentProduct(product),
+            handleChangeIndex: i => this.handleChangeIndex(i),
         }
     }
 
     componentDidMount() {
+        if(document.URL.split("/").slice(-1).join("") === "tech") {
+            this.handleChangeIndex(1);
+        }
         this.request().then(response => {
             this.setState(prev => ({
                 ...prev,
-                categories: response.categories[0].name,
-                index: 0
+                categories: response.categories[this.state.index].name,
+                index: this.state.index
             }))
         });
+    }
+
+    handleChangeIndex(i) {
+        this.setState(prev => ({
+            ...prev,
+            index: i
+        }))
     }
 
     handleChangeCurrentProduct (product) {

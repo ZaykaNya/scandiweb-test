@@ -14,18 +14,18 @@ class ProductPage extends React.Component {
     static contextType = AuthContext;
 
     componentDidMount() {
+        if (document.URL.split("/").slice(-2, -1).join("") === "tech") {
+            this.context.handleChangeIndex(1);
+        }
         this.request().then(response => {
-            console.log(response);
-            console.log(response.categories[this.context.index].products[0].id);
-            console.log(this.context.currentProduct);
-            let product = response.categories[this.context.index].products.filter(product => product.id === this.context.currentProduct);
-            console.log(product)
+            let product = response.categories[this.context.index].products.filter(product => product.id === document.URL.split("/").slice(-1).join(""));
             this.setState(prev => ({
                 ...prev,
                 product: product[0],
                 chosenImage: product[0].gallery[0]
             }))
         });
+
     }
 
     async request() {
@@ -85,14 +85,14 @@ class ProductPage extends React.Component {
                         <p className="cart-name-2">{this.state.product.name}</p>
                     </div>
                     <div>
-                        {this.state.product.attributes && this.state.product.attributes.map(attribute => {
+                        {this.state.product.attributes && this.state.product.attributes.map((attribute, key) => {
                             return (
-                                <React.Fragment>
+                                <React.Fragment key={key}>
                                     <p className="size-text">{attribute.name}:</p>
                                     <div className="sizes">
-                                        {attribute.items.map(item => {
+                                        {attribute.items.map((item, key) => {
                                             return (
-                                                <Size size={item.displayValue}/>
+                                                <Size key={key} size={item.displayValue}/>
                                             );
                                         })}
                                     </div>
