@@ -9,7 +9,7 @@ class CartPage extends React.Component {
         return (
             <div className="cart-page-container">
                 <h1 className="cart-page-title">CART</h1>
-                {[1, 2].map((product, key) => {
+                {[].map((product, key) => {
                     return(
                         <CartProduct key={key}/>
                     )

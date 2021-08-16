@@ -5,6 +5,8 @@ import cartIcon from "../../images/cart.svg";
 import priceIcon from "../../images/price.svg";
 import {client, Field, Query} from "@tilework/opus";
 import CartProduct from "../CartProduct/CartProduct";
+import AuthContext from "../../context/AuthProvider";
+import {Link} from "react-router-dom";
 
 class Header extends React.Component {
 
@@ -18,6 +20,8 @@ class Header extends React.Component {
             total: 0,
         }
     }
+
+    static contextType = AuthContext;
 
     componentDidMount() {
         this.request().then(response => {
@@ -40,6 +44,7 @@ class Header extends React.Component {
                 )
             )
 
+        console.log(this.context)
         return await client.post(categoriesQuery);
     }
 
@@ -82,10 +87,11 @@ class Header extends React.Component {
         } else {
             document.body.style.overflow = "visible";
         }
-        this.props.changeCurrency(currencyIndex);
+        this.context.handleChangeCurrency(currencyIndex);
+        console.log(this.context)
     }
 
-    handleGetPrice (price) {
+    handleGetPrice(price) {
         this.setState(prev => ({
             ...prev,
             total: this.state.total + price
@@ -99,18 +105,19 @@ class Header extends React.Component {
                     <div className="header-nav">
                         {this.state.categories && this.state.categories.map((category, key) => {
                             return (
-                                <a
+                                <Link
+                                    to={`/categories/${category.name}`}
                                     key={key}
-                                    className={this.props.category === category.name ? "header-category header-category-active" : "header-category"}
-                                    onClick={() => this.props.changeCategory(category.name, key)}
+                                    className={this.context.categories === category.name ? "header-category header-category-active" : "header-category"}
+                                    onClick={() => this.context.handleChangeCategory(category.name, key)}
                                 >
                                     {category.name.toUpperCase()}
-                                </a>
+                                </Link>
                             );
                         })}
                     </div>
                     <div className="header-logo">
-                        <a href="">
+                        <a>
                             <img alt="" src={brandIcon}/>
                         </a>
                     </div>
@@ -149,7 +156,9 @@ class Header extends React.Component {
                             <p className="cart-total-price-amount">$ {this.state.total.toFixed(2)}</p>
                         </div>
                         <div className="cart-buttons-container">
-                            <button className="button-view-bag">VIEW BAG</button>
+                            <Link className="button-view-bag" to={`/cart`}>
+                                VIEW BAG
+                            </Link>
                             <button className="button-check-out">CHECK OUT</button>
                         </div>
                     </div>

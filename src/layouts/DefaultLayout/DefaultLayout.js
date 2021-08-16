@@ -5,6 +5,13 @@ import CategoryPage from "../../pages/CategoryPage/CategoryPage";
 import CartPage from "../../pages/CartPage/CartPage";
 import ProductPage from "../../pages/ProductPage/ProductPage";
 import {Query, client} from '@tilework/opus';
+import {AuthProvider} from "../../context/AuthProvider";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 
 class DefaultLayout extends React.Component {
 
@@ -22,7 +29,11 @@ class DefaultLayout extends React.Component {
                     amount: 1,
                 }],
                 total: 0,
-            }
+            },
+            handleChangeCategory: (category, i) => this.handleChangeCategory(category, i),
+            handleChangeCurrency: currencyIndex => this.handleChangeCurrency(currencyIndex),
+            handleAddToCart: product => this.handleAddToCart(product),
+            handleChangeTotal: price => this.handleChangeTotal(price),
         }
     }
 
@@ -51,7 +62,7 @@ class DefaultLayout extends React.Component {
         }))
     }
 
-    handleAddToCart (product) {
+    handleAddToCart(product) {
         let cartProducts = [...this.state.cartProducts];
         cartProducts.push(product)
         console.log(cartProducts);
@@ -61,7 +72,7 @@ class DefaultLayout extends React.Component {
         }))
     }
 
-    handleChangeOrder (product, amount) {
+    handleChangeOrder(product, amount) {
         let order = {...this.state.order};
         let total = this.state.total;
         let newProduct = [{
@@ -79,7 +90,7 @@ class DefaultLayout extends React.Component {
         }));
     }
 
-    handleChangeTotal (price) {
+    handleChangeTotal(price) {
         this.setState(prev => ({
             ...prev,
             total: this.state.total + price
@@ -99,23 +110,45 @@ class DefaultLayout extends React.Component {
         return (
             <div className="default-container">
                 <div className="default-content">
-                    <Header
-                        category={this.state.categories}
-                        cartProducts={this.state.cartProducts}
-                        index={this.state.currencyIndex}
-                        total={this.state.total}
-                        changeCategory={(category, i) => this.handleChangeCategory(category, i)}
-                        changeCurrency={(currencyIndex) => this.handleChangeCurrency(currencyIndex)}
-                        changeOrder={(product, amount) => this.handleChangeOrder(product, amount)}
-                    />
-                    <CategoryPage
-                        currencyIndex={this.state.currencyIndex}
-                        index={this.state.index}
-                        addToCart={(product) => this.handleAddToCart(product)}
-                        changeTotal={(price) => this.handleChangeTotal(price)}
-                    />
-                    {/*<ProductPage/>*/}
-                    {/*<CartPage/>*/}
+                    <Router>
+                        <AuthProvider value={this.state}>
+                            <Header
+                                category={this.state.categories}
+                                cartProducts={this.state.cartProducts}
+                                index={this.state.currencyIndex}
+                                total={this.state.total}
+                                changeCategory={(category, i) => this.handleChangeCategory(category, i)}
+                                changeCurrency={(currencyIndex) => this.handleChangeCurrency(currencyIndex)}
+                                changeOrder={(product, amount) => this.handleChangeOrder(product, amount)}
+                            />
+                            <Switch>
+                                <Route path="/categories/:category/:id">
+                                    <ProductPage
+
+                                    />
+                                </Route>
+                                <Route path="/categories/:category">
+                                    <CategoryPage
+                                        currencyIndex={this.state.currencyIndex}
+                                        index={this.state.index}
+                                        addToCart={(product) => this.handleAddToCart(product)}
+                                        changeTotal={(price) => this.handleChangeTotal(price)}
+                                    />
+                                </Route>
+                                <Route path="/cart">
+                                    <CartPage/>
+                                </Route>
+                                <Route path="/">
+                                    <CategoryPage
+                                        currencyIndex={this.state.currencyIndex}
+                                        index={this.state.index}
+                                        addToCart={(product) => this.handleAddToCart(product)}
+                                        changeTotal={(price) => this.handleChangeTotal(price)}
+                                    />
+                                </Route>
+                            </Switch>
+                        </AuthProvider>
+                    </Router>
                 </div>
             </div>
         );

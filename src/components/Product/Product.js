@@ -1,6 +1,8 @@
 import "./Product.css"
 import React from "react";
 import cartIcon from "../../images/whiteCart.svg";
+import AuthContext from "../../context/AuthProvider";
+import {Link} from "react-router-dom";
 
 class Product extends React.Component {
 
@@ -8,15 +10,17 @@ class Product extends React.Component {
         super(props);
     }
 
+    static contextType = AuthContext;
+
     handleAddToCart (product) {
-        this.props.addToCart(product)
-        this.props.changeTotal(product.prices[this.props.currencyIndex].amount)
+        this.context.handleAddToCart(product)
+        this.context.handleChangeTotal(product.prices[this.context.currencyIndex].amount)
     }
 
     render() {
         return (
             <li className="product">
-                <a href="#" className="product-a">
+                <Link to={`/categories/${this.context.categories}/${this.props.product.id}`} className="product-a">
                     <div className="product-image">
                         <img alt="" src={this.props.product.gallery[0]} className="product-img"/>
                         {!this.props.product.inStock &&
@@ -39,14 +43,13 @@ class Product extends React.Component {
                             {this.props.product.brand} {this.props.product.name}
                         </p>
                         <p className="product-price" style={this.props.outOfStock ? {color: "#8D8F9A"} : {}}>
-                            {this.props.product.prices[this.props.currencyIndex].amount} {this.props.product.prices[this.props.currencyIndex].currency}
+                            {this.props.product.prices[this.context.currencyIndex].amount} {this.props.product.prices[this.context.currencyIndex].currency}
                         </p>
                         {!this.props.product.inStock &&
                         <div className="out-of-stock"/>
                         }
                     </div>
-
-                </a>
+                </Link>
             </li>
         );
     }

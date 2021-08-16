@@ -2,6 +2,7 @@ import "./CategoryPage.css";
 import React from "react";
 import Product from "../../components/Product/Product";
 import {client, Field, Query} from "@tilework/opus";
+import AuthContext from "../../context/AuthProvider";
 
 class CategoryPage extends React.Component {
 
@@ -10,24 +11,26 @@ class CategoryPage extends React.Component {
         this.state = {categories: [], products: [], category: ""}
     }
 
+    static contextType = AuthContext;
+
     componentDidMount() {
         this.request().then(response => {
             console.log(response)
             this.setState(prev => ({
                 ...prev,
                 categories: response.categories,
-                products: response.categories[this.props.index].products,
-                category: response.categories[this.props.index].name
+                products: response.categories[this.context.index].products,
+                category: response.categories[this.context.index].name
             }))
         });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.index !== this.props.index) {
+        if (prevProps.index !== this.context.index) {
             this.setState(prev => ({
                 ...prev,
-                products: this.state.categories[this.props.index].products,
-                category: this.state.categories[this.props.index].name
+                products: this.state.categories[this.context.index].products,
+                category: this.state.categories[this.context.index].name
             }))
         }
     }
@@ -66,10 +69,7 @@ class CategoryPage extends React.Component {
                         return (
                             <Product
                                 key={product.id}
-                                currencyIndex={this.props.currencyIndex}
                                 product={product}
-                                addToCart={(product) => this.props.addToCart(product)}
-                                changeTotal={(price) => this.props.changeTotal(price)}
                             />
                         );
                     })}
