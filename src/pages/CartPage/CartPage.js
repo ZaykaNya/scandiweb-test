@@ -11,11 +11,12 @@ class CartPage extends React.Component {
         return (
             <div className="cart-page-container">
                 <h1 className="cart-page-title">CART</h1>
-                {this.context.cartProducts.map((product, key) => {
+                {this.context.order.products && this.context.order.products.map((product, key) => {
                     return(
                         <CartProduct
-                            cartProduct={product}
+                            cartProduct={product.product}
                             index={this.context.currencyIndex}
+                            amount={product.amount}
                             key={key}
                         />
                     )

@@ -149,19 +149,20 @@ class Header extends React.Component {
                     <div id="header-cart">
                         <div className="cart-title-container">
                             <span className="cart-title">My Bag</span>
-                            {this.context.cartProducts.length > 0 &&
-                            <span className="cart-number-items">, {this.context.cartProducts.length} item</span>
+                            {this.context.order.products && this.context.order.products.length > 0 &&
+                            <span className="cart-number-items">, {this.context.order.products.length} item</span>
                             }
-                            {this.context.cartProducts.length > 1 &&
+                            {this.context.order.products && this.context.order.products.length > 1 &&
                             <span className="cart-number-items">s</span>
                             }
                         </div>
-                        {this.context.cartProducts && this.context.cartProducts.map((cartProduct, key) => {
+                        {this.context.order.products && this.context.order.products.map((cartProduct, key) => {
                             return (
                                 <CartProduct
                                     key={key}
-                                    index={this.context.index}
-                                    cartProduct={cartProduct}
+                                    index={this.context.currencyIndex}
+                                    cartProduct={cartProduct.product}
+                                    amount={cartProduct.amount}
                                     getPrice={(price) => this.handleGetPrice(price)}
                                     modal={true}
                                 />

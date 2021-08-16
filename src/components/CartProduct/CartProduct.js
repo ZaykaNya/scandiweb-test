@@ -36,7 +36,7 @@ class CartProduct extends React.Component {
                         </p>
                     </div>
                     <p className={!this.props.modal ? "cart-product-price" : "cart-product-price-modal"}>
-                        {(this.props.cartProduct.prices[this.props.index].amount * this.state.counter).toFixed(2)}
+                        {(this.props.cartProduct.prices[this.props.index].amount * this.props.amount).toFixed(2)}
                         &nbsp;{this.props.cartProduct.prices[this.props.index].currency}
                     </p>
                     {this.props.cartProduct.attributes.map(attribute => {
