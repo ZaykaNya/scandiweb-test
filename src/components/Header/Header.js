@@ -76,6 +76,15 @@ class Header extends React.Component {
         }
     }
 
+    handleCloseCartAndCurrency() {
+        this.setState(prev => ({
+            ...prev,
+            cartOpen: false,
+            currencyOpen: false,
+        }))
+        document.body.style.overflow = "visible";
+    }
+
     handleChangeCurrency(currencyIndex) {
         this.setState(prev => ({
             ...prev,
@@ -98,6 +107,11 @@ class Header extends React.Component {
         }))
     }
 
+    handleChangeCategory(name, index) {
+        this.handleCloseCartAndCurrency()
+        this.context.handleChangeCategory(name, index)
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -109,7 +123,7 @@ class Header extends React.Component {
                                     to={`/categories/${category.name}`}
                                     key={key}
                                     className={this.context.categories === category.name ? "header-category header-category-active" : "header-category"}
-                                    onClick={() => this.context.handleChangeCategory(category.name, key)}
+                                    onClick={() => this.handleChangeCategory(category.name, key)}
                                 >
                                     {category.name.toUpperCase()}
                                 </Link>
@@ -156,7 +170,7 @@ class Header extends React.Component {
                             <p className="cart-total-price-amount">$ {this.state.total.toFixed(2)}</p>
                         </div>
                         <div className="cart-buttons-container">
-                            <Link className="button-view-bag" to={`/cart`}>
+                            <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag" to={`/cart`}>
                                 VIEW BAG
                             </Link>
                             <button className="button-check-out">CHECK OUT</button>

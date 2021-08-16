@@ -2,6 +2,7 @@ import "./ProductPage.css"
 import React from "react";
 import Size from "../../components/Size/Size";
 import {client, Field, Query} from "@tilework/opus";
+import AuthContext from "../../context/AuthProvider";
 
 class ProductPage extends React.Component {
 
@@ -10,13 +11,19 @@ class ProductPage extends React.Component {
         this.state = {product: {}, chosenImage: ""}
     }
 
+    static contextType = AuthContext;
+
     componentDidMount() {
         this.request().then(response => {
-            console.log(response.categories[1].products[0])
+            console.log(response);
+            console.log(response.categories[this.context.index].products[0].id);
+            console.log(this.context.currentProduct);
+            let product = response.categories[this.context.index].products.filter(product => product.id === this.context.currentProduct);
+            console.log(product)
             this.setState(prev => ({
                 ...prev,
-                product: response.categories[1].products[0],
-                chosenImage: response.categories[1].products[0].gallery[0]
+                product: product[0],
+                chosenImage: product[0].gallery[0]
             }))
         });
     }
@@ -46,6 +53,13 @@ class ProductPage extends React.Component {
         return await client.post(categoriesQuery);
     }
 
+    handleChangeImage(image) {
+        this.setState(prev => ({
+            ...prev,
+            chosenImage: image
+        }))
+    }
+
     render() {
         return (
             <div className="cart-container">
@@ -53,7 +67,9 @@ class ProductPage extends React.Component {
                     {this.state.product.gallery && this.state.product.gallery.map((img, key) => {
                         return (
                             <li key={key} className="cart-image">
-                                <img alt="" src={img} className="cart-img"/>
+                                <button className="cart-image-button" onClick={() => this.handleChangeImage(img)}>
+                                    <img alt="" src={img} className="cart-img"/>
+                                </button>
                             </li>
                         );
                     })}
@@ -88,17 +104,18 @@ class ProductPage extends React.Component {
                         <p className="cart-price">PRICE:</p>
                         {this.state.product.prices &&
                         <p className="price">
-                            {this.state.product.prices[0].amount} {this.state.product.prices[0].currency}
+                            {this.state.product.prices[this.context.currencyIndex].amount} {this.state.product.prices[this.context.currencyIndex].currency}
                         </p>
                         }
                     </div>
                     <button
                         disabled={!this.state.product.inStock}
-                        className="add-button">ADD TO CART
+                        className="add-button"
+                        onClick={() => this.context.handleAddToCart(this.state.product)}
+                    >
+                        ADD TO CART
                     </button>
-                    <p className="description">
-                        {this.state.product.description}
-                    </p>
+                    <div className="description" dangerouslySetInnerHTML={{__html: this.state.product.description}}/>
                 </div>
             </div>
         );

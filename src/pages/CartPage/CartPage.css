@@ -1,6 +1,7 @@
 .cart-page-container {
     width: 88.46%;
     transition: 250ms;
+    margin-bottom: 50px;
 }
 
 .cart-page-title {

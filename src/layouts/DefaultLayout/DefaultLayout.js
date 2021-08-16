@@ -6,12 +6,7 @@ import CartPage from "../../pages/CartPage/CartPage";
 import ProductPage from "../../pages/ProductPage/ProductPage";
 import {Query, client} from '@tilework/opus';
 import {AuthProvider} from "../../context/AuthProvider";
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
 class DefaultLayout extends React.Component {
 
@@ -22,6 +17,7 @@ class DefaultLayout extends React.Component {
             index: 0,
             currencyIndex: 0,
             cartProducts: [],
+            currentProduct: {},
             total: 0,
             order: {
                 products: [{
@@ -34,6 +30,7 @@ class DefaultLayout extends React.Component {
             handleChangeCurrency: currencyIndex => this.handleChangeCurrency(currencyIndex),
             handleAddToCart: product => this.handleAddToCart(product),
             handleChangeTotal: price => this.handleChangeTotal(price),
+            handleChangeCurrentProduct: product => this.handleChangeCurrentProduct(product)
         }
     }
 
@@ -45,6 +42,13 @@ class DefaultLayout extends React.Component {
                 index: 0
             }))
         });
+    }
+
+    handleChangeCurrentProduct (product) {
+        this.setState(prev => ({
+            ...prev,
+            currentProduct: product
+        }))
     }
 
     handleChangeCategory(category, i) {
@@ -136,7 +140,9 @@ class DefaultLayout extends React.Component {
                                     />
                                 </Route>
                                 <Route path="/cart">
-                                    <CartPage/>
+                                    <CartPage
+
+                                    />
                                 </Route>
                                 <Route path="/">
                                     <CategoryPage

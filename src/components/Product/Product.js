@@ -20,7 +20,11 @@ class Product extends React.Component {
     render() {
         return (
             <li className="product">
-                <Link to={`/categories/${this.context.categories}/${this.props.product.id}`} className="product-a">
+                <Link
+                    to={`/categories/${this.context.categories}/${this.props.product.id}`}
+                    className="product-a"
+                    onClick={() => this.context.handleChangeCurrentProduct(this.props.product.id)}
+                >
                     <div className="product-image">
                         <img alt="" src={this.props.product.gallery[0]} className="product-img"/>
                         {!this.props.product.inStock &&
@@ -30,7 +34,6 @@ class Product extends React.Component {
                         }
                         {this.props.product.inStock &&
                         <button
-                            href="#"
                             className="product-cart-image"
                             onClick={() => this.handleAddToCart(this.props.product)}
                         >
