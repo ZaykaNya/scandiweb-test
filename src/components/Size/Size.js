@@ -14,41 +14,80 @@ class Size extends React.Component {
                 styles: {
                     background: "#1D1F22",
                     color: "white",
-                    border: "1px solid #1D1F22"}
+                    border: "1px solid #1D1F22"
+                }
             });
-        } else if(this.props.outOfStock) {
+            if (this.props.attr.type === "swatch") {
+                this.setState({
+                    styles: {
+                        background: this.props.value,
+                        color: "transparent",
+                        border: `2px solid #1D1F22`
+                    }
+                });
+            }
+        } else if (this.props.outOfStock) {
             this.setState({
                 styles: {border: "1px solid #A6A6A6", color: "#A6A6A6"}
             });
+        } else if (this.props.attr.type === "swatch") {
+            this.setState({
+                styles: {
+                    background: this.props.value,
+                    color: "transparent",
+                    border: `1px solid #1D1F22`
+                }
+            });
         }
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(this.props.active !== prevProps.active) {
+        if (this.props.active !== prevProps.active) {
             if (this.props.active) {
-                this.setState({
-                    styles: {
-                        background: "#1D1F22",
-                        color: "white",
-                        border: "1px solid #1D1F22"}
-                });
-            } else if(this.props.outOfStock) {
+                if (this.props.attr.type === "swatch") {
+                    this.setState({
+                        styles: {
+                            background: this.props.value,
+                            color: "transparent",
+                            border: `2px solid #1D1F22`
+                        }
+                    });
+                } else {
+                    this.setState({
+                        styles: {
+                            background: "#1D1F22",
+                            color: "white",
+                            border: "1px solid #1D1F22"
+                        }
+                    });
+                }
+            } else if (this.props.outOfStock) {
                 this.setState({
                     styles: {border: "1px solid #A6A6A6", color: "#A6A6A6"}
+                });
+            } else if (this.props.attr.type === "swatch") {
+                this.setState({
+                    styles: {
+                        background: this.props.value,
+                        color: "transparent",
+                        border: `1px solid #1D1F22`
+                    }
                 });
             } else {
                 this.setState({
                     styles: {}
                 });
             }
+
         }
     }
 
     //currentAttributes, size, value, name, id
-    handleChangeAttributes () {
+    handleChangeAttributes() {
         let attributes = [...this.props.currentAtrributes];
 
-        if(attributes.filter(attribute => attribute.name === this.props.name).length > 0) {
+        if (attributes.filter(attribute => attribute.name === this.props.name).length > 0) {
             let attribute = {
                 name: this.props.name,
                 id: this.props.id
@@ -65,7 +104,7 @@ class Size extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <button
                 style={this.state.styles}
                 className={!this.props.modal ? "size-container" : "size-container-modal"}

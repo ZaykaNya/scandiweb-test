@@ -2,8 +2,19 @@ import "./CartProduct.css";
 import React from "react";
 import Size from "../Size/Size";
 import AuthContext from "../../context/AuthProvider";
+import chevronRight from "../../images/chevronRight.svg"
+import chevronLeft from "../../images/chevronLeft.svg"
+import plusSquareSmall from "../../images/plusSquareSmall.svg"
+import plusSquare from "../../images/plusSquare.svg"
+import minusSquareSmall from "../../images/minusSquareSmall.svg"
+import minusSquare from "../../images/minusSquare.svg"
 
 class CartProduct extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {imageIndex: 0}
+    }
 
     static contextType = AuthContext;
 
@@ -38,6 +49,21 @@ class CartProduct extends React.Component {
         this.context.handleChangeOrder(orderProduct, this.props.cartIndex)
     }
 
+    handleChangeImage(i) {
+        let index = this.state.imageIndex;
+        if (index + i < 0) {
+            index = this.props.cartProduct.gallery.length + i;
+        } else if (index + i > this.props.cartProduct.gallery.length - 1) {
+            index = index - this.props.cartProduct.gallery.length + i;
+        } else {
+            index += i;
+        }
+        this.setState(prev => ({
+            ...prev,
+            imageIndex: index
+        }))
+    }
+
     render() {
         return (
             <div className={!this.props.modal ? "cart-product-container" : "cart-product-container-modal"}>
@@ -63,9 +89,11 @@ class CartProduct extends React.Component {
                                         <Size
                                             key={key}
                                             index={i}
+                                            i={key}
                                             modal={this.props.modal}
                                             size={item.displayValue}
                                             id={item.id}
+                                            attr={attribute}
                                             value={item.value}
                                             name={attribute.name}
                                             currentAtrributes={this.props.orderProduct.attributes}
@@ -83,7 +111,7 @@ class CartProduct extends React.Component {
                         <button className={!this.props.modal ? "cart-product-button" : "cart-product-button-modal"}
                                 onClick={() => this.handleIncreaseAmount()}
                         >
-                            +
+                            <img alt="" src={!this.props.modal ? plusSquare : plusSquareSmall}/>
                         </button>
                         <p className={!this.props.modal ? "cart-product-count" : "cart-product-count-modal"}>
                             {this.props.orderProduct.amount}
@@ -91,19 +119,24 @@ class CartProduct extends React.Component {
                         <button className={!this.props.modal ? "cart-product-button" : "cart-product-button-modal"}
                                 onClick={() => this.handleDecreaseAmount()}
                         >
-                            -
+                            <img alt="" src={!this.props.modal ? minusSquare : minusSquareSmall}/>
                         </button>
                     </div>
                     <div className={!this.props.modal ? "cart-product-image" : "cart-product-image-modal"}>
                         <div
                             className={!this.props.modal ? "cart-product-image-container" : "cart-product-image-container-modal"}
                         >
-                            <img alt="" src={this.props.cartProduct.gallery[0]} className="cart-product-img"/>
+                            <img alt="" src={this.props.cartProduct.gallery[this.state.imageIndex]}
+                                 className="cart-product-img"/>
                         </div>
                         {!this.props.modal &&
                         <React.Fragment>
-                            <div className="cart-product-left-slide">{`<`}</div>
-                            <div className="cart-product-right-slide">{`>`}</div>
+                            <button onClick={() => this.handleChangeImage(-1)} className="cart-product-left-slide">
+                                <img alt="" src={chevronLeft}/>
+                            </button>
+                            <button onClick={() => this.handleChangeImage(1)} className="cart-product-right-slide">
+                                <img alt="" src={chevronRight}/>
+                            </button>
                         </React.Fragment>
                         }
                     </div>
