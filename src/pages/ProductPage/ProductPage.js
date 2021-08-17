@@ -24,8 +24,6 @@ class ProductPage extends React.Component {
             );
             let attributes = [];
 
-            console.log(product[0]);
-
             attributes = product[0].attributes.map(attribute => {
                 return ({
                     name: attribute.name,

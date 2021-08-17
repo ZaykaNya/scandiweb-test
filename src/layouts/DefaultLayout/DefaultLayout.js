@@ -126,7 +126,7 @@ class DefaultLayout extends React.Component {
 
         order.total = total.toFixed(2);
 
-        console.log(order);
+        // console.log(order);
 
         this.setState(prev => ({
             ...prev,
