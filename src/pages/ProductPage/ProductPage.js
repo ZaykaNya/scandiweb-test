@@ -57,11 +57,20 @@ class ProductPage extends React.Component {
 
     handleChangeOrder() {
         if (this.state.orderProduct.attributes.length === this.state.product.attributes.length) {
-            this.context.handleChangeOrder(this.state.orderProduct);
+
+            let index = 0;
+
+            this.context.order.products && this.context.order.products.forEach((product, key) => {
+                if(product.product.id === this.state.orderProduct.product.id) {
+                    index = key;
+                }
+            })
+
+            this.context.handleChangeOrder(this.state.orderProduct, index);
         }
     }
 
-    async request() {
+    request() {
         client.setEndpoint("http://localhost:4000/");
 
         const categoriesFields = ["id", "name", "inStock", "brand", "description"];
@@ -83,7 +92,7 @@ class ProductPage extends React.Component {
                 )
             );
 
-        return await client.post(categoriesQuery);
+        return client.post(categoriesQuery);
     }
 
     handleChangeImage(image) {
@@ -91,7 +100,6 @@ class ProductPage extends React.Component {
             ...prev,
             chosenImage: image
         }))
-        console.log(this.state.orderProduct);
     }
 
 

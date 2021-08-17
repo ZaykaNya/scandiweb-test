@@ -22,7 +22,8 @@ class Size extends React.Component {
                     styles: {
                         background: this.props.value,
                         color: "transparent",
-                        border: `2px solid #1D1F22`
+                        boxShadow: `0 0 5px 2px grey`,
+                        border: 0,
                     }
                 });
             }
@@ -35,7 +36,8 @@ class Size extends React.Component {
                 styles: {
                     background: this.props.value,
                     color: "transparent",
-                    border: `1px solid #1D1F22`
+                    boxShadow: `0 0 5px 0px grey`,
+                    border: 0
                 }
             });
         }
@@ -50,7 +52,8 @@ class Size extends React.Component {
                         styles: {
                             background: this.props.value,
                             color: "transparent",
-                            border: `2px solid #1D1F22`
+                            boxShadow: `0 0 5px 2px grey`,
+                            border: 0,
                         }
                     });
                 } else {
@@ -71,7 +74,8 @@ class Size extends React.Component {
                     styles: {
                         background: this.props.value,
                         color: "transparent",
-                        border: `1px solid #1D1F22`
+                        boxShadow: `0 0 5px 0px grey`,
+                        border: 0
                     }
                 });
             } else {

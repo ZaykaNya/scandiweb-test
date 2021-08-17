@@ -13,9 +13,9 @@ class Product extends React.Component {
 
     static contextType = AuthContext;
 
-    handleAddToCart (product) {
+    handleAddToCart(product) {
         const attributes = product.attributes.map(attribute => {
-            return({
+            return ({
                 name: attribute.name,
                 id: attribute.items[0].id
             });
@@ -27,7 +27,15 @@ class Product extends React.Component {
             amount: 1,
         }
 
-        this.context.handleChangeOrder(orderProduct);
+        let index = 0;
+
+        this.context.order.products && this.context.order.products.forEach((product, key) => {
+            if(product.product.id === orderProduct.product.id) {
+                index = key;
+            }
+        })
+
+        this.context.handleChangeOrder(orderProduct, index);
     }
 
     render() {
@@ -48,7 +56,11 @@ class Product extends React.Component {
                         {this.props.product.inStock &&
                         <button
                             className="product-cart-image"
-                            onClick={() => this.handleAddToCart(this.props.product)}
+                            onClick={e => {
+                                e.preventDefault();
+                                this.handleAddToCart(this.props.product);
+                                return false
+                            }}
                         >
                             <img alt="" src={cartIcon}/>
                         </button>

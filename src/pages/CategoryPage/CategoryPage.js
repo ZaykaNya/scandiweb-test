@@ -37,7 +37,11 @@ class CategoryPage extends React.Component {
         }
     }
 
-    async request() {
+    componentWillUnmount() {
+        console.log(this)
+    }
+
+    request() {
         client.setEndpoint("http://localhost:4000/");
 
         const categoriesFields = ["id", "name", "inStock", "brand"];
@@ -59,7 +63,7 @@ class CategoryPage extends React.Component {
                 )
             );
 
-        return await client.post(categoriesQuery);
+        return client.post(categoriesQuery);
     }
 
 

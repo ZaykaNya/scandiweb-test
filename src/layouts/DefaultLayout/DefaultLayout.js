@@ -90,14 +90,15 @@ class DefaultLayout extends React.Component {
         if (!countTotal) {
             if (this.state.order.products) {
                 if (product.amount <= 0) {
-                    let orderProducts = [...this.state.order.products];
+                    const orderProducts = [...this.state.order.products];
                     orderProducts.splice(index, 1);
                     order = {
                         products: [...orderProducts],
                         total: 0
                     }
                 } else if (this.state.order.products.filter(orderProduct => orderProduct.product.id === product.product.id).length > 0) {
-                    let orderProducts = [...this.state.order.products];
+                    console.log(index)
+                    const orderProducts = [...this.state.order.products];
                     orderProducts.splice(index, 1, product);
                     order = {
                         products: [...orderProducts],
@@ -126,7 +127,7 @@ class DefaultLayout extends React.Component {
 
         order.total = total.toFixed(2);
 
-        // console.log(order);
+        console.log(order);
 
         this.setState(prev => ({
             ...prev,
@@ -147,13 +148,13 @@ class DefaultLayout extends React.Component {
         }))
     }
 
-    async request() {
+    request() {
         client.setEndpoint("http://localhost:4000/");
 
         const categoriesQuery = new Query("categories", true)
             .addField("name");
 
-        return await client.post(categoriesQuery);
+        return client.post(categoriesQuery);
     }
 
     render() {

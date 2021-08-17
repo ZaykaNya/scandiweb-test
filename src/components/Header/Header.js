@@ -34,7 +34,7 @@ class Header extends React.Component {
 
     }
 
-    async request() {
+    request() {
         client.setEndpoint("http://localhost:4000/");
 
         const categoriesQuery = new Query("categories", true)
@@ -45,7 +45,7 @@ class Header extends React.Component {
                 )
             )
 
-        return await client.post(categoriesQuery);
+        return client.post(categoriesQuery);
     }
 
     handleOpenCart() {
@@ -59,7 +59,7 @@ class Header extends React.Component {
         } else {
             document.body.style.overflow = "visible";
         }
-        this.handleGetPrice(this.context.total)
+        // this.handleGetPrice(this.context.total)
 
     }
 
@@ -97,7 +97,6 @@ class Header extends React.Component {
             document.body.style.overflow = "visible";
         }
         this.context.handleChangeCurrency(currencyIndex);
-        console.log(this.context)
     }
 
     handleGetPrice(price) {
