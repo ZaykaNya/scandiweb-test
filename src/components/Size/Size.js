@@ -11,7 +11,10 @@ class Size extends React.Component {
     componentDidMount() {
         if (this.props.active) {
             this.setState({
-                styles: {background: "#1D1F22", color: "white"}
+                styles: {
+                    background: "#1D1F22",
+                    color: "white",
+                    border: "1px solid #1D1F22"}
             });
         } else if(this.props.outOfStock) {
             this.setState({
@@ -20,18 +23,37 @@ class Size extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.active !== prevProps.active) {
+            if (this.props.active) {
+                this.setState({
+                    styles: {
+                        background: "#1D1F22",
+                        color: "white",
+                        border: "1px solid #1D1F22"}
+                });
+            } else if(this.props.outOfStock) {
+                this.setState({
+                    styles: {border: "1px solid #A6A6A6", color: "#A6A6A6"}
+                });
+            } else {
+                this.setState({
+                    styles: {}
+                });
+            }
+        }
+    }
+
     //currentAttributes, size, value, name, id
     handleChangeAttributes () {
         let attributes = [...this.props.currentAtrributes];
 
         if(attributes.filter(attribute => attribute.name === this.props.name).length > 0) {
-            let copy = attributes.filter(attribute => attribute.name !== this.props.name);
             let attribute = {
                 name: this.props.name,
                 id: this.props.id
             }
-            copy.push(attribute);
-            attributes = [...copy];
+            attributes.splice(this.props.index, 1, attribute)
         } else {
             attributes.push({
                 name: this.props.name,

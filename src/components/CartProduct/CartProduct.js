@@ -1,26 +1,45 @@
 import "./CartProduct.css";
 import React from "react";
 import Size from "../Size/Size";
+import AuthContext from "../../context/AuthProvider";
 
 class CartProduct extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {counter: 1};
     }
 
-    handleIncreaseCounter() {
-        this.setState({
-            counter: this.state.counter + 1
-        })
-        this.props.getPrice(this.props.cartProduct.prices[this.props.index].amount)
+    static contextType = AuthContext;
+
+    handleIncreaseAmount() {
+        const orderProduct = {
+            product: {...this.props.orderProduct.product},
+            attributes: [...this.props.orderProduct.attributes],
+            amount: this.props.orderProduct.amount + 1,
+        }
+
+        this.context.handleChangeOrder(orderProduct, this.props.cartIndex)
     }
 
-    handleDecreaseCounter() {
-        this.setState({
-            counter: this.state.counter - 1
-        })
-        this.props.getPrice(-this.props.cartProduct.prices[this.props.index].amount)
+    handleDecreaseAmount() {
+        const orderProduct = {
+            product: {...this.props.orderProduct.product},
+            attributes: [...this.props.orderProduct.attributes],
+            amount: this.props.orderProduct.amount - 1,
+        }
+
+        this.context.handleChangeOrder(orderProduct, this.props.cartIndex)
+    }
+
+    handleChangeProduct(attributes) {
+
+        const orderProduct = {
+            product: {...this.props.orderProduct.product},
+            attributes: [...attributes],
+            amount: this.props.orderProduct.amount,
+        }
+
+        this.context.handleChangeOrder(orderProduct, this.props.cartIndex)
     }
 
     render() {
@@ -39,12 +58,35 @@ class CartProduct extends React.Component {
                         {(this.props.cartProduct.prices[this.props.index].amount * this.props.amount).toFixed(2)}
                         &nbsp;{this.props.cartProduct.prices[this.props.index].currency}
                     </p>
-                    {this.props.cartProduct.attributes.map(attribute => {
+                    {/*<Size*/}
+                    {/*    key={key}*/}
+                    {/*    index={i}*/}
+                    {/*    size={item.displayValue}*/}
+                    {/*    id={item.id}*/}
+                    {/*    value={item.value}*/}
+                    {/*    name={attribute.name}*/}
+                    {/*    currentAtrributes={this.state.orderProduct.attributes}*/}
+                    {/*    attribute={this.state.orderProduct.attributes[0]}*/}
+                    {/*    active={this.state.orderProduct.attributes.length > i && item.id === this.state.orderProduct.attributes[i].id}*/}
+                    {/*    changeProduct={(attributes) => this.handleChangeProduct(attributes)}*/}
+                    {/*/>*/}
+                    {this.props.cartProduct.attributes.map((attribute, i) => {
                         return (
-                            <div className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
-                                {attribute.items.map(item => {
+                            <div key={i} className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
+                                {attribute.items.map((item, key) => {
                                     return (
-                                        <Size modal={this.props.modal} size={item.value}/>
+                                        <Size
+                                            key={key}
+                                            index={i}
+                                            modal={this.props.modal}
+                                            size={item.displayValue}
+                                            id={item.id}
+                                            value={item.value}
+                                            name={attribute.name}
+                                            currentAtrributes={this.props.orderProduct.attributes}
+                                            active={item.id === this.props.orderProduct.attributes[i].id}
+                                            changeProduct={(attributes) => this.handleChangeProduct(attributes)}
+                                        />
                                     );
                                 })}
                             </div>
@@ -54,15 +96,15 @@ class CartProduct extends React.Component {
                 <div className="cart-product-right-side">
                     <div className="cart-product-number">
                         <button className={!this.props.modal ? "cart-product-button" : "cart-product-button-modal"}
-                                onClick={() => this.handleIncreaseCounter()}
+                                onClick={() => this.handleIncreaseAmount()}
                         >
                             +
                         </button>
                         <p className={!this.props.modal ? "cart-product-count" : "cart-product-count-modal"}>
-                            {this.state.counter}
+                            {this.props.orderProduct.amount}
                         </p>
                         <button className={!this.props.modal ? "cart-product-button" : "cart-product-button-modal"}
-                                onClick={() => this.handleDecreaseCounter()}
+                                onClick={() => this.handleDecreaseAmount()}
                         >
                             -
                         </button>

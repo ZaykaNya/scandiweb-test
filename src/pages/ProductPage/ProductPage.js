@@ -19,13 +19,22 @@ class ProductPage extends React.Component {
         }
         this.request().then(response => {
             let product = response.categories[this.context.index].products.filter(product => product.id === document.URL.split("/").slice(-1).join(""));
+            let attributes = [];
+
+            attributes = product[0].attributes.map(attribute => {
+                return({
+                    name: attribute.name,
+                    id: "",
+                });
+            });
+
             this.setState(prev => ({
                 ...prev,
                 product: product[0],
                 chosenImage: product[0].gallery[0],
                 orderProduct: {
                     product: product[0],
-                    attributes: [],
+                    attributes: [...attributes],
                     amount: 1,
                 }
             }))
@@ -45,7 +54,6 @@ class ProductPage extends React.Component {
 
     handleChangeOrder() {
         if(this.state.orderProduct.attributes.length === this.state.product.attributes.length) {
-            this.context.handleAddToCart(this.state.product);
             this.context.handleChangeOrder(this.state.orderProduct);
         }
     }
@@ -84,7 +92,6 @@ class ProductPage extends React.Component {
     }
 
 
-
     render() {
         return (
             <div className="cart-container">
@@ -110,20 +117,23 @@ class ProductPage extends React.Component {
                         <p className="cart-name-2">{this.state.product.name}</p>
                     </div>
                     <div>
-                        {this.state.product.attributes && this.state.product.attributes.map((attribute, key) => {
+                        {this.state.product.attributes && this.state.product.attributes.map((attribute, i) => {
                             return (
-                                <React.Fragment key={key}>
+                                <React.Fragment key={i}>
                                     <p className="size-text">{attribute.name}:</p>
                                     <div className="sizes">
                                         {attribute.items.map((item, key) => {
                                             return (
                                                 <Size
                                                     key={key}
+                                                    index={i}
                                                     size={item.displayValue}
                                                     id={item.id}
                                                     value={item.value}
                                                     name={attribute.name}
                                                     currentAtrributes={this.state.orderProduct.attributes}
+                                                    attribute={this.state.orderProduct.attributes[0]}
+                                                    active={item.id === this.state.orderProduct.attributes[i].id}
                                                     changeProduct={(attributes) => this.handleChangeProduct(attributes)}
                                                 />
                                             );

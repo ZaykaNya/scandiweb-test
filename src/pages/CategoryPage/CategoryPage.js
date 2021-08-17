@@ -52,6 +52,7 @@ class CategoryPage extends React.Component {
                     .addField("currency")
                 )
                 .addField(new Field("attributes", true)
+                    .addField("name")
                     .addField(new Field("items", true)
                         .addFieldList(["displayValue", "value", "id"])
                     )

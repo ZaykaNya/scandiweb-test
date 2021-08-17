@@ -16,17 +16,16 @@ class DefaultLayout extends React.Component {
             categories: "",
             index: 0,
             currencyIndex: 0,
-            cartProducts: [],
             currentProduct: {},
             total: 0,
             order: {},
             handleChangeCategory: (category, i) => this.handleChangeCategory(category, i),
             handleChangeCurrency: currencyIndex => this.handleChangeCurrency(currencyIndex),
-            handleAddToCart: product => this.handleAddToCart(product),
             handleChangeTotal: price => this.handleChangeTotal(price),
             handleChangeCurrentProduct: product => this.handleChangeCurrentProduct(product),
             handleChangeIndex: i => this.handleChangeIndex(i),
-            handleChangeOrder: (product, amount, attributes) => this.handleChangeOrder(product, amount, attributes),
+            handleChangeOrder: (product, index) => this.handleChangeOrder(product, index),
+            handleMakeOrder: () => this.handleMakeOrder(),
         }
     }
 
@@ -55,6 +54,7 @@ class DefaultLayout extends React.Component {
             ...prev,
             currentProduct: product
         }))
+
     }
 
     handleChangeCategory(category, i) {
@@ -69,16 +69,11 @@ class DefaultLayout extends React.Component {
         this.setState(prev => ({
             ...prev,
             currencyIndex: currencyIndex,
-        }))
-    }
+        }));
 
-    handleAddToCart(product) {
-        let cartProducts = [...this.state.cartProducts];
-        cartProducts.push(product)
-        this.setState(prev => ({
-            ...prev,
-            cartProducts: cartProducts
-        }))
+        if (Object.keys(this.state.order).length > 0) {
+            this.handleChangeOrder({}, 0, true, currencyIndex)
+        }
     }
 
     // order: {
@@ -89,31 +84,63 @@ class DefaultLayout extends React.Component {
     //     }],
     //     total: 0,
     // },
-    handleChangeOrder(product) {
-        let order = {...this.state.order};
-        let total = this.state.total;
 
-        if(this.state.order.products) {
-            order = {
-                products: [...order.products, {
-                    ...product
-                }],
-                total: total
-            }
-        } else {
-            order = {
-                products: [{...product}],
-                total: total,
+    handleChangeOrder(product, index = 0, countTotal = false, currencyIndex = this.state.currencyIndex) {
+        let order = {...this.state.order};
+
+        console.log(product.amount)
+
+        if (!countTotal) {
+            if (this.state.order.products) {
+                if (product.amount <= 0) {
+                    let orderProducts = [...this.state.order.products];
+                    orderProducts.splice(index, 1);
+                    order = {
+                        products: [...orderProducts],
+                        total: 0
+                    }
+                } else if (this.state.order.products.filter(orderProduct => orderProduct.product.id === product.product.id).length > 0) {
+                    let orderProducts = [...this.state.order.products];
+                    orderProducts.splice(index, 1, product);
+                    order = {
+                        products: [...orderProducts],
+                        total: 0
+                    }
+                } else {
+                    order = {
+                        products: [...order.products, {
+                            ...product
+                        }],
+                        total: 0
+                    }
+                }
+            } else {
+                order = {
+                    products: [{...product}],
+                    total: 0,
+                }
             }
         }
 
-        console.log(order);
+        let total = 0;
+        order.products.forEach(product => {
+            total += product.amount * product.product.prices[currencyIndex].amount;
+        });
+
+        order.total = total.toFixed(2);
+
+        // console.log(order);
 
         this.setState(prev => ({
             ...prev,
             order: {...order}
         }));
 
+    }
+
+    handleMakeOrder() {
+        console.log(`You bought, ${this.state.order.length} items`);
+        console.log(this.state.order.length);
     }
 
     handleChangeTotal(price) {

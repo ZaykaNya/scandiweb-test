@@ -3,10 +3,10 @@
     justify-content: center;
     align-items: center;
     background: white;
-    width: 63px;
-    height: 45px;
+    min-width: 63px;
+    min-height: 45px;
     border: 1px solid #1D1F22;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
     font-size: 18px;
 }
@@ -20,7 +20,7 @@
     min-width: 24px;
     min-height: 24px;
     border: 1px solid #1D1F22;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
     font-size: 14px;
     line-height: 1.6em;

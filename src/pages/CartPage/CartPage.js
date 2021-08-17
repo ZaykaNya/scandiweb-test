@@ -14,9 +14,12 @@ class CartPage extends React.Component {
                 {this.context.order.products && this.context.order.products.map((product, key) => {
                     return(
                         <CartProduct
+                            orderProduct={product}
                             cartProduct={product.product}
                             index={this.context.currencyIndex}
                             amount={product.amount}
+                            currentAtrributes={product.attributes}
+                            cartIndex={key}
                             key={key}
                         />
                     )

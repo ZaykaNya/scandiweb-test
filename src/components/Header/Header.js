@@ -133,9 +133,9 @@ class Header extends React.Component {
                         })}
                     </div>
                     <div className="header-logo">
-                        <a>
+                        <div>
                             <img alt="" src={brandIcon}/>
-                        </a>
+                        </div>
                     </div>
                     <div className="header-icons">
                         <button id="btn1" onClick={() => this.handleOpenCurrency()} className="header-button">
@@ -160,9 +160,11 @@ class Header extends React.Component {
                             return (
                                 <CartProduct
                                     key={key}
+                                    cartIndex={key}
                                     index={this.context.currencyIndex}
                                     cartProduct={cartProduct.product}
                                     amount={cartProduct.amount}
+                                    orderProduct={cartProduct}
                                     getPrice={(price) => this.handleGetPrice(price)}
                                     modal={true}
                                 />
@@ -170,14 +172,20 @@ class Header extends React.Component {
                         })}
                         <div className="cart-total-price">
                             <p className="cart-total-price-title">Total</p>
-                            <p className="cart-total-price-amount">$ {this.state.total.toFixed(2)}</p>
+                            <p className="cart-total-price-amount">$ {this.context.order.total}</p>
                         </div>
                         <div className="cart-buttons-container">
                             <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag"
-                                  to={`/cart`}>
+                                  to={`/cart`}
+                            >
                                 VIEW BAG
                             </Link>
-                            <button className="button-check-out">CHECK OUT</button>
+                            <button
+                                className="button-check-out"
+                                onClick={() => this.context.handleMakeOrder()}
+                            >
+                                CHECK OUT
+                            </button>
                         </div>
                     </div>
                     }

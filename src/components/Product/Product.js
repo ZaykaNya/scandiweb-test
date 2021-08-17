@@ -14,8 +14,20 @@ class Product extends React.Component {
     static contextType = AuthContext;
 
     handleAddToCart (product) {
-        this.context.handleAddToCart(product)
-        this.context.handleChangeTotal(product.prices[this.context.currencyIndex].amount)
+        const attributes = product.attributes.map(attribute => {
+            return({
+                name: attribute.name,
+                id: attribute.items[0].id
+            });
+        });
+
+        const orderProduct = {
+            product: {...product},
+            attributes: [...attributes],
+            amount: 1,
+        }
+
+        this.context.handleChangeOrder(orderProduct);
     }
 
     render() {
