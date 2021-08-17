@@ -18,11 +18,13 @@ class ProductPage extends React.Component {
             this.context.handleChangeIndex(1);
         }
         this.request().then(response => {
-            let product = response.categories[this.context.index].products.filter(product => product.id === document.URL.split("/").slice(-1).join(""));
+            let product = response.categories[this.context.index].products.filter(product =>
+                product.id === document.URL.split("/").slice(-1).join("")
+            );
             let attributes = [];
 
             attributes = product[0].attributes.map(attribute => {
-                return({
+                return ({
                     name: attribute.name,
                     id: "",
                 });
@@ -53,7 +55,7 @@ class ProductPage extends React.Component {
     }
 
     handleChangeOrder() {
-        if(this.state.orderProduct.attributes.length === this.state.product.attributes.length) {
+        if (this.state.orderProduct.attributes.length === this.state.product.attributes.length) {
             this.context.handleChangeOrder(this.state.orderProduct);
         }
     }

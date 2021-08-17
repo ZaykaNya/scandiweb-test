@@ -5,10 +5,6 @@ import AuthContext from "../../context/AuthProvider";
 
 class CartProduct extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     static contextType = AuthContext;
 
     handleIncreaseAmount() {
@@ -58,21 +54,10 @@ class CartProduct extends React.Component {
                         {(this.props.cartProduct.prices[this.props.index].amount * this.props.amount).toFixed(2)}
                         &nbsp;{this.props.cartProduct.prices[this.props.index].currency}
                     </p>
-                    {/*<Size*/}
-                    {/*    key={key}*/}
-                    {/*    index={i}*/}
-                    {/*    size={item.displayValue}*/}
-                    {/*    id={item.id}*/}
-                    {/*    value={item.value}*/}
-                    {/*    name={attribute.name}*/}
-                    {/*    currentAtrributes={this.state.orderProduct.attributes}*/}
-                    {/*    attribute={this.state.orderProduct.attributes[0]}*/}
-                    {/*    active={this.state.orderProduct.attributes.length > i && item.id === this.state.orderProduct.attributes[i].id}*/}
-                    {/*    changeProduct={(attributes) => this.handleChangeProduct(attributes)}*/}
-                    {/*/>*/}
                     {this.props.cartProduct.attributes.map((attribute, i) => {
                         return (
-                            <div key={i} className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
+                            <div key={i}
+                                 className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
                                 {attribute.items.map((item, key) => {
                                     return (
                                         <Size

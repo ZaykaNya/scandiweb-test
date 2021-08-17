@@ -54,7 +54,6 @@ class DefaultLayout extends React.Component {
             ...prev,
             currentProduct: product
         }))
-
     }
 
     handleChangeCategory(category, i) {
@@ -87,8 +86,6 @@ class DefaultLayout extends React.Component {
 
     handleChangeOrder(product, index = 0, countTotal = false, currencyIndex = this.state.currencyIndex) {
         let order = {...this.state.order};
-
-        console.log(product.amount)
 
         if (!countTotal) {
             if (this.state.order.products) {
@@ -139,8 +136,8 @@ class DefaultLayout extends React.Component {
     }
 
     handleMakeOrder() {
-        console.log(`You bought, ${this.state.order.length} items`);
-        console.log(this.state.order.length);
+        console.log(`You bought, ${this.state.order.products.length} items`);
+        console.log(this.state.order);
     }
 
     handleChangeTotal(price) {
