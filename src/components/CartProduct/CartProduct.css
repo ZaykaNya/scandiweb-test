@@ -37,6 +37,7 @@
 .cart-product-price {
     font-family: 'Raleway', sans-serif;
     font-weight: bold;
+    margin: 12px 0;
     font-size: 24px;
 }
 
@@ -158,7 +159,7 @@
     border: 0;
     top: calc(50% - 12px);
     bottom: 50%;
-    left: 9px;
+    left: 0;
 }
 
 .cart-product-right-slide {
@@ -170,7 +171,7 @@
     border: 0;
     top: calc(50% - 12px);
     bottom: 50%;
-    right: 9px;
+    right: 0;
 }
 
 .cart-product-left-slide,

@@ -171,7 +171,7 @@ class Header extends React.Component {
                         })}
                         <div className="cart-total-price">
                             <p className="cart-total-price-title">Total</p>
-                            <p className="cart-total-price-amount">$ {this.context.order.total}</p>
+                            <p className="cart-total-price-amount">{this.context.currencyIcon} {this.context.order.total}</p>
                         </div>
                         <div className="cart-buttons-container">
                             <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag"
@@ -192,13 +192,14 @@ class Header extends React.Component {
                     <div id="header-currency">
                         <div className="header-currency-container">
                             {this.state.currencies.map((currency, key) => {
+                                let currencies = ["$", "£", "A$", "¥", "₽"]
                                 return (
                                     <button
                                         className="header-currency-button"
                                         key={key}
                                         onClick={() => this.handleChangeCurrency(key)}
                                     >
-                                        $ {currency.currency}
+                                        {currencies[key]} {currency.currency}
                                     </button>
                                 );
                             })}

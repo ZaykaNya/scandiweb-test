@@ -71,7 +71,7 @@ class Product extends React.Component {
                             {this.props.product.brand} {this.props.product.name}
                         </p>
                         <p className="product-price" style={this.props.outOfStock ? {color: "#8D8F9A"} : {}}>
-                            {this.props.product.prices[this.context.currencyIndex].amount} {this.props.product.prices[this.context.currencyIndex].currency}
+                            {this.context.currencyIcon} {this.props.product.prices[this.context.currencyIndex].amount}
                         </p>
                         {!this.props.product.inStock &&
                         <div className="out-of-stock"/>

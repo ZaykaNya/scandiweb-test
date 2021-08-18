@@ -18,6 +18,7 @@ class DefaultLayout extends React.Component {
             currencyIndex: 0,
             currentProduct: {},
             total: 0,
+            currencyIcon: "$",
             order: {},
             handleChangeCategory: (category, i) => this.handleChangeCategory(category, i),
             handleChangeCurrency: currencyIndex => this.handleChangeCurrency(currencyIndex),
@@ -69,6 +70,33 @@ class DefaultLayout extends React.Component {
             ...prev,
             currencyIndex: currencyIndex,
         }));
+
+        if (currencyIndex === 0) {
+            this.setState(prev => ({
+                ...prev,
+                currencyIcon: "$"
+            }));
+        } else if (currencyIndex === 1) {
+            this.setState(prev => ({
+                ...prev,
+                currencyIcon: "£"
+            }));
+        } else if (currencyIndex === 2) {
+            this.setState(prev => ({
+                ...prev,
+                currencyIcon: "A$"
+            }));
+        } else if (currencyIndex === 3) {
+            this.setState(prev => ({
+                ...prev,
+                currencyIcon: "¥"
+            }));
+        } else if (currencyIndex === 4) {
+            this.setState(prev => ({
+                ...prev,
+                currencyIcon: "₽"
+            }));
+        }
 
         if (Object.keys(this.state.order).length > 0) {
             this.handleChangeOrder({}, 0, true, currencyIndex)

@@ -114,7 +114,7 @@ class Size extends React.Component {
                 className={!this.props.modal ? "size-container" : "size-container-modal"}
                 onClick={() => this.handleChangeAttributes()}
             >
-                {this.props.size}
+                {this.props.value}
             </button>
         );
     }

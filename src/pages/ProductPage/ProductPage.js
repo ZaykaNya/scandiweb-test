@@ -102,7 +102,6 @@ class ProductPage extends React.Component {
         }))
     }
 
-
     render() {
         return (
             <div className="cart-container">
@@ -131,7 +130,7 @@ class ProductPage extends React.Component {
                         {this.state.product.attributes && this.state.product.attributes.map((attribute, i) => {
                             return (
                                 <React.Fragment key={i}>
-                                    <p className="size-text">{attribute.name}:</p>
+                                    <p className="size-text">{attribute.name.toUpperCase()}:</p>
                                     <div className="sizes">
                                         {attribute.items.map((item, key) => {
                                             return (
@@ -160,13 +159,13 @@ class ProductPage extends React.Component {
                         <p className="cart-price">PRICE:</p>
                         {this.state.product.prices &&
                         <p className="price">
-                            {this.state.product.prices[this.context.currencyIndex].amount} {this.state.product.prices[this.context.currencyIndex].currency}
+                            {this.context.currencyIcon} {this.state.product.prices[this.context.currencyIndex].amount}
                         </p>
                         }
                     </div>
                     <button
                         disabled={!this.state.product.inStock}
-                        className={this.state.product.inStock ? "add-button" : "add-button-disabled"}
+                        className="add-button"
                         onClick={() => this.handleChangeOrder()}
                     >
                         ADD TO CART

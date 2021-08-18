@@ -37,9 +37,6 @@ class CategoryPage extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        console.log(this)
-    }
 
     request() {
         client.setEndpoint("http://localhost:4000/");
