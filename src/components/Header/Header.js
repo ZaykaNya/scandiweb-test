@@ -140,9 +140,16 @@ class Header extends React.Component {
                         <button id="btn1" onClick={() => this.handleOpenCurrency()} className="header-button">
                             <img alt="" src={priceIcon}/>
                         </button>
-                        <button id="btn2" onClick={() => this.handleOpenCart()} className="header-button">
-                            <img alt="" src={cartIcon}/>
-                        </button>
+                        <div className="header-cart-button-container">
+                            <button id="btn2" onClick={() => this.handleOpenCart()} className="header-button">
+                                {this.context.order.products && this.context.order.products.length > 0 &&
+                                <div className="header-cart-amount">
+                                    {this.context.order.products.length}
+                                </div>
+                                }
+                                <img alt="" src={cartIcon}/>
+                            </button>
+                        </div>
                     </div>
                     {this.state.cartOpen &&
                     <div id="header-cart">

@@ -64,12 +64,34 @@
     z-index: 200;
 }
 
+.header-cart-button-container {
+    position: relative;
+}
+
+.header-cart-amount {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    padding-top: 2px;
+    top: -8px;
+    right: -6px;
+    border-radius: 10px;
+    background: #1D1F22;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+}
+
 #header-cart {
     position: absolute;
     display: flex;
     flex-direction: column;
     width: 325px;
-    max-height: 570px;
+    max-height: 575px;
     overflow: auto;
     right: 0;
     top: 80px;

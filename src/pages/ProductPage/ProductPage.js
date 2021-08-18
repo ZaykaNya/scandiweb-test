@@ -165,7 +165,7 @@ class ProductPage extends React.Component {
                     </div>
                     <button
                         disabled={!this.state.product.inStock}
-                        className="add-button"
+                        className={this.state.product.inStock ? "add-button" : "add-button disabled"}
                         onClick={() => this.handleChangeOrder()}
                     >
                         ADD TO CART

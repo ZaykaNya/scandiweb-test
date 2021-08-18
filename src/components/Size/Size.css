@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     background: white;
-    min-width: 63px;
+    width: clamp(63px, 63px, 100px);
     min-height: 45px;
     border: 1px solid #1D1F22;
     font-family: 'Source Sans Pro', sans-serif;

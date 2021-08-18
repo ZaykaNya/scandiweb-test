@@ -75,13 +75,14 @@ class CartProduct extends React.Component {
                         <p className={!this.props.modal ? "cart-product-name-2" : "cart-product-name-modal"}>
                             {this.props.cartProduct.name}
                         </p>
-                    </div>
-                    <p className={!this.props.modal ? "cart-product-price" : "cart-product-price-modal"}>
-                        {this.context.currencyIcon}
-                        &nbsp;
-                        {(this.props.cartProduct.prices[this.props.index].amount * this.props.amount).toFixed(2)}
+                        <p className={!this.props.modal ? "cart-product-price" : "cart-product-price-modal"}>
+                            {this.context.currencyIcon}
+                            &nbsp;
+                            {(this.props.cartProduct.prices[this.props.index].amount * this.props.amount).toFixed(2)}
 
-                    </p>
+                        </p>
+                    </div>
+
                     {this.props.cartProduct.attributes.map((attribute, i) => {
                         return (
                             <div key={i}
