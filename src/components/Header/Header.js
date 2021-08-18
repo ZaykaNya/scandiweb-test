@@ -59,7 +59,6 @@ class Header extends React.Component {
         } else {
             document.body.style.overflow = "visible";
         }
-        // this.handleGetPrice(this.context.total)
 
     }
 
@@ -122,7 +121,8 @@ class Header extends React.Component {
                                     to={`/categories/${category.name}`}
                                     key={key}
                                     className={(document.URL.split("/").slice(-1).join("") === category.name
-                                        || document.URL.split("/").slice(-2, -1).join("") === category.name)
+                                        || document.URL.split("/").slice(-2, -1).join("") === category.name
+                                        || category.name === this.context.categories)
                                         ? "header-category header-category-active" : "header-category"}
                                     onClick={() => this.handleChangeCategory(category.name, key)}
                                 >

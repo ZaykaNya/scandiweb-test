@@ -159,9 +159,13 @@
     line-height: 1.2em;
 }
 
+.disabled {
+    opacity: 0.5 !important;
+}
+
 .disabled:hover {
     cursor: default !important;
-    opacity: 1 !important;
+    opacity: 0.5 !important;
 }
 
 .add-button:hover {

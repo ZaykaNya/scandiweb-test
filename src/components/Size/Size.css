@@ -18,6 +18,7 @@
     align-items: center;
     background: white;
     min-width: 24px;
+    max-width: 43px;
     min-height: 24px;
     border: 1px solid #1D1F22;
     font-family: 'Source Sans Pro', sans-serif;

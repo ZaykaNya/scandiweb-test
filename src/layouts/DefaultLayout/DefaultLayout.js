@@ -13,7 +13,7 @@ class DefaultLayout extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            categories: "",
+            categories: "clothes",
             index: 0,
             currencyIndex: 0,
             currentProduct: {},
@@ -125,7 +125,6 @@ class DefaultLayout extends React.Component {
                         total: 0
                     }
                 } else if (this.state.order.products.filter(orderProduct => orderProduct.product.id === product.product.id).length > 0) {
-                    console.log(index)
                     const orderProducts = [...this.state.order.products];
                     orderProducts.splice(index, 1, product);
                     order = {
@@ -155,7 +154,7 @@ class DefaultLayout extends React.Component {
 
         order.total = total.toFixed(2);
 
-        console.log(order);
+        console.log(order)
 
         this.setState(prev => ({
             ...prev,
@@ -167,6 +166,10 @@ class DefaultLayout extends React.Component {
     handleMakeOrder() {
         console.log(`You bought, ${this.state.order.products.length} items`);
         console.log(this.state.order);
+        this.setState(prev => ({
+            ...prev,
+            order: {}
+        }));
     }
 
     handleChangeTotal(price) {
