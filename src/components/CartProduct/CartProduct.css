@@ -16,6 +16,7 @@
     font-weight: 600;
     font-size: 30px;
     margin: 0 0 16px 0;
+    color: #1D1F22;
 }
 
 .cart-product-name-modal {
@@ -25,6 +26,7 @@
     padding: 0;
     margin: 0;
     line-height: 1.6em;
+    color: #1D1F22;
 }
 
 .cart-product-name-2 {
@@ -32,6 +34,7 @@
     font-weight: 400;
     font-size: 30px;
     margin: 0 0 12px 0;
+    color: #1D1F22;
 }
 
 .cart-product-price {
@@ -39,6 +42,7 @@
     font-weight: bold;
     margin: 12px 0;
     font-size: 24px;
+    color: #1D1F22;
 }
 
 .cart-product-price-modal {
@@ -47,6 +51,7 @@
     font-size: 16px;
     margin: 5px 0;
     line-height: 1.6em;
+    color: #1D1F22;
 }
 
 .cart-product-left-side-modal {
@@ -91,6 +96,7 @@
     font-family: 'Raleway', sans-serif;
     font-weight: 500;
     font-size: 24px;
+    color: #1D1F22;
 }
 
 .cart-product-count-modal {
@@ -98,6 +104,7 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 1.6em;
+    color: #1D1F22;
 }
 
 .cart-product-button {

@@ -93,6 +93,7 @@
     font-weight: 600;
     font-size: 30px;
     margin: 0 0 16px 0;
+    color: #1D1F22;
 }
 
 .cart-name-2 {
@@ -100,6 +101,7 @@
     font-weight: 400;
     font-size: 30px;
     margin: 0 0 43px 0;
+    color: #1D1F22;
 }
 
 .size-text {
@@ -107,6 +109,7 @@
     font-weight: 700;
     font-size: 18px;
     margin: 0 0 8px 0;
+    color: #1D1F22;
 }
 
 .sizes {
@@ -132,6 +135,7 @@
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 700;
     font-size: 18px;
+    color: #1D1F22;
     margin: 0 0 10px 0;
 }
 
@@ -139,6 +143,7 @@
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
     font-size: 24px;
+    color: #1D1F22;
     margin: 0 0 20px 0;
 }
 
@@ -183,6 +188,7 @@
 }
 
 .description > * {
+    color: #1D1F22;
     font-family: 'Roboto', sans-serif;
     line-height: 1.6em;
 }
