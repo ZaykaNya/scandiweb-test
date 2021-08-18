@@ -9,6 +9,7 @@
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 400;
     font-size: 18px;
+    color: #1D1F22;
 }
 
 .size-container-modal {
@@ -25,6 +26,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 1.6em;
+    color: #1D1F22;
 }
 
 .size-container:hover,

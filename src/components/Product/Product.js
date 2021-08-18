@@ -31,7 +31,7 @@ class Product extends React.Component {
         let index = 0;
 
         this.context.order.products && this.context.order.products.forEach((product, key) => {
-            if(product.product.id === orderProduct.product.id) {
+            if (product.product.id === orderProduct.product.id) {
                 index = key;
             }
         })
@@ -50,9 +50,10 @@ class Product extends React.Component {
                     <div className="product-image">
                         <img alt="" src={this.props.product.gallery[0]} className="product-img"/>
                         {!this.props.product.inStock &&
-                        <div className="out-of-stock">
+                        <React.Fragment>
+                            <div className="out-of-stock"/>
                             <p className="out-of-stock-title">OUT OF STOCK</p>
-                        </div>
+                        </React.Fragment>
                         }
                         {this.props.product.inStock &&
                         <button
