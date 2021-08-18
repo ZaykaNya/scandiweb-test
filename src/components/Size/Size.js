@@ -9,7 +9,6 @@ class Size extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.attr);
         if (this.props.active) {
             this.setState({
                 styles: {
@@ -46,7 +45,6 @@ class Size extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-
         if (this.props.active !== prevProps.active) {
             if (this.props.active) {
                 if (this.props.attr.type === "swatch") {

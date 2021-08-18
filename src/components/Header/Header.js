@@ -15,6 +15,7 @@ class Header extends React.Component {
         this.state = {
             categories: [],
             currencies: [],
+            allCurrencies: ["$", "£", "A$", "¥", "₽"],
             currencyOpen: false,
             cartOpen: false,
             total: 0,
@@ -199,14 +200,13 @@ class Header extends React.Component {
                     <div id="header-currency">
                         <div className="header-currency-container">
                             {this.state.currencies.map((currency, key) => {
-                                let currencies = ["$", "£", "A$", "¥", "₽"]
                                 return (
                                     <button
                                         className="header-currency-button"
                                         key={key}
                                         onClick={() => this.handleChangeCurrency(key)}
                                     >
-                                        {currencies[key]} {currency.currency}
+                                        {this.state.allCurrencies[key]} {currency.currency}
                                     </button>
                                 );
                             })}

@@ -14,7 +14,6 @@ class Product extends React.Component {
     static contextType = AuthContext;
 
     handleAddToCart(product) {
-        console.log(product);
         const attributes = product.attributes.map(attribute => {
             return ({
                 name: attribute.name,
