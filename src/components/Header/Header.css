@@ -44,14 +44,26 @@
 }
 
 .header-button {
+    display: flex;
+    align-items: center;
     background: transparent;
     border: none;
     outline: none;
+    font-family: 'Raleway', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.6em;
+    gap: 8px;
 }
 
 .header-button:hover {
     opacity: .7;
     cursor: pointer;
+}
+
+.header-currency-image {
+    display: flex;
+    margin-top: 4px;
 }
 
 .header-cart-container {
@@ -61,6 +73,15 @@
     height: calc(100vh - 78px);
     width: 100%;
     background: rgba(57, 55, 72, 0.22);
+    z-index: 200;
+}
+
+.header-cart-container-currency {
+    position: absolute;
+    left: 0;
+    top: 80px;
+    height: calc(100vh - 78px);
+    width: 100%;
     z-index: 200;
 }
 
@@ -194,6 +215,7 @@
     top: 50px;
     right: -10px;
     box-shadow: 0 4px 35px 0 #A8ACB030;
+    z-index: 1000;
 }
 
 .header-currency-container {

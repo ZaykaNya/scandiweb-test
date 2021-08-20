@@ -9,6 +9,7 @@ class ProductPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {product: {}, chosenImage: "", orderProduct: {}}
+
     }
 
     static contextType = AuthContext;
@@ -30,6 +31,8 @@ class ProductPage extends React.Component {
                     id: attribute.items[0].id,
                 });
             });
+
+            console.log(product[0]);
 
             this.setState(prev => ({
                 ...prev,
@@ -61,7 +64,7 @@ class ProductPage extends React.Component {
             let index = 0;
 
             this.context.order.products && this.context.order.products.forEach((product, key) => {
-                if(product.product.id === this.state.orderProduct.product.id) {
+                if (product.product.id === this.state.orderProduct.product.id) {
                     index = key;
                 }
             })
@@ -116,9 +119,15 @@ class ProductPage extends React.Component {
                         );
                     })}
                 </ul>
-                <div className="test">
+                <div className="chosen-image-container">
                     <div className="chosen-image">
                         <img alt="" src={this.state.chosenImage} className="chosen-img"/>
+                        {!this.state.product.inStock &&
+                        <React.Fragment>
+                            <div className="out-of-stock"/>
+                            <p className="out-of-stock-title">OUT OF STOCK</p>
+                        </React.Fragment>
+                        }
                     </div>
                 </div>
                 <div className="cart-info">

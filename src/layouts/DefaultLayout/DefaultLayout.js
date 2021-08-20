@@ -122,37 +122,45 @@ class DefaultLayout extends React.Component {
                     orderProducts.splice(index, 1);
                     order = {
                         products: [...orderProducts],
-                        total: 0
+                        total: 0,
+                        totalAmount: 0
                     }
                 } else if (this.state.order.products.filter(orderProduct => orderProduct.product.id === product.product.id).length > 0) {
                     const orderProducts = [...this.state.order.products];
                     orderProducts.splice(index, 1, product);
                     order = {
                         products: [...orderProducts],
-                        total: 0
+                        total: 0,
+                        totalAmount: 0
                     }
                 } else {
                     order = {
                         products: [...order.products, {
                             ...product
                         }],
-                        total: 0
+                        total: 0,
+                        totalAmount: 0
                     }
                 }
             } else {
                 order = {
                     products: [{...product}],
                     total: 0,
+                    totalAmount: 0
                 }
             }
         }
 
         let total = 0;
+        let totalAmount = 0;
         order.products.forEach(product => {
             total += product.amount * product.product.prices[currencyIndex].amount;
+            totalAmount += product.amount;
         });
 
         order.total = total.toFixed(2);
+        order.totalAmount = totalAmount;
+
 
         this.setState(prev => ({
             ...prev,
@@ -162,12 +170,14 @@ class DefaultLayout extends React.Component {
     }
 
     handleMakeOrder() {
-        console.log(`You bought, ${this.state.order.products.length} items`);
-        console.log(this.state.order);
-        this.setState(prev => ({
-            ...prev,
-            order: {}
-        }));
+        if(this.state.order.products) {
+            console.log(`You bought, ${this.state.order.products.length} items`);
+            console.log(this.state.order);
+            this.setState(prev => ({
+                ...prev,
+                order: {}
+            }));
+        }
     }
 
     handleChangeTotal(price) {

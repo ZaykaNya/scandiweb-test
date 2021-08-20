@@ -2,16 +2,18 @@ import "./Header.css";
 import React from 'react';
 import brandIcon from "../../images/brandIcon.svg";
 import cartIcon from "../../images/cart.svg";
-import priceIcon from "../../images/price.svg";
+import open from "../../images/open.svg";
 import {client, Field, Query} from "@tilework/opus";
 import CartProduct from "../CartProduct/CartProduct";
 import AuthContext from "../../context/AuthProvider";
 import {Link} from "react-router-dom";
+import {PureComponent} from "react/cjs/react.production.min";
 
-class Header extends React.Component {
+class Header extends PureComponent {
 
     constructor(props) {
         super(props);
+
         this.state = {
             categories: [],
             currencies: [],
@@ -33,6 +35,11 @@ class Header extends React.Component {
             }))
         });
 
+        document.onclick = event => {
+            if (event.target.id === "closeCart" || event.target.id === "closeCurrency") {
+                this.handleCloseCartAndCurrency()
+            }
+        }
     }
 
     request() {
@@ -60,7 +67,6 @@ class Header extends React.Component {
         } else {
             document.body.style.overflow = "visible";
         }
-
     }
 
     handleOpenCurrency() {
@@ -112,6 +118,7 @@ class Header extends React.Component {
     }
 
     render() {
+
         return (
             <React.Fragment>
                 <div className="header-container">
@@ -139,13 +146,14 @@ class Header extends React.Component {
                     </div>
                     <div className="header-icons">
                         <button id="btn1" onClick={() => this.handleOpenCurrency()} className="header-button">
-                            <img alt="" src={priceIcon}/>
+                            {this.state.allCurrencies[this.context.currencyIndex]}
+                            <img className="header-currency-image" alt="" src={open}/>
                         </button>
                         <div className="header-cart-button-container">
                             <button id="btn2" onClick={() => this.handleOpenCart()} className="header-button">
-                                {this.context.order.products && this.context.order.products.length > 0 &&
+                                {this.context.order.totalAmount > 0 && this.context.order.products.length > 0 &&
                                 <div className="header-cart-amount">
-                                    {this.context.order.products.length}
+                                    {this.context.order.totalAmount}
                                 </div>
                                 }
                                 <img alt="" src={cartIcon}/>
@@ -182,7 +190,7 @@ class Header extends React.Component {
                             <p className="cart-total-price-amount">{this.context.currencyIcon} {this.context.order.total}</p>
                         </div>
                         <div className="cart-buttons-container">
-                            <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag"
+                            <Link onClick={() => this.handleOpenCurrency()} className="button-view-bag"
                                   to={`/cart`}
                             >
                                 VIEW BAG
@@ -215,7 +223,10 @@ class Header extends React.Component {
                     }
                 </div>
                 {this.state.cartOpen &&
-                <div className="header-cart-container"/>
+                <div id="closeCart" className="header-cart-container"/>
+                }
+                {this.state.currencyOpen &&
+                <div id="closeCurrency" className="header-cart-container-currency"/>
                 }
             </React.Fragment>
         );

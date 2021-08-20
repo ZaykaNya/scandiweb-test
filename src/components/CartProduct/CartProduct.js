@@ -132,7 +132,7 @@ class CartProduct extends React.Component {
                             <img alt="" src={this.props.cartProduct.gallery[this.state.imageIndex]}
                                  className="cart-product-img"/>
                         </div>
-                        {!this.props.modal &&
+                        {(!this.props.modal && this.props.cartProduct.gallery.length > 1) &&
                         <React.Fragment>
                             <button onClick={() => this.handleChangeImage(-1)} className="cart-product-left-slide">
                                 <img alt="" src={chevronLeft}/>
