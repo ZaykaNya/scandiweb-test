@@ -190,7 +190,7 @@ class Header extends PureComponent {
                             <p className="cart-total-price-amount">{this.context.currencyIcon} {this.context.order.total}</p>
                         </div>
                         <div className="cart-buttons-container">
-                            <Link onClick={() => this.handleOpenCurrency()} className="button-view-bag"
+                            <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag"
                                   to={`/cart`}
                             >
                                 VIEW BAG

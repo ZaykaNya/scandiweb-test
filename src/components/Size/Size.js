@@ -1,7 +1,7 @@
 import "./Size.css";
-import React from "react";
+import React, {PureComponent} from "react";
 
-class Size extends React.Component {
+class Size extends PureComponent {
 
     constructor(props) {
         super(props);

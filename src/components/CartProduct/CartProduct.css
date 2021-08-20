@@ -60,12 +60,21 @@
     justify-content: space-between;
 }
 
+.size-text-modal {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 0;
+    margin: 4px 0 2px;
+    line-height: 1.2em;
+}
+
 .cart-product-sizes {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
 }
 
 .cart-product-sizes:last-child {

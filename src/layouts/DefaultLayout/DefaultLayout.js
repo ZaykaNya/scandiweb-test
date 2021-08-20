@@ -1,5 +1,5 @@
 import "./DefaultLayout.css";
-import React from "react";
+import React, {PureComponent} from "react";
 import Header from "../../components/Header/Header";
 import CategoryPage from "../../pages/CategoryPage/CategoryPage";
 import CartPage from "../../pages/CartPage/CartPage";
@@ -8,7 +8,7 @@ import {Query, client} from '@tilework/opus';
 import {AuthProvider} from "../../context/AuthProvider";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 
-class DefaultLayout extends React.Component {
+class DefaultLayout extends PureComponent {
 
     constructor(props) {
         super(props);

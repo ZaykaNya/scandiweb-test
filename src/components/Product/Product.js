@@ -1,10 +1,10 @@
 import "./Product.css"
-import React from "react";
+import React, {PureComponent} from "react";
 import cartIcon from "../../images/whiteCart.svg";
 import AuthContext from "../../context/AuthProvider";
 import {Link} from "react-router-dom";
 
-class Product extends React.Component {
+class Product extends PureComponent {
 
     constructor(props) {
         super(props);

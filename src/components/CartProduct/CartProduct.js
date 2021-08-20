@@ -1,5 +1,5 @@
 import "./CartProduct.css";
-import React from "react";
+import React, {PureComponent} from "react";
 import Size from "../Size/Size";
 import AuthContext from "../../context/AuthProvider";
 import chevronRight from "../../images/chevronRight.svg"
@@ -9,7 +9,7 @@ import plusSquare from "../../images/plusSquare.svg"
 import minusSquareSmall from "../../images/minusSquareSmall.svg"
 import minusSquare from "../../images/minusSquare.svg"
 
-class CartProduct extends React.Component {
+class CartProduct extends PureComponent {
 
     constructor(props) {
         super(props);
@@ -85,27 +85,31 @@ class CartProduct extends React.Component {
 
                     {this.props.cartProduct.attributes.map((attribute, i) => {
                         return (
-                            <div key={i}
-                                 className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
-                                {attribute.items.map((item, key) => {
-                                    return (
-                                        <Size
-                                            key={key}
-                                            index={i}
-                                            i={key}
-                                            modal={this.props.modal}
-                                            size={item.displayValue}
-                                            id={item.id}
-                                            attr={attribute}
-                                            value={item.value}
-                                            name={attribute.name}
-                                            currentAtrributes={this.props.orderProduct.attributes}
-                                            active={item.id === this.props.orderProduct.attributes[i].id}
-                                            changeProduct={(attributes) => this.handleChangeProduct(attributes)}
-                                        />
-                                    );
-                                })}
-                            </div>
+                            <React.Fragment key={i}>
+                                <p className={!this.props.modal ? "size-text" : "size-text-modal"}>
+                                    {attribute.name.toUpperCase()}:
+                                </p>
+                                <div className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
+                                    {attribute.items.map((item, key) => {
+                                        return (
+                                            <Size
+                                                key={key}
+                                                index={i}
+                                                i={key}
+                                                modal={this.props.modal}
+                                                size={item.displayValue}
+                                                id={item.id}
+                                                attr={attribute}
+                                                value={item.value}
+                                                name={attribute.name}
+                                                currentAtrributes={this.props.orderProduct.attributes}
+                                                active={item.id === this.props.orderProduct.attributes[i].id}
+                                                changeProduct={(attributes) => this.handleChangeProduct(attributes)}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            </React.Fragment>
                         )
                     })}
                 </div>

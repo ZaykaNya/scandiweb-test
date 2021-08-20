@@ -1,10 +1,10 @@
 import "./ProductPage.css"
-import React from "react";
+import React, {PureComponent} from "react";
 import Size from "../../components/Size/Size";
 import {client, Field, Query} from "@tilework/opus";
 import AuthContext from "../../context/AuthProvider";
 
-class ProductPage extends React.Component {
+class ProductPage extends PureComponent {
 
     constructor(props) {
         super(props);

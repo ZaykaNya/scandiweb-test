@@ -2,8 +2,9 @@ import "./CartPage.css";
 import React from "react";
 import CartProduct from "../../components/CartProduct/CartProduct";
 import AuthContext from "../../context/AuthProvider";
+import {PureComponent} from "react/cjs/react.production.min";
 
-class CartPage extends React.Component {
+class CartPage extends PureComponent {
 
     static contextType = AuthContext;
 
