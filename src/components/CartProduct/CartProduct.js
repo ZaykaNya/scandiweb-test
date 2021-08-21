@@ -179,7 +179,7 @@ class CartProduct extends PureComponent {
             }
         } = this.props;
 
-        if (modal && gallery.leading > 1) {
+        if (!modal && gallery.length > 1) {
             return (
                 <React.Fragment>
                     <button onClick={() => this.handleChangeImage(-1)} className="cart-product-left-slide">
