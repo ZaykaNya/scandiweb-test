@@ -117,6 +117,16 @@ class ProductPage extends PureComponent {
         }))
     }
 
+    renderImage(img, key) {
+        return (
+            <li key={key} className="cart-image">
+                <button className="cart-image-button" onClick={() => this.handleChangeImage(img)}>
+                    <img alt="" src={img} className="cart-img"/>
+                </button>
+            </li>
+        );
+    }
+
     renderGallery() {
         const {
             product: {
@@ -124,19 +134,14 @@ class ProductPage extends PureComponent {
             }
         } = this.state;
 
-        return (
-            <ul className="cart-images">
-                {gallery && gallery.map((img, key) => {
-                    return (
-                        <li key={key} className="cart-image">
-                            <button className="cart-image-button" onClick={() => this.handleChangeImage(img)}>
-                                <img alt="" src={img} className="cart-img"/>
-                            </button>
-                        </li>
-                    );
-                })}
-            </ul>
-        );
+        if (gallery) {
+            return (
+                <ul className="cart-images">
+                    {gallery.map((img, key) => this.renderImage(img, key))}
+                </ul>
+            );
+        }
+
     }
 
     renderInStock() {

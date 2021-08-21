@@ -8,36 +8,41 @@ class CartPage extends PureComponent {
 
     static contextType = AuthContext;
 
+    renderProduct(orderProduct, key) {
+        const {
+            currencyIndex
+        } = this.context;
+
+        const {
+            product,
+            amount,
+            attributes
+        } = orderProduct;
+
+        return (
+            <CartProduct
+                orderProduct={orderProduct}
+                cartProduct={product}
+                index={currencyIndex}
+                amount={amount}
+                currentAtrributes={attributes}
+                cartIndex={key}
+                key={key}
+            />
+        );
+    }
+
     renderProducts() {
         const {
             order: {
                 products
-            },
-            currencyIndex
+            }
         } = this.context;
 
         if (products) {
             return (
                 <React.Fragment>
-                    {products.map((orderProduct, key) => {
-                        const {
-                            product,
-                            amount,
-                            attributes
-                        } = orderProduct;
-
-                        return (
-                            <CartProduct
-                                orderProduct={orderProduct}
-                                cartProduct={product}
-                                index={currencyIndex}
-                                amount={amount}
-                                currentAtrributes={attributes}
-                                cartIndex={key}
-                                key={key}
-                            />
-                        );
-                    })}
+                    {products.map((orderProduct, key) => this.renderProduct(orderProduct, key))}
                 </React.Fragment>
             );
         }

@@ -41,7 +41,7 @@ class DefaultLayout extends PureComponent {
             this.handleChangeIndex(1);
             curI = 1;
         }
-        console.log(index);
+
         this.request().then(response => {
             const {
                 categories
@@ -49,7 +49,7 @@ class DefaultLayout extends PureComponent {
             this.setState(prev => ({
                 ...prev,
                 categories: categories[curI].name,
-                index: index
+                index: curI
             }))
         });
     }

@@ -142,6 +142,31 @@ class Header extends PureComponent {
         handleChangeCategory(name, index)
     }
 
+    renderCategory(category, key) {
+        const {
+            name
+        } = category;
+
+        // console.log(document.URL.split("/").slice(-1).join(""), name)
+        // console.log(this.context.index)
+
+
+        return (
+            <Link
+                to={`/categories/${name}`}
+                key={key}
+                className={
+                    (document.URL.split("/").slice(-1).join("") === name
+                        || document.URL.split("/").slice(-2, -1).join("") === name
+                        || name === this.context.categories)
+                        ? "header-category header-category-active" : "header-category"}
+                onClick={() => this.handleChangeCategory(name, key)}
+            >
+                {name.toUpperCase()}
+            </Link>
+        );
+    }
+
     renderCategories() {
         const {
             categories,
@@ -150,26 +175,7 @@ class Header extends PureComponent {
         if (categories) {
             return (
                 <div className="header-nav">
-                    {categories.map((category, key) => {
-                        const {
-                            name
-                        } = category;
-
-                        return (
-                            <Link
-                                to={`/categories/${name}`}
-                                key={key}
-                                className={
-                                    (document.URL.split("/").slice(-1).join("") === name
-                                    || document.URL.split("/").slice(-2, -1).join("") === name
-                                    || name === this.context.categories)
-                                    ? "header-category header-category-active" : "header-category"}
-                                onClick={() => this.handleChangeCategory(name, key)}
-                            >
-                                {name.toUpperCase()}
-                            </Link>
-                        );
-                    })}
+                    {categories.map((category, key) => this.renderCategory(category, key))}
                 </div>
             );
         }
@@ -194,7 +200,6 @@ class Header extends PureComponent {
                 </React.Fragment>
             );
         }
-
     }
 
     renderCartProducts() {
@@ -293,25 +298,29 @@ class Header extends PureComponent {
         }
     }
 
+    renderCurrency(currency, key) {
+        const {
+            allCurrencies
+        } = this.state;
+        return (
+            <button
+                className="header-currency-button"
+                key={key}
+                onClick={() => this.handleChangeCurrency(key)}
+            >
+                {allCurrencies[key]} {currency.currency}
+            </button>
+        );
+    }
+
     renderCurrencies() {
         const {
             currencies,
-            allCurrencies
         } = this.state;
 
         return (
             <div className="header-currency-container">
-                {currencies.map((currency, key) => {
-                    return (
-                        <button
-                            className="header-currency-button"
-                            key={key}
-                            onClick={() => this.handleChangeCurrency(key)}
-                        >
-                            {allCurrencies[key]} {currency.currency}
-                        </button>
-                    );
-                })}
+                {currencies.map((currency, key) => this.renderCurrency(currency, key))}
             </div>
         );
     }

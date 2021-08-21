@@ -69,6 +69,15 @@ class CategoryPage extends PureComponent {
         return client.post(categoriesQuery);
     }
 
+    renderProduct(product) {
+        return (
+            <Product
+                key={product.id}
+                product={product}
+            />
+        );
+    }
+
     renderProducts() {
         const {
             products
@@ -76,14 +85,7 @@ class CategoryPage extends PureComponent {
 
         return (
             <ul className="products">
-                {products.map(product => {
-                    return (
-                        <Product
-                            key={product.id}
-                            product={product}
-                        />
-                    );
-                })}
+                {products.map(this.renderProduct)}
             </ul>
         );
     }

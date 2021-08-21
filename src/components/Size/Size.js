@@ -23,7 +23,7 @@ class Size extends PureComponent {
                 className += " size-color"
             }
         } else {
-            if(active) {
+            if (active) {
                 className += " size-text-active"
             }
         }
@@ -41,10 +41,10 @@ class Size extends PureComponent {
             changeProduct
         } = this.props
 
-        let attributes = [...currentAttributes];
+        const attributes = [...currentAttributes];
 
         if (attributes.filter(attribute => attribute.name === name).length > 0) {
-            let attribute = {
+            const attribute = {
                 name: name,
                 id: id
             }
@@ -67,7 +67,7 @@ class Size extends PureComponent {
             }
         } = this.props;
 
-        let className = this.handleSetClassname();
+        const className = this.handleSetClassname();
 
         return (
             <button
