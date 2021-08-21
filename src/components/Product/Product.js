@@ -15,6 +15,13 @@ class Product extends PureComponent {
     static contextType = AuthContext;
 
     handleAddToCart(product) {
+        const {
+            order: {
+                products
+            },
+            handleChangeOrder
+        } = this.context;
+
         const attributes = product.attributes.map(attribute => {
             return ({
                 name: attribute.name,
@@ -30,54 +37,97 @@ class Product extends PureComponent {
 
         let index = 0;
 
-        this.context.order.products && this.context.order.products.forEach((product, key) => {
+        products && products.forEach((product, key) => {
             if (compareArrays(product.attributes, orderProduct.attributes)) {
                 index = key;
             }
         })
 
-        this.context.handleChangeOrder(orderProduct, index);
+        handleChangeOrder(orderProduct, index);
+    }
+
+    renderOutOfStockButton() {
+        const {
+            product,
+            product: {
+                inStock,
+            }
+        } = this.props;
+
+        if (!inStock) {
+            return (
+                <React.Fragment>
+                    <div className="out-of-stock"/>
+                    <p className="out-of-stock-title">OUT OF STOCK</p>
+                </React.Fragment>
+            );
+        } else {
+            return (
+                <button
+                    className="product-cart-image"
+                    onClick={e => {
+                        e.preventDefault();
+                        this.handleAddToCart(product);
+                        return false
+                    }}
+                >
+                    <img alt="" src={cartIcon}/>
+                </button>
+            );
+        }
+    }
+
+    renderOutOfStockImage() {
+        const {
+            product: {
+                inStock,
+            }
+        } = this.props;
+
+        if (!inStock) {
+            return (
+                <div className="out-of-stock"/>
+            );
+        }
     }
 
     render() {
+        const {
+            categories,
+            currencyIndex,
+            currencyIcon,
+            handleChangeCurrentProduct
+        } = this.context;
+
+        const {
+            product: {
+                id,
+                gallery,
+                brand,
+                name,
+                prices,
+            }
+        } = this.props;
+
         return (
             <li className="product">
                 <Link
-                    to={`/categories/${this.context.categories}/${this.props.product.id}`}
+                    to={`/categories/${categories}/${id}`}
                     className="product-a"
-                    onClick={() => this.context.handleChangeCurrentProduct(this.props.product.id)}
+                    onClick={() => handleChangeCurrentProduct(id)}
                 >
                     <div className="product-image">
-                        <img alt="" src={this.props.product.gallery[0]} className="product-img"/>
-                        {!this.props.product.inStock &&
-                        <React.Fragment>
-                            <div className="out-of-stock"/>
-                            <p className="out-of-stock-title">OUT OF STOCK</p>
-                        </React.Fragment>
-                        }
-                        {this.props.product.inStock &&
-                        <button
-                            className="product-cart-image"
-                            onClick={e => {
-                                e.preventDefault();
-                                this.handleAddToCart(this.props.product);
-                                return false
-                            }}
-                        >
-                            <img alt="" src={cartIcon}/>
-                        </button>
-                        }
+                        <img alt="" src={gallery[0]} className="product-img"/>
+                        {this.renderOutOfStockButton()}
                     </div>
                     <div className="product-info">
                         <p className="product-name">
-                            {this.props.product.brand} {this.props.product.name}
+                            {brand} {name}
                         </p>
                         <p className="product-price">
-                            {this.context.currencyIcon} {this.props.product.prices[this.context.currencyIndex].amount}
+                            {currencyIcon} {prices[currencyIndex].amount}
                         </p>
-                        {!this.props.product.inStock &&
-                        <div className="out-of-stock"/>
-                        }
+                        {this.renderOutOfStockImage()}
                     </div>
                 </Link>
             </li>
