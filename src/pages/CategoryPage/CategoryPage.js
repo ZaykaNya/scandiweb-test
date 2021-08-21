@@ -14,29 +14,33 @@ class CategoryPage extends PureComponent {
     static contextType = AuthContext;
 
     componentDidMount() {
-        this.request().then(response => {
-            this.setState(prev => ({
-                ...prev,
-                categories: response.categories,
-                products: response.categories[this.context.index].products,
-                category: response.categories[this.context.index].name
-            }))
-        });
+        this.handleRequest();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.index !== this.context.index) {
-            this.request().then(response => {
-                this.setState(prev => ({
-                    ...prev,
-                    categories: response.categories,
-                    products: response.categories[this.context.index].products,
-                    category: response.categories[this.context.index].name
-                }))
-            });
+            this.handleRequest();
         }
     }
 
+    handleRequest() {
+        const {
+            index
+        } = this.context;
+
+        this.request().then(response => {
+            const {
+                categories
+            } = response;
+
+            this.setState(prev => ({
+                ...prev,
+                categories: categories,
+                products: categories[index].products,
+                category: categories[index].name
+            }))
+        });
+    }
 
     request() {
         client.setEndpoint("http://localhost:4000/");
@@ -65,21 +69,34 @@ class CategoryPage extends PureComponent {
         return client.post(categoriesQuery);
     }
 
+    renderProducts() {
+        const {
+            products
+        } = this.state;
+
+        return (
+            <ul className="products">
+                {products.map(product => {
+                    return (
+                        <Product
+                            key={product.id}
+                            product={product}
+                        />
+                    );
+                })}
+            </ul>
+        );
+    }
 
     render() {
+        const {
+            category
+        } = this.state;
+
         return (
             <div className="category-container">
-                <h1 className="cart-container-title">{this.state.category.toUpperCase()}</h1>
-                <ul className="products">
-                    {this.state.products.map(product => {
-                        return (
-                            <Product
-                                key={product.id}
-                                product={product}
-                            />
-                        );
-                    })}
-                </ul>
+                <h1 className="cart-container-title">{category.toUpperCase()}</h1>
+                {this.renderProducts()}
             </div>
         );
     }
