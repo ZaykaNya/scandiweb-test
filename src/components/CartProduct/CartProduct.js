@@ -171,6 +171,28 @@ class CartProduct extends PureComponent {
         );
     }
 
+    renderImageArrows() {
+        const {
+            modal,
+            cartProduct : {
+                gallery
+            }
+        } = this.props;
+
+        if (modal && gallery.leading > 1) {
+            return (
+                <React.Fragment>
+                    <button onClick={() => this.handleChangeImage(-1)} className="cart-product-left-slide">
+                        <img alt="" src={chevronLeft}/>
+                    </button>
+                    <button onClick={() => this.handleChangeImage(1)} className="cart-product-right-slide">
+                        <img alt="" src={chevronRight}/>
+                    </button>
+                </React.Fragment>
+            );
+        }
+    }
+
     render() {
         const {
             currencyIcon
@@ -188,6 +210,8 @@ class CartProduct extends PureComponent {
             },
             orderProduct,
         } = this.props;
+
+        const {imageIndex} = this.state;
 
         return (
             <div className={!modal ? "cart-product-container" : "cart-product-container-modal"}>
@@ -227,19 +251,10 @@ class CartProduct extends PureComponent {
                         <div
                             className={!modal ? "cart-product-image-container" : "cart-product-image-container-modal"}
                         >
-                            <img alt="" src={gallery[this.state.imageIndex]}
+                            <img alt="" src={gallery[imageIndex]}
                                  className="cart-product-img"/>
                         </div>
-                        {(!modal && gallery.length > 1) &&
-                        <React.Fragment>
-                            <button onClick={() => this.handleChangeImage(-1)} className="cart-product-left-slide">
-                                <img alt="" src={chevronLeft}/>
-                            </button>
-                            <button onClick={() => this.handleChangeImage(1)} className="cart-product-right-slide">
-                                <img alt="" src={chevronRight}/>
-                            </button>
-                        </React.Fragment>
-                        }
+                        {this.renderImageArrows()}
                     </div>
                 </div>
             </div>
