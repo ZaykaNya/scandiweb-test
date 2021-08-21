@@ -18,43 +18,81 @@ class CartProduct extends PureComponent {
 
     static contextType = AuthContext;
 
+
     handleIncreaseAmount() {
+        const {
+            orderProduct: {
+                product,
+                attributes,
+                amount,
+            },
+            cartIndex
+        } = this.props;
+
+        const {handleChangeOrder} = this.context;
+
         const orderProduct = {
-            product: {...this.props.orderProduct.product},
-            attributes: [...this.props.orderProduct.attributes],
-            amount: this.props.orderProduct.amount + 1,
+            product: {...product},
+            attributes: [...attributes],
+            amount: amount + 1,
         }
 
-        this.context.handleChangeOrder(orderProduct, this.props.cartIndex)
+        handleChangeOrder(orderProduct, cartIndex)
     }
 
     handleDecreaseAmount() {
+        const {
+            orderProduct: {
+                product,
+                attributes,
+                amount,
+            },
+            cartIndex
+        } = this.props;
+
+        const {handleChangeOrder} = this.context;
+
         const orderProduct = {
-            product: {...this.props.orderProduct.product},
-            attributes: [...this.props.orderProduct.attributes],
-            amount: this.props.orderProduct.amount - 1,
+            product: {...product},
+            attributes: [...attributes],
+            amount: amount - 1,
         }
 
-        this.context.handleChangeOrder(orderProduct, this.props.cartIndex)
+        handleChangeOrder(orderProduct, cartIndex)
     }
 
     handleChangeProduct(attributes) {
+        const {
+            orderProduct: {
+                product,
+                amount,
+            },
+            cartIndex
+        } = this.props;
+
+        const {handleChangeOrder} = this.context;
 
         const orderProduct = {
-            product: {...this.props.orderProduct.product},
+            product: {...product},
             attributes: [...attributes],
-            amount: this.props.orderProduct.amount,
+            amount: amount,
         }
 
-        this.context.handleChangeOrder(orderProduct, this.props.cartIndex)
+        handleChangeOrder(orderProduct, cartIndex)
     }
 
     handleChangeImage(i) {
+        const {
+            orderProduct: {
+                gallery
+            }
+        } = this.props;
+
         let index = this.state.imageIndex;
         if (index + i < 0) {
-            index = this.props.cartProduct.gallery.length + i;
-        } else if (index + i > this.props.cartProduct.gallery.length - 1) {
-            index = index - this.props.cartProduct.gallery.length + i;
+            index = gallery.length + i;
+        } else if (index + i > gallery.length - 1) {
+            index = index - gallery.length + i;
         } else {
             index += i;
         }
@@ -64,79 +102,124 @@ class CartProduct extends PureComponent {
         }))
     }
 
-    render() {
+    renderAttributes() {
+        const {
+            modal,
+            cartProduct: {
+                attributes
+            }
+        } = this.props;
+
         return (
-            <div className={!this.props.modal ? "cart-product-container" : "cart-product-container-modal"}>
-                <div className={!this.props.modal ? "cart-product-left-side" : "cart-product-left-side-modal"}>
+            <React.Fragment>
+                {attributes.map((attribute, i) => {
+                    const {
+                        name,
+                        items
+                    } = attribute;
+                    return (
+                        <React.Fragment key={i}>
+                            <p className={!modal ? "size-text" : "size-text-modal"}>
+                                {name.toUpperCase()}:
+                            </p>
+                            <div className={!modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
+                                {items.map((item, key) => {
+                                    const {
+                                        id,
+                                        value,
+                                    } = item
+
+                                    const {
+                                        orderProduct: {
+                                            attributes
+                                        }
+                                    } = this.props;
+
+                                    return (
+                                        <Size
+                                            key={key}
+                                            index={i}
+                                            i={key}
+                                            modal={modal}
+                                            size={item.displayValue}
+                                            id={id}
+                                            attr={attribute}
+                                            value={value}
+                                            name={name}
+                                            currentAttributes={attributes}
+                                            active={id === attributes[i].id}
+                                            changeProduct={(attributes) => this.handleChangeProduct(attributes)}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        </React.Fragment>
+                    )
+                })
+                }
+            </React.Fragment>);
+    }
+
+    render() {
+        const {
+            currencyIcon
+        } = this.context;
+
+        const {
+            modal,
+            index,
+            amount,
+            cartProduct: {
+                brand,
+                name,
+                prices,
+                gallery,
+            },
+            orderProduct,
+        } = this.props;
+        return (
+            <div className={!modal ? "cart-product-container" : "cart-product-container-modal"}>
+                <div className={!modal ? "cart-product-left-side" : "cart-product-left-side-modal"}>
                     <div>
-                        <p className={!this.props.modal ? "cart-product-name-1" : "cart-product-name-modal"}>
-                            {this.props.cartProduct.brand}
+                        <p className={!modal ? "cart-product-name-1" : "cart-product-name-modal"}>
+                            {brand}
                         </p>
-                        <p className={!this.props.modal ? "cart-product-name-2" : "cart-product-name-modal"}>
-                            {this.props.cartProduct.name}
+                        <p className={!modal ? "cart-product-name-2" : "cart-product-name-modal"}>
+                            {name}
                         </p>
-                        <p className={!this.props.modal ? "cart-product-price" : "cart-product-price-modal"}>
-                            {this.context.currencyIcon}
+                        <p className={!modal ? "cart-product-price" : "cart-product-price-modal"}>
+                            {currencyIcon}
                             &nbsp;
-                            {(this.props.cartProduct.prices[this.props.index].amount * this.props.amount).toFixed(2)}
+                            {(prices[index].amount * amount).toFixed(2)}
 
                         </p>
                     </div>
-
-                    {this.props.cartProduct.attributes.map((attribute, i) => {
-                        return (
-                            <React.Fragment key={i}>
-                                <p className={!this.props.modal ? "size-text" : "size-text-modal"}>
-                                    {attribute.name.toUpperCase()}:
-                                </p>
-                                <div className={!this.props.modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
-                                    {attribute.items.map((item, key) => {
-                                        return (
-                                            <Size
-                                                key={key}
-                                                index={i}
-                                                i={key}
-                                                modal={this.props.modal}
-                                                size={item.displayValue}
-                                                id={item.id}
-                                                attr={attribute}
-                                                value={item.value}
-                                                name={attribute.name}
-                                                currentAttributes={this.props.orderProduct.attributes}
-                                                active={item.id === this.props.orderProduct.attributes[i].id}
-                                                changeProduct={(attributes) => this.handleChangeProduct(attributes)}
-                                            />
-                                        );
-                                    })}
-                                </div>
-                            </React.Fragment>
-                        )
-                    })}
+                    {this.renderAttributes()}
                 </div>
                 <div className="cart-product-right-side">
                     <div className="cart-product-number">
-                        <button className={!this.props.modal ? "cart-product-button" : "cart-product-button-modal"}
+                        <button className={!modal ? "cart-product-button" : "cart-product-button-modal"}
                                 onClick={() => this.handleIncreaseAmount()}
                         >
-                            <img alt="" src={!this.props.modal ? plusSquare : plusSquareSmall}/>
+                            <img alt="" src={!modal ? plusSquare : plusSquareSmall}/>
                         </button>
-                        <p className={!this.props.modal ? "cart-product-count" : "cart-product-count-modal"}>
-                            {this.props.orderProduct.amount}
+                        <p className={!modal ? "cart-product-count" : "cart-product-count-modal"}>
+                            {orderProduct.amount}
                         </p>
-                        <button className={!this.props.modal ? "cart-product-button" : "cart-product-button-modal"}
+                        <button className={!modal ? "cart-product-button" : "cart-product-button-modal"}
                                 onClick={() => this.handleDecreaseAmount()}
                         >
-                            <img alt="" src={!this.props.modal ? minusSquare : minusSquareSmall}/>
+                            <img alt="" src={!modal ? minusSquare : minusSquareSmall}/>
                         </button>
                     </div>
-                    <div className={!this.props.modal ? "cart-product-image" : "cart-product-image-modal"}>
+                    <div className={!modal ? "cart-product-image" : "cart-product-image-modal"}>
                         <div
-                            className={!this.props.modal ? "cart-product-image-container" : "cart-product-image-container-modal"}
+                            className={!modal ? "cart-product-image-container" : "cart-product-image-container-modal"}
                         >
-                            <img alt="" src={this.props.cartProduct.gallery[this.state.imageIndex]}
+                            <img alt="" src={gallery[this.state.imageIndex]}
                                  className="cart-product-img"/>
                         </div>
-                        {(!this.props.modal && this.props.cartProduct.gallery.length > 1) &&
+                        {(!modal && gallery.length > 1) &&
                         <React.Fragment>
                             <button onClick={() => this.handleChangeImage(-1)} className="cart-product-left-slide">
                                 <img alt="" src={chevronLeft}/>

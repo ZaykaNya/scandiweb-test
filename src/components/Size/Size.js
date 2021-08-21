@@ -15,13 +15,16 @@ class Size extends PureComponent {
         let className = "";
 
         modal ? className += " size-container-modal" : className += " size-container";
-        (active && type !== "swatch") ? className += " size-text-active" : className += "";
 
         if (type === "swatch") {
             if (active) {
                 className += " size-color-active"
             } else {
                 className += " size-color"
+            }
+        } else {
+            if(active) {
+                className += " size-text-active"
             }
         }
 
