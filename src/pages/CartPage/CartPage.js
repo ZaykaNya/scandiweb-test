@@ -8,23 +8,47 @@ class CartPage extends PureComponent {
 
     static contextType = AuthContext;
 
+    renderProducts() {
+        const {
+            order: {
+                products
+            },
+            currencyIndex
+        } = this.context;
+
+        if (products) {
+            return (
+                <React.Fragment>
+                    {products.map((orderProduct, key) => {
+                        const {
+                            product,
+                            amount,
+                            attributes
+                        } = orderProduct;
+
+                        return (
+                            <CartProduct
+                                orderProduct={orderProduct}
+                                cartProduct={product}
+                                index={currencyIndex}
+                                amount={amount}
+                                currentAtrributes={attributes}
+                                cartIndex={key}
+                                key={key}
+                            />
+                        );
+                    })}
+                </React.Fragment>
+            );
+        }
+
+    }
+
     render() {
         return (
             <div className="cart-page-container">
                 <h1 className="cart-page-title">CART</h1>
-                {this.context.order.products && this.context.order.products.map((product, key) => {
-                    return(
-                        <CartProduct
-                            orderProduct={product}
-                            cartProduct={product.product}
-                            index={this.context.currencyIndex}
-                            amount={product.amount}
-                            currentAtrributes={product.attributes}
-                            cartIndex={key}
-                            key={key}
-                        />
-                    )
-                })}
+                {this.renderProducts()}
             </div>
         );
     }
