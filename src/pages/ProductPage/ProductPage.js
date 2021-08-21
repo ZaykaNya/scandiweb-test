@@ -195,7 +195,6 @@ class ProductPage extends PureComponent {
             items
         } = attribute;
 
-
         return (
             <React.Fragment key={i}>
                 <p className="size-text">{name.toUpperCase()}:</p>
