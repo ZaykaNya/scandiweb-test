@@ -203,7 +203,6 @@ class CartProduct extends PureComponent {
                             {currencyIcon}
                             &nbsp;
                             {(prices[index].amount * amount).toFixed(2)}
-
                         </p>
                     </div>
                     {this.renderAttributes()}
