@@ -127,6 +127,7 @@ class CartProduct extends PureComponent {
                                     const {
                                         id,
                                         value,
+                                        displayValue
                                     } = item
 
                                     const {
@@ -141,7 +142,7 @@ class CartProduct extends PureComponent {
                                             index={i}
                                             i={key}
                                             modal={modal}
-                                            size={item.displayValue}
+                                            size={displayValue}
                                             id={id}
                                             attr={attribute}
                                             value={value}
@@ -177,6 +178,7 @@ class CartProduct extends PureComponent {
             },
             orderProduct,
         } = this.props;
+
         return (
             <div className={!modal ? "cart-product-container" : "cart-product-container-modal"}>
                 <div className={!modal ? "cart-product-left-side" : "cart-product-left-side-modal"}>
