@@ -156,6 +156,56 @@ class ProductPage extends PureComponent {
         }
     }
 
+    renderItem(item, key, i, attribute) {
+        const {
+            id,
+            value,
+        } = item
+
+        const {
+            modal,
+            orderProduct: {
+                attributes
+            }
+        } = this.props;
+
+        const {
+            name
+        } = attribute;
+
+        return (
+            <Size
+                key={key}
+                index={i}
+                modal={modal}
+                id={id}
+                attr={attribute}
+                value={value}
+                name={name}
+                currentAttributes={attributes}
+                active={id === attributes[i].id}
+                changeProduct={(attributes) => this.handleChangeProduct(attributes)}
+            />
+        );
+    }
+
+    renderAttribute(attribute, i) {
+        const {
+            name,
+            items
+        } = attribute;
+
+
+        return (
+            <React.Fragment key={i}>
+                <p className="size-text">{name.toUpperCase()}:</p>
+                <div className="sizes">
+                    {items.map((item, key) => this.renderItem(item, key, i, attribute))}
+                </div>
+            </React.Fragment>
+        );
+    }
+
     renderAttributes() {
         const {
             product: {
@@ -165,46 +215,7 @@ class ProductPage extends PureComponent {
 
         return (
             <div>
-                {attributes && attributes.map((attribute, i) => {
-                    const {
-                        name,
-                        items
-                    } = attribute;
-                    return (
-                        <React.Fragment key={i}>
-                            <p className="size-text">{name.toUpperCase()}:</p>
-                            <div className="sizes">
-                                {items.map((item, key) => {
-                                    const {
-                                        id,
-                                        value,
-                                    } = item;
-
-                                    const {
-                                        orderProduct: {
-                                            attributes
-                                        }
-                                    } = this.state;
-
-                                    return (
-                                        <Size
-                                            key={key}
-                                            index={i}
-                                            id={id}
-                                            value={value}
-                                            name={name}
-                                            attr={attribute}
-                                            currentAttributes={attributes}
-                                            attribute={attributes[0]}
-                                            active={id === attributes[i].id}
-                                            changeProduct={(attributes) => this.handleChangeProduct(attributes)}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </React.Fragment>
-                    );
-                })}
+                {attributes && attributes.map((attribute, i) => this.renderAttribute(attribute, i))}
             </div>
         );
     }

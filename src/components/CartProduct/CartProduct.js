@@ -102,9 +102,63 @@ class CartProduct extends PureComponent {
         }))
     }
 
-    renderAttributes() {
+    renderItem(item, key, i, attribute) {
+        const {
+            id,
+            value,
+        } = item
+
         const {
             modal,
+            orderProduct: {
+                attributes
+            }
+        } = this.props;
+
+        const {
+            name
+        } = attribute;
+
+        return (
+            <Size
+                key={key}
+                index={i}
+                modal={modal}
+                id={id}
+                attr={attribute}
+                value={value}
+                name={name}
+                currentAttributes={attributes}
+                active={id === attributes[i].id}
+                changeProduct={(attributes) => this.handleChangeProduct(attributes)}
+            />
+        );
+    }
+
+    renderAttribute(attribute, i) {
+        const {
+            modal
+        } = this.props;
+
+        const {
+            name,
+            items
+        } = attribute;
+
+        return (
+            <React.Fragment key={i}>
+                <p className={!modal ? "size-text" : "size-text-modal"}>
+                    {name.toUpperCase()}:
+                </p>
+                <div className={!modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
+                    {items.map((item, key) => this.renderItem(item, key, i, attribute))}
+                </div>
+            </React.Fragment>
+        );
+    }
+
+    renderAttributes() {
+        const {
             cartProduct: {
                 attributes
             }
@@ -112,50 +166,9 @@ class CartProduct extends PureComponent {
 
         return (
             <React.Fragment>
-                {attributes.map((attribute, i) => {
-                    const {
-                        name,
-                        items
-                    } = attribute;
-                    return (
-                        <React.Fragment key={i}>
-                            <p className={!modal ? "size-text" : "size-text-modal"}>
-                                {name.toUpperCase()}:
-                            </p>
-                            <div className={!modal ? "cart-product-sizes" : "cart-product-sizes-modal"}>
-                                {items.map((item, key) => {
-                                    const {
-                                        id,
-                                        value,
-                                    } = item
-
-                                    const {
-                                        orderProduct: {
-                                            attributes
-                                        }
-                                    } = this.props;
-
-                                    return (
-                                        <Size
-                                            key={key}
-                                            index={i}
-                                            modal={modal}
-                                            id={id}
-                                            attr={attribute}
-                                            value={value}
-                                            name={name}
-                                            currentAttributes={attributes}
-                                            active={id === attributes[i].id}
-                                            changeProduct={(attributes) => this.handleChangeProduct(attributes)}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </React.Fragment>
-                    )
-                })
-                }
-            </React.Fragment>);
+                {attributes.map((attribute, i) => this.renderAttribute(attribute, i))}
+            </React.Fragment>
+        );
     }
 
     render() {
