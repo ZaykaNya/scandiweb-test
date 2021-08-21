@@ -3,118 +3,76 @@ import React, {PureComponent} from "react";
 
 class Size extends PureComponent {
 
-    constructor(props) {
-        super(props);
-        this.state = {styles: {}};
-    }
-
-    componentDidMount() {
-        if (this.props.active) {
-            this.setState({
-                styles: {
-                    background: "#1D1F22",
-                    color: "white",
-                    border: "1px solid #1D1F22"
-                }
-            });
-            if (this.props.attr.type === "swatch") {
-                this.setState({
-                    styles: {
-                        background: this.props.value,
-                        color: "transparent",
-                        boxShadow: `0 0 5px 2px grey`,
-                        border: 0,
-                    }
-                });
+    handleSetClassname() {
+        const {
+            modal,
+            active,
+            attr: {
+                type
             }
-        } else if (this.props.outOfStock) {
-            this.setState({
-                styles: {border: "1px solid #A6A6A6", color: "#A6A6A6"}
-            });
-        } else if (this.props.attr.type === "swatch") {
-            this.setState({
-                styles: {
-                    background: this.props.value,
-                    color: "transparent",
-                    boxShadow: `0 0 5px 0px grey`,
-                    border: 0
-                }
-            });
-        }
+        } = this.props;
 
-    }
+        let className = "";
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.active !== prevProps.active) {
-            if (this.props.active) {
-                if (this.props.attr.type === "swatch") {
-                    this.setState({
-                        styles: {
-                            background: this.props.value,
-                            color: "transparent",
-                            boxShadow: `0 0 5px 2px grey`,
-                            border: 0,
-                        }
-                    });
-                } else {
-                    this.setState({
-                        styles: {
-                            background: "#1D1F22",
-                            color: "white",
-                            border: "1px solid #1D1F22"
-                        }
-                    });
-                }
-            } else if (this.props.outOfStock) {
-                this.setState({
-                    styles: {border: "1px solid #A6A6A6", color: "#A6A6A6"}
-                });
-            } else if (this.props.attr.type === "swatch") {
-                this.setState({
-                    styles: {
-                        background: this.props.value,
-                        color: "transparent",
-                        boxShadow: `0 0 5px 0px grey`,
-                        border: 0
-                    }
-                });
+        modal ? className += " size-container-modal" : className += " size-container";
+        (active && type !== "swatch") ? className += " size-text-active" : className += "";
+
+        if (type === "swatch") {
+            if (active) {
+                className += " size-color-active"
             } else {
-                this.setState({
-                    styles: {}
-                });
+                className += " size-color"
             }
-
         }
+
+        return className;
     }
 
-    //currentAttributes, size, value, name, id
-    handleChangeAttributes() {
-        let attributes = [...this.props.currentAtrributes];
 
-        if (attributes.filter(attribute => attribute.name === this.props.name).length > 0) {
+    handleChangeAttributes() {
+        const {
+            currentAttributes,
+            name,
+            id,
+            index,
+            changeProduct
+        } = this.props
+
+        let attributes = [...currentAttributes];
+
+        if (attributes.filter(attribute => attribute.name === name).length > 0) {
             let attribute = {
-                name: this.props.name,
-                id: this.props.id
+                name: name,
+                id: id
             }
-            attributes.splice(this.props.index, 1, attribute)
+            attributes.splice(index, 1, attribute)
         } else {
             attributes.push({
-                name: this.props.name,
-                id: this.props.id
+                name: name,
+                id: id
             });
         }
 
-        this.props.changeProduct(attributes);
+        changeProduct(attributes);
     }
 
     render() {
+        const {
+            value,
+            attr: {
+                type,
+            }
+        } = this.props;
+
+        let className = this.handleSetClassname();
+
         return (
             <button
-                style={this.state.styles}
-                className={!this.props.modal ? "size-container" : "size-container-modal"}
+                style={type === "swatch" ? {background: value} : {}}
+                className={className}
                 onClick={() => this.handleChangeAttributes()}
             >
-                {this.props.value}
+                {value}
             </button>
         );
     }

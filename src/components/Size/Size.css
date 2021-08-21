@@ -35,4 +35,27 @@
     opacity: 0.7;
 }
 
+.size-text-active {
+    background: #1D1F22;
+    color: white;
+    border: 1px solid #1D1F22;
+}
+
+.size-text-disabled {
+    border: 1px solid #A6A6A6;
+    color: #A6A6A6;
+}
+
+.size-color {
+    color: transparent;
+    box-shadow: 0 0 5px 0 grey;
+    border: 0;
+}
+
+.size-color-active {
+    color: transparent;
+    box-shadow: 0 0 5px 2px grey;
+    border: 0;
+}
+
 

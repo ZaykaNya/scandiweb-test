@@ -102,7 +102,7 @@ class CartProduct extends PureComponent {
                                                 attr={attribute}
                                                 value={item.value}
                                                 name={attribute.name}
-                                                currentAtrributes={this.props.orderProduct.attributes}
+                                                currentAttributes={this.props.orderProduct.attributes}
                                                 active={item.id === this.props.orderProduct.attributes[i].id}
                                                 changeProduct={(attributes) => this.handleChangeProduct(attributes)}
                                             />

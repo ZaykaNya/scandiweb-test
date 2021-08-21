@@ -28,10 +28,11 @@ class Header extends PureComponent {
 
     componentDidMount() {
         this.request().then(response => {
+
             this.setState(prev => ({
                 ...prev,
-                categories: response.categories,
-                currencies: response.categories[0].products[0].prices,
+                categories: [...response.categories],
+                currencies: [...response.categories[0].products[0].prices],
             }))
         });
 

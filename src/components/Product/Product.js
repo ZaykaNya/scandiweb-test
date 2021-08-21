@@ -3,6 +3,7 @@ import React, {PureComponent} from "react";
 import cartIcon from "../../images/whiteCart.svg";
 import AuthContext from "../../context/AuthProvider";
 import {Link} from "react-router-dom";
+import compareArrays from "../../utils/compareArrays";
 
 class Product extends PureComponent {
 
@@ -30,7 +31,7 @@ class Product extends PureComponent {
         let index = 0;
 
         this.context.order.products && this.context.order.products.forEach((product, key) => {
-            if (product.product.id === orderProduct.product.id) {
+            if (compareArrays(product.attributes, orderProduct.attributes)) {
                 index = key;
             }
         })
@@ -68,10 +69,10 @@ class Product extends PureComponent {
                         }
                     </div>
                     <div className="product-info">
-                        <p className="product-name" style={this.props.outOfStock ? {color: "#8D8F9A"} : {}}>
+                        <p className="product-name">
                             {this.props.product.brand} {this.props.product.name}
                         </p>
-                        <p className="product-price" style={this.props.outOfStock ? {color: "#8D8F9A"} : {}}>
+                        <p className="product-price">
                             {this.context.currencyIcon} {this.props.product.prices[this.context.currencyIndex].amount}
                         </p>
                         {!this.props.product.inStock &&

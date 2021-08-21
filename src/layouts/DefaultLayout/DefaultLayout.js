@@ -30,6 +30,15 @@ class DefaultLayout extends PureComponent {
         }
     }
 
+    // test() {
+    //     client.setEndpoint("http://localhost:4000/");
+    //
+    //     const priceQuery = new Query("Price")
+    //         .addField("amount");
+    //
+    //     return client.post(priceQuery)
+    // }
+
     componentDidMount() {
         if (document.URL.split("/").slice(-1).join("") === "tech") {
             this.handleChangeIndex(1);
@@ -41,6 +50,10 @@ class DefaultLayout extends PureComponent {
                 index: this.state.index
             }))
         });
+
+        // this.test().then(response => {
+        //     console.log(response);
+        // })
     }
 
     handleChangeIndex(i) {

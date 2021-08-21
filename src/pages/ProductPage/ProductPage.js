@@ -152,7 +152,7 @@ class ProductPage extends PureComponent {
                                                     value={item.value}
                                                     name={attribute.name}
                                                     attr={attribute}
-                                                    currentAtrributes={this.state.orderProduct.attributes}
+                                                    currentAttributes={this.state.orderProduct.attributes}
                                                     attribute={this.state.orderProduct.attributes[0]}
                                                     active={item.id === this.state.orderProduct.attributes[i].id}
                                                     changeProduct={(attributes) => this.handleChangeProduct(attributes)}
