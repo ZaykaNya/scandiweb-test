@@ -17,7 +17,7 @@ class CategoryPage extends PureComponent {
         this.handleRequest();
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if (prevProps.index !== this.context.index) {
             this.handleRequest();
         }

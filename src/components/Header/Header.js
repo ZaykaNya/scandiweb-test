@@ -28,11 +28,14 @@ class Header extends PureComponent {
 
     componentDidMount() {
         this.request().then(response => {
+            const {
+                categories,
+            } = response;
 
             this.setState(prev => ({
                 ...prev,
-                categories: [...response.categories],
-                currencies: [...response.categories[0].products[0].prices],
+                categories: [...categories],
+                currencies: [...categories[0].products[0].prices],
             }))
         });
 
@@ -58,12 +61,16 @@ class Header extends PureComponent {
     }
 
     handleOpenCart() {
+        const {
+            cartOpen
+        } = this.state;
+
         this.setState(prev => ({
             ...prev,
-            cartOpen: !prev.cartOpen,
+            cartOpen: !cartOpen,
             currencyOpen: false,
         }))
-        if (!this.state.cartOpen) {
+        if (!cartOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "visible";
@@ -71,12 +78,16 @@ class Header extends PureComponent {
     }
 
     handleOpenCurrency() {
+        const {
+            currencyOpen
+        } = this.state;
+
         this.setState(prev => ({
             ...prev,
-            currencyOpen: !prev.currencyOpen,
+            currencyOpen: !currencyOpen,
             cartOpen: false,
         }))
-        if (!this.state.currencyOpen) {
+        if (!currencyOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "visible";
@@ -93,53 +104,263 @@ class Header extends PureComponent {
     }
 
     handleChangeCurrency(currencyIndex) {
+        const {
+            currencyOpen
+        } = this.state;
+
+        const {
+            handleChangeCurrency
+        } = this.context;
+
         this.setState(prev => ({
             ...prev,
-            currencyOpen: !prev.currencyOpen,
+            currencyOpen: !currencyOpen,
             cartOpen: false,
         }))
-        if (!this.state.currencyOpen) {
+        if (!currencyOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "visible";
         }
-        this.context.handleChangeCurrency(currencyIndex);
+
+        handleChangeCurrency(currencyIndex);
     }
 
     handleGetPrice(price) {
         this.setState(prev => ({
             ...prev,
-            total: this.state.total + price
+            total: prev.total + price
         }))
     }
 
     handleChangeCategory(name, index) {
+        const {
+            handleChangeCategory
+        } = this.context;
+
         this.handleCloseCartAndCurrency()
-        this.context.handleChangeCategory(name, index)
+        handleChangeCategory(name, index)
     }
 
-    render() {
+    renderCategories() {
+        const {
+            categories,
+        } = this.state;
 
+        if (categories) {
+            return (
+                <div className="header-nav">
+                    {categories.map((category, key) => {
+                        const {
+                            name
+                        } = category;
+
+                        return (
+                            <Link
+                                to={`/categories/${category.name}`}
+                                key={key}
+                                className={(document.URL.split("/").slice(-1).join("") === name
+                                    || document.URL.split("/").slice(-2, -1).join("") === name
+                                    || name === this.context.categories)
+                                    ? "header-category header-category-active" : "header-category"}
+                                onClick={() => this.handleChangeCategory(name, key)}
+                            >
+                                {name.toUpperCase()}
+                            </Link>
+                        );
+                    })}
+                </div>
+            );
+        }
+    }
+
+    renderNumberOfProducts() {
+        const {
+            order: {
+                products,
+            },
+        } = this.context;
+
+        if (products) {
+            return (
+                <React.Fragment>
+                    {products.length > 0 &&
+                    <span className="cart-number-items">, {this.context.order.products.length} item</span>
+                    }
+                    {products.length > 1 &&
+                    <span className="cart-number-items">s</span>
+                    }
+                </React.Fragment>
+            );
+        }
+
+    }
+
+    renderCartProducts() {
+        const {
+            order: {
+                products,
+            },
+            currencyIndex,
+        } = this.context;
+
+        if (products) {
+            return (
+                <React.Fragment>
+                    {products.map((cartProduct, key) => {
+                        const {
+                            product,
+                            amount
+                        } = cartProduct;
+
+                        return (
+                            <CartProduct
+                                key={key}
+                                cartIndex={key}
+                                index={currencyIndex}
+                                cartProduct={product}
+                                amount={amount}
+                                orderProduct={cartProduct}
+                                getPrice={(price) => this.handleGetPrice(price)}
+                                modal={true}
+                            />
+                        )
+                    })}
+                </React.Fragment>
+            );
+        }
+
+    }
+
+    renderCartOpen() {
+        const {
+            cartOpen
+        } = this.state;
+
+        const {
+            order: {
+                total
+            },
+            currencyIcon,
+            handleMakeOrder
+        } = this.context;
+
+        if (cartOpen) {
+            return (
+                <div id="header-cart">
+                    <div className="cart-title-container">
+                        <span className="cart-title">My Bag</span>
+                        {this.renderNumberOfProducts()}
+                    </div>
+                    {this.renderCartProducts()}
+                    <div className="cart-total-price">
+                        <p className="cart-total-price-title">Total</p>
+                        <p className="cart-total-price-amount">{currencyIcon} {total}</p>
+                    </div>
+                    <div className="cart-buttons-container">
+                        <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag"
+                              to={`/cart`}
+                        >
+                            VIEW BAG
+                        </Link>
+                        <button
+                            className="button-check-out"
+                            onClick={() => handleMakeOrder()}
+                        >
+                            CHECK OUT
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+    }
+
+    renderTotalAmount() {
+        const {
+            order: {
+                products,
+                totalAmount
+            },
+        } = this.context;
+
+        if (totalAmount && products.length > 0) {
+            return (
+                <div className="header-cart-amount">
+                    {totalAmount}
+                </div>
+            );
+        }
+    }
+
+    renderCurrencies() {
+        const {
+            currencies,
+            allCurrencies
+        } = this.state;
+
+        return (
+            <div className="header-currency-container">
+                {currencies.map((currency, key) => {
+                    return (
+                        <button
+                            className="header-currency-button"
+                            key={key}
+                            onClick={() => this.handleChangeCurrency(key)}
+                        >
+                            {allCurrencies[key]} {currency.currency}
+                        </button>
+                    );
+                })}
+            </div>
+        );
+    }
+
+    renderCurrencyOpen() {
+        const {
+            currencyOpen,
+        } = this.state;
+
+        if (currencyOpen) {
+            return (
+                <div id="header-currency">
+                    {this.renderCurrencies()}
+                </div>
+            );
+        }
+    }
+
+    renderOpenBackground() {
+        const {
+            cartOpen,
+            currencyOpen
+        } = this.state;
+
+        if (cartOpen) {
+            return (
+                <div id="closeCart" className="header-cart-container"/>
+            );
+        }
+
+        if (currencyOpen) {
+            return (
+                <div id="closeCurrency" className="header-cart-container-currency"/>
+            );
+        }
+    }
+
+
+    render() {
+        const {
+            allCurrencies
+        } = this.state;
+
+        const {
+            currencyIndex
+        } = this.context;
         return (
             <React.Fragment>
                 <div className="header-container">
-                    <div className="header-nav">
-                        {this.state.categories && this.state.categories.map((category, key) => {
-                            return (
-                                <Link
-                                    to={`/categories/${category.name}`}
-                                    key={key}
-                                    className={(document.URL.split("/").slice(-1).join("") === category.name
-                                        || document.URL.split("/").slice(-2, -1).join("") === category.name
-                                        || category.name === this.context.categories)
-                                        ? "header-category header-category-active" : "header-category"}
-                                    onClick={() => this.handleChangeCategory(category.name, key)}
-                                >
-                                    {category.name.toUpperCase()}
-                                </Link>
-                            );
-                        })}
-                    </div>
+                    {this.renderCategories()}
                     <div className="header-logo">
                         <div>
                             <img alt="" src={brandIcon}/>
@@ -147,88 +368,20 @@ class Header extends PureComponent {
                     </div>
                     <div className="header-icons">
                         <button id="btn1" onClick={() => this.handleOpenCurrency()} className="header-button">
-                            {this.state.allCurrencies[this.context.currencyIndex]}
+                            {allCurrencies[currencyIndex]}
                             <img className="header-currency-image" alt="" src={open}/>
                         </button>
                         <div className="header-cart-button-container">
                             <button id="btn2" onClick={() => this.handleOpenCart()} className="header-button">
-                                {this.context.order.totalAmount > 0 && this.context.order.products.length > 0 &&
-                                <div className="header-cart-amount">
-                                    {this.context.order.totalAmount}
-                                </div>
-                                }
+                                {this.renderTotalAmount()}
                                 <img alt="" src={cartIcon}/>
                             </button>
                         </div>
                     </div>
-                    {this.state.cartOpen &&
-                    <div id="header-cart">
-                        <div className="cart-title-container">
-                            <span className="cart-title">My Bag</span>
-                            {this.context.order.products && this.context.order.products.length > 0 &&
-                            <span className="cart-number-items">, {this.context.order.products.length} item</span>
-                            }
-                            {this.context.order.products && this.context.order.products.length > 1 &&
-                            <span className="cart-number-items">s</span>
-                            }
-                        </div>
-                        {this.context.order.products && this.context.order.products.map((cartProduct, key) => {
-                            return (
-                                <CartProduct
-                                    key={key}
-                                    cartIndex={key}
-                                    index={this.context.currencyIndex}
-                                    cartProduct={cartProduct.product}
-                                    amount={cartProduct.amount}
-                                    orderProduct={cartProduct}
-                                    getPrice={(price) => this.handleGetPrice(price)}
-                                    modal={true}
-                                />
-                            )
-                        })}
-                        <div className="cart-total-price">
-                            <p className="cart-total-price-title">Total</p>
-                            <p className="cart-total-price-amount">{this.context.currencyIcon} {this.context.order.total}</p>
-                        </div>
-                        <div className="cart-buttons-container">
-                            <Link onClick={() => this.handleCloseCartAndCurrency()} className="button-view-bag"
-                                  to={`/cart`}
-                            >
-                                VIEW BAG
-                            </Link>
-                            <button
-                                className="button-check-out"
-                                onClick={() => this.context.handleMakeOrder()}
-                            >
-                                CHECK OUT
-                            </button>
-                        </div>
-                    </div>
-                    }
-                    {this.state.currencyOpen &&
-                    <div id="header-currency">
-                        <div className="header-currency-container">
-                            {this.state.currencies.map((currency, key) => {
-                                return (
-                                    <button
-                                        className="header-currency-button"
-                                        key={key}
-                                        onClick={() => this.handleChangeCurrency(key)}
-                                    >
-                                        {this.state.allCurrencies[key]} {currency.currency}
-                                    </button>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    }
+                    {this.renderCartOpen()}
+                    {this.renderCurrencyOpen()}
                 </div>
-                {this.state.cartOpen &&
-                <div id="closeCart" className="header-cart-container"/>
-                }
-                {this.state.currencyOpen &&
-                <div id="closeCurrency" className="header-cart-container-currency"/>
-                }
+                {this.renderOpenBackground()}
             </React.Fragment>
         );
     }
