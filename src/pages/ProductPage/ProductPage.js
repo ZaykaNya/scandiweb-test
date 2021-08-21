@@ -3,6 +3,7 @@ import React, {PureComponent} from "react";
 import Size from "../../components/Size/Size";
 import {client, Field, Query} from "@tilework/opus";
 import AuthContext from "../../context/AuthProvider";
+import ReactHtmlParser from 'react-html-parser';
 
 class ProductPage extends PureComponent {
 
@@ -271,7 +272,9 @@ class ProductPage extends PureComponent {
                     >
                         ADD TO CART
                     </button>
-                    <div className="description" dangerouslySetInnerHTML={{__html: description}}/>
+                    <div className="description">
+                        {ReactHtmlParser(description)}
+                    </div>
                 </div>
             </div>
         );
