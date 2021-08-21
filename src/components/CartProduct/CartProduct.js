@@ -83,7 +83,7 @@ class CartProduct extends PureComponent {
 
     handleChangeImage(i) {
         const {
-            orderProduct: {
+            cartProduct: {
                 gallery
             }
         } = this.props;
@@ -127,7 +127,6 @@ class CartProduct extends PureComponent {
                                     const {
                                         id,
                                         value,
-                                        displayValue
                                     } = item
 
                                     const {
@@ -140,9 +139,7 @@ class CartProduct extends PureComponent {
                                         <Size
                                             key={key}
                                             index={i}
-                                            i={key}
                                             modal={modal}
-                                            size={displayValue}
                                             id={id}
                                             attr={attribute}
                                             value={value}

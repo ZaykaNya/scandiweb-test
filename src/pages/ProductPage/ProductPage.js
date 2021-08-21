@@ -178,7 +178,6 @@ class ProductPage extends PureComponent {
                                     const {
                                         id,
                                         value,
-                                        displayValue
                                     } = item;
 
                                     const {
@@ -191,8 +190,6 @@ class ProductPage extends PureComponent {
                                         <Size
                                             key={key}
                                             index={i}
-                                            i={key}
-                                            size={displayValue}
                                             id={id}
                                             value={value}
                                             name={name}
