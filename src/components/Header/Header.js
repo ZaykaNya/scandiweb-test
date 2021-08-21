@@ -157,9 +157,10 @@ class Header extends PureComponent {
 
                         return (
                             <Link
-                                to={`/categories/${category.name}`}
+                                to={`/categories/${name}`}
                                 key={key}
-                                className={(document.URL.split("/").slice(-1).join("") === name
+                                className={
+                                    (document.URL.split("/").slice(-1).join("") === name
                                     || document.URL.split("/").slice(-2, -1).join("") === name
                                     || name === this.context.categories)
                                     ? "header-category header-category-active" : "header-category"}

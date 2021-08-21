@@ -13,7 +13,7 @@ class DefaultLayout extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            categories: "clothes",
+            categories: "",
             index: 0,
             currencyIndex: 0,
             currentProduct: {},
@@ -34,16 +34,21 @@ class DefaultLayout extends PureComponent {
         const {
             index
         } = this.state;
+
+        let curI = index;
+
         if (document.URL.split("/").slice(-1).join("") === "tech") {
             this.handleChangeIndex(1);
+            curI = 1;
         }
+        console.log(index);
         this.request().then(response => {
             const {
                 categories
             } = response;
             this.setState(prev => ({
                 ...prev,
-                categories: categories[index].name,
+                categories: categories[curI].name,
                 index: index
             }))
         });

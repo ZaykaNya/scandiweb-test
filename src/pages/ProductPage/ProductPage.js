@@ -167,7 +167,7 @@ class ProductPage extends PureComponent {
             orderProduct: {
                 attributes
             }
-        } = this.props;
+        } = this.state;
 
         const {
             name
