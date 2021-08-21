@@ -30,30 +30,23 @@ class DefaultLayout extends PureComponent {
         }
     }
 
-    // test() {
-    //     client.setEndpoint("http://localhost:4000/");
-    //
-    //     const priceQuery = new Query("Price")
-    //         .addField("amount");
-    //
-    //     return client.post(priceQuery)
-    // }
-
     componentDidMount() {
+        const {
+            index
+        } = this.state;
         if (document.URL.split("/").slice(-1).join("") === "tech") {
             this.handleChangeIndex(1);
         }
         this.request().then(response => {
+            const {
+                categories
+            } = response;
             this.setState(prev => ({
                 ...prev,
-                categories: response.categories[this.state.index].name,
-                index: this.state.index
+                categories: categories[index].name,
+                index: index
             }))
         });
-
-        // this.test().then(response => {
-        //     console.log(response);
-        // })
     }
 
     handleChangeIndex(i) {
@@ -111,7 +104,11 @@ class DefaultLayout extends PureComponent {
             }));
         }
 
-        if (Object.keys(this.state.order).length > 0) {
+        const {
+            order
+        } = this.state;
+
+        if (Object.keys(order).length > 0) {
             this.handleChangeOrder({}, 0, true, currencyIndex)
         }
     }
@@ -126,29 +123,36 @@ class DefaultLayout extends PureComponent {
     // },
 
     handleChangeOrder(product, index = 0, countTotal = false, currencyIndex = this.state.currencyIndex) {
-        let order = {...this.state.order};
+        const {
+            order,
+            order: {
+                products
+            }
+        } = this.state;
+
+        let newOrder = {...order};
 
         if (!countTotal) {
-            if (this.state.order.products) {
+            if (products) {
                 if (product.amount <= 0) {
-                    const orderProducts = [...this.state.order.products];
+                    const orderProducts = [...products];
                     orderProducts.splice(index, 1);
-                    order = {
+                    newOrder = {
                         products: [...orderProducts],
                         total: 0,
                         totalAmount: 0
                     }
-                } else if (this.state.order.products.filter(orderProduct => orderProduct.product.id === product.product.id).length > 0) {
-                    const orderProducts = [...this.state.order.products];
+                } else if (products.filter(orderProduct => orderProduct.product.id === product.product.id).length > 0) {
+                    const orderProducts = [...products];
                     orderProducts.splice(index, 1, product);
-                    order = {
+                    newOrder = {
                         products: [...orderProducts],
                         total: 0,
                         totalAmount: 0
                     }
                 } else {
-                    order = {
-                        products: [...order.products, {
+                    newOrder = {
+                        products: [...newOrder.products, {
                             ...product
                         }],
                         total: 0,
@@ -156,7 +160,7 @@ class DefaultLayout extends PureComponent {
                     }
                 }
             } else {
-                order = {
+                newOrder = {
                     products: [{...product}],
                     total: 0,
                     totalAmount: 0
@@ -166,26 +170,34 @@ class DefaultLayout extends PureComponent {
 
         let total = 0;
         let totalAmount = 0;
-        order.products.forEach(product => {
+        newOrder.products.forEach(product => {
             total += product.amount * product.product.prices[currencyIndex].amount;
             totalAmount += product.amount;
         });
 
-        order.total = total.toFixed(2);
-        order.totalAmount = totalAmount;
+        newOrder.total = total.toFixed(2);
+        newOrder.totalAmount = totalAmount;
 
 
         this.setState(prev => ({
             ...prev,
-            order: {...order}
+            order: {...newOrder}
         }));
 
     }
 
     handleMakeOrder() {
-        if(this.state.order.products) {
-            console.log(`You bought, ${this.state.order.products.length} items`);
-            console.log(this.state.order);
+        const {
+            order,
+            order: {
+                products
+            }
+        } = this.state;
+
+        if (products) {
+            console.log(`You bought, ${products.length} items`);
+            console.log(order);
+
             this.setState(prev => ({
                 ...prev,
                 order: {}
@@ -194,9 +206,13 @@ class DefaultLayout extends PureComponent {
     }
 
     handleChangeTotal(price) {
+        const {
+            total
+        } = this.state;
+
         this.setState(prev => ({
             ...prev,
-            total: this.state.total + price
+            total: total + price
         }))
     }
 
