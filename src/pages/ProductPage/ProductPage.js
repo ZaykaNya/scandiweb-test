@@ -27,12 +27,6 @@ class ProductPage extends PureComponent {
         }
 
         this.request().then(response => {
-            const {
-                order: {
-                    products
-                }
-            } = this.context;
-
             let product = [];
 
             response.categories.forEach(category => {
@@ -99,8 +93,6 @@ class ProductPage extends PureComponent {
                     oAmount = oProduct.amount;
                 }
             })
-
-            console.log(oAmount)
 
             const p = {
                 product: {...orderProduct.product},

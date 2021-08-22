@@ -179,8 +179,6 @@ class DefaultLayout extends PureComponent {
 
         newOrder = {...this.handleCheckForSameProducts(newOrder)};
 
-        console.log(newOrder)
-
         let total = 0;
         let totalAmount = 0;
         newOrder.products.forEach(product => {
@@ -208,14 +206,14 @@ class DefaultLayout extends PureComponent {
         let sameProductIndex = -1;
         const result = [];
 
-        for (let i = 0; i < products.length; i++) {
-            result.forEach(product => {
-                if (product.id === products[i].id && compareAttributesById(product.attributes, products[i].attributes)) {
+        products.forEach((orderProduct, i) => {
+            result.forEach((product) => {
+                if (product.id === orderProduct.id && compareAttributesById(product.attributes, orderProduct.attributes)) {
                     sameProductIndex = i;
                 }
             })
-            result.push(products[i]);
-        }
+            result.push(orderProduct);
+        })
 
         const orderProducts = [...products];
 

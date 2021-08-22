@@ -29,10 +29,9 @@ class Product extends PureComponent {
             });
         });
 
-        let oAmount = 1;
+        let oAmount = 0;
         products && products.forEach(oProduct => {
-            console.log(oProduct, product)
-            if(oProduct.product.id === product.id) {
+            if(oProduct.product.id === product.id && compareAttributesById(oProduct.attributes, attributes)) {
                 oAmount = oProduct.amount;
             }
         })
@@ -40,7 +39,7 @@ class Product extends PureComponent {
         const orderProduct = {
             product: {...product},
             attributes: [...attributes],
-            amount: oAmount,
+            amount: oAmount + 1,
         }
 
         let index = 0;

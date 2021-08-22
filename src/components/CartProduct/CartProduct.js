@@ -70,9 +70,7 @@ class CartProduct extends PureComponent {
             cartIndex
         } = this.props;
 
-        const {handleChangeOrder, order} = this.context;
-
-        console.log(order)
+        const {handleChangeOrder} = this.context;
 
         const orderProduct = {
             product: {...product},
