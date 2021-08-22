@@ -34,15 +34,24 @@ class Header extends PureComponent {
 
             const allCategory = {
                 name: "all",
-                products: []
             }
 
             this.setState(prev => ({
                 ...prev,
                 categories: [...categories, allCategory],
-                currencies: [...categories[0].products[0].prices],
             }))
         });
+
+        this.requestCurrencies().then(response => {
+            const {
+                currencies
+            } = response;
+
+            this.setState(prev => ({
+                ...prev,
+                currencies: [...currencies],
+            }))
+        })
 
         document.onclick = event => {
             if (event.target.id === "closeCart" || event.target.id === "closeCurrency") {
@@ -51,16 +60,19 @@ class Header extends PureComponent {
         }
     }
 
+    requestCurrencies() {
+        client.setEndpoint("http://localhost:4000/");
+
+        const currenciesQuery = new Query("currencies", true)
+
+        return client.post(currenciesQuery);
+    }
+
     request() {
         client.setEndpoint("http://localhost:4000/");
 
         const categoriesQuery = new Query("categories", true)
             .addField("name")
-            .addField(new Field("products", true)
-                .addField(new Field("prices", true)
-                    .addField("currency")
-                )
-            )
 
         return client.post(categoriesQuery);
     }
@@ -309,7 +321,7 @@ class Header extends PureComponent {
                 key={key}
                 onClick={() => this.handleChangeCurrency(key)}
             >
-                {allCurrencies[key]} {currency.currency}
+                {allCurrencies[key]} {currency}
             </button>
         );
     }

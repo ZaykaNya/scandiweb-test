@@ -189,7 +189,7 @@ class DefaultLayout extends PureComponent {
         newOrder.total = total.toFixed(2);
         newOrder.totalAmount = totalAmount;
 
-        // console.log(newOrder)
+        console.log(newOrder)
 
         this.setState(prev => ({
             ...prev,

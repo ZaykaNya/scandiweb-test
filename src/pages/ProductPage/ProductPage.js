@@ -26,20 +26,14 @@ class ProductPage extends PureComponent {
             handleChangeIndex(2);
         }
 
-        this.request().then(response => {
-            let product = [];
-
-            response.categories.forEach(category => {
-                category.products.forEach(cProduct => {
-                    if (cProduct.id === document.URL.split("/").slice(-1).join("")) {
-                        product.push(cProduct)
-                    }
-                })
-            })
+        this.request(document.URL.split("/").slice(-1).join("")).then(response => {
+            const {
+                product
+            } = response;
 
             let attributes = [];
 
-            attributes = product[0].attributes.map(attribute => {
+            attributes = product.attributes.map(attribute => {
                 return ({
                     name: attribute.name,
                     id: attribute.items[0].id,
@@ -48,10 +42,10 @@ class ProductPage extends PureComponent {
 
             this.setState(prev => ({
                 ...prev,
-                product: product[0],
-                chosenImage: product[0].gallery[0],
+                product: product,
+                chosenImage: product.gallery[0],
                 orderProduct: {
-                    product: product[0],
+                    product: product,
                     attributes: [...attributes],
                     amount: 1,
                 }
@@ -89,7 +83,7 @@ class ProductPage extends PureComponent {
             let oAmount = 0;
 
             products && products.forEach(oProduct => {
-                if(oProduct.product.id === orderProduct.product.id && compareAttributesById(oProduct.attributes, orderProduct.attributes)) {
+                if (oProduct.product.id === orderProduct.product.id && compareAttributesById(oProduct.attributes, orderProduct.attributes)) {
                     oAmount = oProduct.amount;
                 }
             })
@@ -110,29 +104,28 @@ class ProductPage extends PureComponent {
         }
     }
 
-    request() {
+    request(productId) {
         client.setEndpoint("http://localhost:4000/");
 
         const categoriesFields = ["id", "name", "inStock", "brand", "description"];
         const attributeSet = ["id", "name", "type"];
 
-        const categoriesQuery = new Query("categories", true)
-            .addField(new Field("products", true)
-                .addFieldList(categoriesFields)
-                .addField(new Field("gallery", true))
-                .addField(new Field("prices", true)
-                    .addField("amount")
-                    .addField("currency")
+        const productQuery = new Query("product")
+            .addArgument("id", "String!", productId)
+            .addFieldList(categoriesFields)
+            .addField(new Field("gallery", true))
+            .addField(new Field("prices", true)
+                .addField("amount")
+                .addField("currency")
+            )
+            .addField(new Field("attributes", true)
+                .addFieldList(attributeSet)
+                .addField(new Field("items", true)
+                    .addFieldList(["displayValue", "value", "id"])
                 )
-                .addField(new Field("attributes", true)
-                    .addFieldList(attributeSet)
-                    .addField(new Field("items", true)
-                        .addFieldList(["displayValue", "value", "id"])
-                    )
-                )
-            );
+            )
 
-        return client.post(categoriesQuery);
+        return client.post(productQuery);
     }
 
     handleChangeImage(image) {
