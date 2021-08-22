@@ -37,20 +37,35 @@ class DefaultLayout extends PureComponent {
 
         let curI = index;
 
-        if (document.URL.split("/").slice(-1).join("") === "tech") {
+        if (document.URL.split("/").slice(-1).join("") === "tech" ||
+            document.URL.split("/").slice(-2, -1).join("") === "tech"
+        ) {
             this.handleChangeIndex(1);
             curI = 1;
+        } else if (document.URL.split("/").slice(-1).join("") === "all" ||
+            document.URL.split("/").slice(-2, -1).join("") === "all"
+        ) {
+            this.handleChangeIndex(2);
+            curI = 2;
         }
 
         this.request().then(response => {
             const {
                 categories
             } = response;
-            this.setState(prev => ({
-                ...prev,
-                categories: categories[curI].name,
-                index: curI
-            }))
+            if(curI >= 2) {
+                this.setState(prev => ({
+                    ...prev,
+                    categories: "all",
+                    index: curI
+                }))
+            } else {
+                this.setState(prev => ({
+                    ...prev,
+                    categories: categories[curI].name,
+                    index: curI
+                }))
+            }
         });
     }
 
@@ -183,6 +198,7 @@ class DefaultLayout extends PureComponent {
         newOrder.total = total.toFixed(2);
         newOrder.totalAmount = totalAmount;
 
+        console.log(newOrder)
 
         this.setState(prev => ({
             ...prev,

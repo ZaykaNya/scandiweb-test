@@ -17,17 +17,26 @@ class ProductPage extends PureComponent {
     componentDidMount() {
         const {
             handleChangeIndex,
-            index,
         } = this.context;
 
         if (document.URL.split("/").slice(-2, -1).join("") === "tech") {
             handleChangeIndex(1);
+        } else if (document.URL.split("/").slice(-2, -1).join("") === "all") {
+            handleChangeIndex(2);
         }
 
         this.request().then(response => {
-            let product = response.categories[index].products.filter(product =>
-                product.id === document.URL.split("/").slice(-1).join("")
-            );
+
+            let product = [];
+
+            response.categories.forEach(category => {
+                category.products.forEach(cProduct => {
+                    if(cProduct.id === document.URL.split("/").slice(-1).join("")) {
+                        product.push(cProduct)
+                    }
+                })
+            })
+
             let attributes = [];
 
             attributes = product[0].attributes.map(attribute => {

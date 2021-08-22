@@ -32,9 +32,14 @@ class Header extends PureComponent {
                 categories,
             } = response;
 
+            const allCategory = {
+                name: "all",
+                products: []
+            }
+
             this.setState(prev => ({
                 ...prev,
-                categories: [...categories],
+                categories: [...categories, allCategory],
                 currencies: [...categories[0].products[0].prices],
             }))
         });
@@ -146,10 +151,6 @@ class Header extends PureComponent {
         const {
             name
         } = category;
-
-        // console.log(document.URL.split("/").slice(-1).join(""), name)
-        // console.log(this.context.index)
-
 
         return (
             <Link

@@ -8,18 +8,26 @@ class CategoryPage extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {categories: [], products: [], category: ""}
+        this.state = {categories: [], products: [], category: "", curIndex: 0}
     }
 
     static contextType = AuthContext;
 
     componentDidMount() {
         this.handleRequest();
+        this.setState(prev => ({
+            ...prev,
+            curIndex: this.context.index
+        }))
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.index !== this.context.index) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.curIndex !== this.context.index) {
             this.handleRequest();
+            this.setState(prev => ({
+                ...prev,
+                curIndex: this.context.index
+            }))
         }
     }
 
@@ -33,12 +41,27 @@ class CategoryPage extends PureComponent {
                 categories
             } = response;
 
-            this.setState(prev => ({
-                ...prev,
-                categories: categories,
-                products: categories[index].products,
-                category: categories[index].name
-            }))
+            if(index < 2) {
+                this.setState(prev => ({
+                    ...prev,
+                    categories: categories,
+                    products: categories[index].products,
+                    category: categories[index].name
+                }))
+            } else {
+                const products = categories.reduce((acc, category) => {
+                    acc.push(...category.products);
+                    return acc;
+                }, [])
+                console.log(products)
+                this.setState(prev => ({
+                    ...prev,
+                    categories: [...categories, "all"],
+                    products: [...products],
+                    category: "all"
+                }))
+            }
+
         });
     }
 
