@@ -8,7 +8,7 @@ class CategoryPage extends PureComponent {
 
     constructor(props) {
         super(props);
-        this.state = {categories: [], products: [], category: "", curIndex: 0}
+        this.state = {products: [], category: "", curIndex: 0}
     }
 
     static contextType = AuthContext;
@@ -36,19 +36,27 @@ class CategoryPage extends PureComponent {
             index
         } = this.context;
 
-        this.request().then(response => {
-            const {
-                categories
-            } = response;
+        if (index < 2) {
+            this.requestCategory(document.URL.split("/").slice(-1).join("")).then(response => {
+                const {
+                    category: {
+                        name,
+                        products
+                    }
+                } = response;
 
-            if (index < 2) {
                 this.setState(prev => ({
                     ...prev,
-                    categories: categories,
-                    products: categories[index].products,
-                    category: categories[index].name
+                    products: products,
+                    category: name
                 }))
-            } else {
+            })
+        } else {
+            this.request().then(response => {
+                const {
+                    categories
+                } = response;
+
                 const products = categories.reduce((acc, category) => {
                     acc.push(...category.products);
                     return acc;
@@ -56,12 +64,39 @@ class CategoryPage extends PureComponent {
 
                 this.setState(prev => ({
                     ...prev,
-                    categories: [...categories, "all"],
                     products: [...products],
                     category: "all"
                 }))
-            }
-        });
+            })
+        }
+    }
+
+    requestCategory(category) {
+        client.setEndpoint("http://localhost:4000/");
+
+        const categoryFields = ["id", "name", "inStock", "brand"];
+
+        const categoryQuery = new Query("category", true)
+            .addArgument("input", "CategoryInput", {title: category})
+            .addField("name")
+            .addField(new Field("products", true)
+                .addFieldList(categoryFields)
+                .addField(new Field("gallery", true))
+                .addField(new Field("prices", true)
+                    .addField("amount")
+                    .addField("currency")
+                )
+                .addField(new Field("attributes", true)
+                    .addField("name")
+                    .addField("type")
+                    .addField("id")
+                    .addField(new Field("items", true)
+                        .addFieldList(["displayValue", "value", "id"])
+                    )
+                )
+            );
+
+        return client.post(categoryQuery);
     }
 
     request() {

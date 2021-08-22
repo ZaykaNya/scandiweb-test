@@ -51,24 +51,28 @@ class DefaultLayout extends PureComponent {
             curI = 2;
         }
 
-        this.request().then(response => {
-            const {
-                categories
-            } = response;
-            if (curI >= 2) {
+        if (curI === 2) {
+            this.request().then(response => {
                 this.setState(prev => ({
                     ...prev,
                     categories: "all",
                     index: curI
                 }))
-            } else {
+            });
+        } else {
+            this.requestCategory(document.URL.split("/").slice(-1).join("")).then(response => {
+                const {
+                    category
+                } = response;
+
                 this.setState(prev => ({
                     ...prev,
-                    categories: categories[curI].name,
+                    categories: category.name,
                     index: curI
                 }))
-            }
-        });
+
+            })
+        }
     }
 
     handleChangeIndex(i) {
@@ -108,15 +112,6 @@ class DefaultLayout extends PureComponent {
             this.handleChangeOrder({}, 0, true, currencyIndex)
         }
     }
-
-    // order: {
-    //     products: [{
-    //         product: {},
-    //         attributes: [],
-    //         amount: 1,
-    //     }],
-    //     total: 0,
-    // },
 
     handleChangeOrder(product, index = 0, countTotal = false, currencyIndex = this.state.currencyIndex,
                       add = true) {
@@ -271,6 +266,16 @@ class DefaultLayout extends PureComponent {
             ...prev,
             total: total + price
         }))
+    }
+
+    requestCategory(category) {
+        client.setEndpoint("http://localhost:4000/");
+
+        const categoryQuery = new Query("category")
+            .addArgument("input", "CategoryInput", {title: category})
+            .addField("name");
+
+        return client.post(categoryQuery);
     }
 
     request() {
