@@ -3,7 +3,7 @@ import React from 'react';
 import brandIcon from "../../images/brandIcon.svg";
 import cartIcon from "../../images/cart.svg";
 import open from "../../images/open.svg";
-import {client, Field, Query} from "@tilework/opus";
+import {client, Query} from "@tilework/opus";
 import CartProduct from "../CartProduct/CartProduct";
 import AuthContext from "../../context/AuthProvider";
 import {Link} from "react-router-dom";

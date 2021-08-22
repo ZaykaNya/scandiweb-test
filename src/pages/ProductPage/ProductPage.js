@@ -40,6 +40,7 @@ class ProductPage extends PureComponent {
                 });
             });
 
+
             this.setState(prev => ({
                 ...prev,
                 product: product,

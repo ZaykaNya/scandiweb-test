@@ -52,7 +52,7 @@ class DefaultLayout extends PureComponent {
         }
 
         if (curI === 2) {
-            this.request().then(response => {
+            this.request().then(() => {
                 this.setState(prev => ({
                     ...prev,
                     categories: "all",
@@ -183,8 +183,6 @@ class DefaultLayout extends PureComponent {
 
         newOrder.total = total.toFixed(2);
         newOrder.totalAmount = totalAmount;
-
-        console.log(newOrder)
 
         this.setState(prev => ({
             ...prev,
