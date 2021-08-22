@@ -53,6 +53,12 @@ class Product extends PureComponent {
         handleChangeOrder(orderProduct, index);
     }
 
+    addToCartHandler(e, product) {
+        e.preventDefault();
+        this.handleAddToCart(product);
+        return false
+    }
+
     renderOutOfStockButton() {
         const {
             product,
@@ -72,11 +78,7 @@ class Product extends PureComponent {
             return (
                 <button
                     className="product-cart-image"
-                    onClick={e => {
-                        e.preventDefault();
-                        this.handleAddToCart(product);
-                        return false
-                    }}
+                    onClick={e => this.addToCartHandler(e, product)}
                 >
                     <img alt="" src={cartIcon}/>
                 </button>
