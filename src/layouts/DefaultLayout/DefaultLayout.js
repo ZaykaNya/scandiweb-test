@@ -52,13 +52,11 @@ class DefaultLayout extends PureComponent {
         }
 
         if (curI === 2) {
-            this.request().then(() => {
-                this.setState(prev => ({
-                    ...prev,
-                    categories: "all",
-                    index: curI
-                }))
-            });
+            this.setState(prev => ({
+                ...prev,
+                categories: "all",
+                index: curI
+            }))
         } else {
             this.requestCategory(document.URL.split("/").slice(-1).join("")).then(response => {
                 const {
@@ -70,7 +68,6 @@ class DefaultLayout extends PureComponent {
                     categories: category.name,
                     index: curI
                 }))
-
             })
         }
     }

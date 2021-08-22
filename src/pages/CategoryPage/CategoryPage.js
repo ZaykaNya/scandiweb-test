@@ -36,7 +36,7 @@ class CategoryPage extends PureComponent {
             index
         } = this.context;
 
-        if (index < 2) {
+        if (index < 2 && document.URL.split("/").slice(-1).join("") !== "all") {
             this.requestCategory(document.URL.split("/").slice(-1).join("")).then(response => {
                 const {
                     category: {
