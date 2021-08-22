@@ -7,25 +7,27 @@ import ProductPage from "../../pages/ProductPage/ProductPage";
 import {Query, client} from '@tilework/opus';
 import {AuthProvider} from "../../context/AuthProvider";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import compareAttributesById from "../../utils/compareAttributesById";
 
 class DefaultLayout extends PureComponent {
 
     constructor(props) {
         super(props);
+        this.allCurrencies = ["$", "£", "A$", "¥", "₽"];
         this.state = {
             categories: "",
             index: 0,
             currencyIndex: 0,
             currentProduct: {},
             total: 0,
-            currencyIcon: "$",
+            currencyIcon: this.allCurrencies[0],
             order: {},
             handleChangeCategory: (category, i) => this.handleChangeCategory(category, i),
             handleChangeCurrency: currencyIndex => this.handleChangeCurrency(currencyIndex),
             handleChangeTotal: price => this.handleChangeTotal(price),
             handleChangeCurrentProduct: product => this.handleChangeCurrentProduct(product),
             handleChangeIndex: i => this.handleChangeIndex(i),
-            handleChangeOrder: (product, index) => this.handleChangeOrder(product, index),
+            handleChangeOrder: (product, index, countTotal, currencyIndex, add) => this.handleChangeOrder(product, index, countTotal, currencyIndex, add),
             handleMakeOrder: () => this.handleMakeOrder(),
         }
     }
@@ -53,7 +55,7 @@ class DefaultLayout extends PureComponent {
             const {
                 categories
             } = response;
-            if(curI >= 2) {
+            if (curI >= 2) {
                 this.setState(prev => ({
                     ...prev,
                     categories: "all",
@@ -95,34 +97,8 @@ class DefaultLayout extends PureComponent {
         this.setState(prev => ({
             ...prev,
             currencyIndex: currencyIndex,
+            currencyIcon: this.allCurrencies[currencyIndex],
         }));
-
-        if (currencyIndex === 0) {
-            this.setState(prev => ({
-                ...prev,
-                currencyIcon: "$"
-            }));
-        } else if (currencyIndex === 1) {
-            this.setState(prev => ({
-                ...prev,
-                currencyIcon: "£"
-            }));
-        } else if (currencyIndex === 2) {
-            this.setState(prev => ({
-                ...prev,
-                currencyIcon: "A$"
-            }));
-        } else if (currencyIndex === 3) {
-            this.setState(prev => ({
-                ...prev,
-                currencyIcon: "¥"
-            }));
-        } else if (currencyIndex === 4) {
-            this.setState(prev => ({
-                ...prev,
-                currencyIcon: "₽"
-            }));
-        }
 
         const {
             order
@@ -142,7 +118,8 @@ class DefaultLayout extends PureComponent {
     //     total: 0,
     // },
 
-    handleChangeOrder(product, index = 0, countTotal = false, currencyIndex = this.state.currencyIndex) {
+    handleChangeOrder(product, index = 0, countTotal = false, currencyIndex = this.state.currencyIndex,
+                      add = true) {
         const {
             order,
             order: {
@@ -163,12 +140,24 @@ class DefaultLayout extends PureComponent {
                         totalAmount: 0
                     }
                 } else if (products.filter(orderProduct => orderProduct.product.id === product.product.id).length > 0) {
-                    const orderProducts = [...products];
-                    orderProducts.splice(index, 1, product);
-                    newOrder = {
-                        products: [...orderProducts],
-                        total: 0,
-                        totalAmount: 0
+                    if (products.filter(
+                        orderProduct => compareAttributesById(orderProduct.attributes, product.attributes)).length > 0 || !add
+                    ) {
+                        const orderProducts = [...products];
+                        orderProducts.splice(index, 1, product);
+                        newOrder = {
+                            products: [...orderProducts],
+                            total: 0,
+                            totalAmount: 0
+                        }
+                    } else {
+                        newOrder = {
+                            products: [...newOrder.products, {
+                                ...product
+                            }],
+                            total: 0,
+                            totalAmount: 0
+                        }
                     }
                 } else {
                     newOrder = {
@@ -188,6 +177,10 @@ class DefaultLayout extends PureComponent {
             }
         }
 
+        newOrder = {...this.handleCheckForSameProducts(newOrder)};
+
+        console.log(newOrder)
+
         let total = 0;
         let totalAmount = 0;
         newOrder.products.forEach(product => {
@@ -198,12 +191,57 @@ class DefaultLayout extends PureComponent {
         newOrder.total = total.toFixed(2);
         newOrder.totalAmount = totalAmount;
 
-        console.log(newOrder)
+        // console.log(newOrder)
 
         this.setState(prev => ({
             ...prev,
             order: {...newOrder}
         }));
+
+    }
+
+    handleCheckForSameProducts(order) {
+        const {
+            products
+        } = order;
+
+        let sameProductIndex = -1;
+        const result = [];
+
+        for (let i = 0; i < products.length; i++) {
+            result.forEach(product => {
+                if (product.id === products[i].id && compareAttributesById(product.attributes, products[i].attributes)) {
+                    sameProductIndex = i;
+                }
+            })
+            result.push(products[i]);
+        }
+
+        const orderProducts = [...products];
+
+        if (sameProductIndex >= 0) {
+            const sameProduct = {...products[sameProductIndex]};
+
+            orderProducts.splice(sameProductIndex, 1);
+
+            orderProducts.forEach((product, i) => {
+                if (product.id === sameProduct.id && compareAttributesById(product.attributes, sameProduct.attributes)) {
+                    const orderProduct = {
+                        product: {...product.product},
+                        attributes: [...product.attributes],
+                        amount: product.amount + sameProduct.amount,
+                    };
+
+                    orderProducts.splice(i, 1, orderProduct);
+                }
+            })
+        }
+
+        return {
+            products: [...orderProducts],
+            total: 0,
+            totalAmount: 0
+        }
 
     }
 

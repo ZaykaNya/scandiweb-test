@@ -37,7 +37,7 @@ class CartProduct extends PureComponent {
             amount: amount + 1,
         }
 
-        handleChangeOrder(orderProduct, cartIndex)
+        handleChangeOrder(orderProduct, cartIndex, false, this.context.currencyIndex, false)
     }
 
     handleDecreaseAmount() {
@@ -58,7 +58,7 @@ class CartProduct extends PureComponent {
             amount: amount - 1,
         }
 
-        handleChangeOrder(orderProduct, cartIndex)
+        handleChangeOrder(orderProduct, cartIndex, false, this.context.currencyIndex, false)
     }
 
     handleChangeProduct(attributes) {
@@ -70,7 +70,9 @@ class CartProduct extends PureComponent {
             cartIndex
         } = this.props;
 
-        const {handleChangeOrder} = this.context;
+        const {handleChangeOrder, order} = this.context;
+
+        console.log(order)
 
         const orderProduct = {
             product: {...product},
@@ -78,7 +80,7 @@ class CartProduct extends PureComponent {
             amount: amount,
         }
 
-        handleChangeOrder(orderProduct, cartIndex)
+        handleChangeOrder(orderProduct, cartIndex, false, this.context.currencyIndex, false)
     }
 
     handleChangeImage(i) {

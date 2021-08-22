@@ -41,7 +41,7 @@ class CategoryPage extends PureComponent {
                 categories
             } = response;
 
-            if(index < 2) {
+            if (index < 2) {
                 this.setState(prev => ({
                     ...prev,
                     categories: categories,
@@ -53,7 +53,7 @@ class CategoryPage extends PureComponent {
                     acc.push(...category.products);
                     return acc;
                 }, [])
-                console.log(products)
+
                 this.setState(prev => ({
                     ...prev,
                     categories: [...categories, "all"],
@@ -61,7 +61,6 @@ class CategoryPage extends PureComponent {
                     category: "all"
                 }))
             }
-
         });
     }
 

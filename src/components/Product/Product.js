@@ -3,7 +3,7 @@ import React, {PureComponent} from "react";
 import cartIcon from "../../images/whiteCart.svg";
 import AuthContext from "../../context/AuthProvider";
 import {Link} from "react-router-dom";
-import compareArrays from "../../utils/compareArrays";
+import compareAttributesById from "../../utils/compareAttributesById";
 
 class Product extends PureComponent {
 
@@ -29,16 +29,24 @@ class Product extends PureComponent {
             });
         });
 
+        let oAmount = 1;
+        products && products.forEach(oProduct => {
+            console.log(oProduct, product)
+            if(oProduct.product.id === product.id) {
+                oAmount = oProduct.amount;
+            }
+        })
+
         const orderProduct = {
             product: {...product},
             attributes: [...attributes],
-            amount: 1,
+            amount: oAmount,
         }
 
         let index = 0;
 
         products && products.forEach((product, key) => {
-            if (compareArrays(product.attributes, orderProduct.attributes)) {
+            if (compareAttributesById(product.attributes, orderProduct.attributes)) {
                 index = key;
             }
         })

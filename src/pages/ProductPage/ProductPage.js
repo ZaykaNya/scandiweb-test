@@ -4,6 +4,7 @@ import Size from "../../components/Size/Size";
 import {client, Field, Query} from "@tilework/opus";
 import AuthContext from "../../context/AuthProvider";
 import ReactHtmlParser from 'react-html-parser';
+import compareAttributesById from "../../utils/compareAttributesById";
 
 class ProductPage extends PureComponent {
 
@@ -26,12 +27,17 @@ class ProductPage extends PureComponent {
         }
 
         this.request().then(response => {
+            const {
+                order: {
+                    products
+                }
+            } = this.context;
 
             let product = [];
 
             response.categories.forEach(category => {
                 category.products.forEach(cProduct => {
-                    if(cProduct.id === document.URL.split("/").slice(-1).join("")) {
+                    if (cProduct.id === document.URL.split("/").slice(-1).join("")) {
                         product.push(cProduct)
                     }
                 })
@@ -60,12 +66,13 @@ class ProductPage extends PureComponent {
     }
 
     handleChangeProduct(attributes) {
+
         this.setState(prev => ({
             ...prev,
             orderProduct: {
                 product: this.state.product,
                 attributes: [...attributes],
-                amount: 1,
+                amount: 1
             }
         }))
     }
@@ -85,13 +92,29 @@ class ProductPage extends PureComponent {
 
         if (orderProduct.attributes.length === product.attributes.length) {
             let index = 0;
+            let oAmount = 0;
+
+            products && products.forEach(oProduct => {
+                if(oProduct.product.id === orderProduct.product.id && compareAttributesById(oProduct.attributes, orderProduct.attributes)) {
+                    oAmount = oProduct.amount;
+                }
+            })
+
+            console.log(oAmount)
+
+            const p = {
+                product: {...orderProduct.product},
+                attributes: [...orderProduct.attributes],
+                amount: oAmount + 1
+            }
+
             products && products.forEach((product, key) => {
-                if (product.product.id === orderProduct.product.id) {
+                if (compareAttributesById(product.attributes, p.attributes)) {
                     index = key;
                 }
             })
 
-            handleChangeOrder(orderProduct, index);
+            handleChangeOrder(p, index);
         }
     }
 
