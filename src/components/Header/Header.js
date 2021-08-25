@@ -88,9 +88,11 @@ class Header extends PureComponent {
             currencyOpen: false,
         }))
         if (!cartOpen) {
-            document.body.style.overflow = "hidden";
+            document.body.style.overflowY = "hidden";
+            document.body.style.marginRight = "8px";
         } else {
-            document.body.style.overflow = "visible";
+            document.body.style.overflowY = "scroll";
+            document.body.style.marginRight = "0";
         }
     }
 
@@ -105,9 +107,11 @@ class Header extends PureComponent {
             cartOpen: false,
         }))
         if (!currencyOpen) {
-            document.body.style.overflow = "hidden";
+            document.body.style.overflowY = "hidden";
+            document.body.style.marginRight = "8px";
         } else {
-            document.body.style.overflow = "visible";
+            document.body.style.overflowY = "scroll";
+            document.body.style.marginRight = "0";
         }
     }
 
@@ -117,7 +121,8 @@ class Header extends PureComponent {
             cartOpen: false,
             currencyOpen: false,
         }))
-        document.body.style.overflow = "visible";
+        document.body.style.overflowY = "scroll";
+        document.body.style.marginRight = "0";
     }
 
     handleChangeCurrency(currencyIndex) {
@@ -135,9 +140,11 @@ class Header extends PureComponent {
             cartOpen: false,
         }))
         if (!currencyOpen) {
-            document.body.style.overflow = "hidden";
+            document.body.style.overflowY = "hidden";
+            document.body.style.marginRight = "8px";
         } else {
-            document.body.style.overflow = "visible";
+            document.body.style.overflowY = "scroll";
+            document.body.style.marginRight = "0";
         }
 
         handleChangeCurrency(currencyIndex);
@@ -360,7 +367,11 @@ class Header extends PureComponent {
 
         if (cartOpen) {
             return (
-                <div id="closeCart" className="header-cart-container"/>
+                <React.Fragment>
+                    <div id="closeCart" className="header-close-cart-container"/>
+                    <div className="header-cart-container"/>
+                </React.Fragment>
+
             );
         }
 

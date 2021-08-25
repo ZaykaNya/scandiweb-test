@@ -70,17 +70,26 @@
     position: absolute;
     left: 0;
     top: 80px;
-    height: calc(100vh - 78px);
+    height: calc(100vh - 80px);
     width: 100%;
     background: rgba(57, 55, 72, 0.22);
     z-index: 200;
 }
 
+.header-close-cart-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 201;
+}
+
 .header-cart-container-currency {
     position: absolute;
     left: 0;
-    top: 80px;
-    height: calc(100vh - 78px);
+    top: 0;
+    height: 100vh;
     width: 100%;
     z-index: 200;
 }
@@ -209,13 +218,30 @@
 
 #header-currency {
     position: absolute;
-    width: 124px;
+    width: 122px;
     min-height: 32px;
     padding: 20px;
+    max-height: 169px;
+    overflow: auto;
     top: 50px;
     right: -10px;
     box-shadow: 0 4px 35px 0 #A8ACB030;
     z-index: 1000;
+}
+
+#header-currency::-webkit-scrollbar {
+    width: 4px;
+    background-color: white;
+}
+
+#header-currency::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 2px;
+}
+
+#header-currency::-webkit-scrollbar-thumb {
+    background-color: lightgrey;
+    border-radius: 2px;
 }
 
 .header-currency-container {
@@ -233,6 +259,10 @@
     font-size: 18px;
     text-align: left;
     line-height: 1.6em;
+}
+
+.header-currency-button:last-child {
+    margin-bottom: 0;
 }
 
 .header-currency-button:hover {
