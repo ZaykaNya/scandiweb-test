@@ -205,16 +205,17 @@ class Header extends PureComponent {
         const {
             order: {
                 products,
+                totalAmount
             },
         } = this.context;
 
         if (products) {
             return (
                 <React.Fragment>
-                    {products.length > 0 &&
-                    <span className="cart-number-items">, {this.context.order.products.length} item</span>
+                    {totalAmount > 0 &&
+                    <span className="cart-number-items">, {totalAmount} item</span>
                     }
-                    {products.length > 1 &&
+                    {totalAmount > 1 &&
                     <span className="cart-number-items">s</span>
                     }
                 </React.Fragment>
